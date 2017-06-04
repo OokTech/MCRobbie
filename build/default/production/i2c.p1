@@ -2,22 +2,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "73 parameters.h
 [s S321 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 `uc 1 `uc 1 ]
 [n S321 PWM state enabled paused direction targetDirection duty target ]
-[p mainexit ]
-"6524 /Applications/microchip/xc8/v1.42/include/pic18f14k50.h
-[s S298 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :3 `uc 1 :1 `uc 1 ]
-[n S298 . SCS0 SCS1 IOFS OSTS IRCF IDLEN ]
-"6532
-[s S299 :4 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S299 . . IRCF0 IRCF1 IRCF2 ]
-"6538
-[s S300 :1 `uc 1 ]
-[n S300 . SCS ]
-"6523
-[u S297 `S298 1 `S299 1 `S300 1 ]
-[n S297 . . . . ]
-"6542
-[v _OSCCONbits `VS297 ~T0 @X0 0 e@4051 ]
-"3022
+"3022 /Applications/microchip/xc8/v1.42/include/pic18f14k50.h
 [s S127 :4 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S127 . . TRISB4 TRISB5 TRISB6 TRISB7 ]
 "3029
@@ -28,85 +13,139 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S126 . . . ]
 "3037
 [v _TRISBbits `VS126 ~T0 @X0 0 e@3987 ]
-"3152
-[s S133 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S133 . TRISC0 TRISC1 TRISC2 TRISC3 TRISC4 TRISC5 TRISC6 TRISC7 ]
-"3162
-[s S134 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S134 . RC0 RC1 RC2 RC3 RC4 RC5 RC6 RC7 ]
-"3151
-[u S132 `S133 1 `S134 1 ]
-[n S132 . . . ]
-"3173
-[v _TRISCbits `VS132 ~T0 @X0 0 e@3988 ]
-"2817
-[v _LATC `Vuc ~T0 @X0 0 e@3979 ]
-"69 parameters.h
-[v _InitI2C `(v ~T0 @X0 0 ef ]
-"70
-[v _InitPWM `(v ~T0 @X0 0 ef ]
-"71
-[v _CheckPWMOutput `(v ~T0 @X0 0 ef ]
-"17 main.c
-[p x CPUDIV=NOCLKDIV ]
-"18
-[p x USBDIV=OFF ]
-"21
-[p x FOSC=IRC ]
-"22
-[p x PLLEN=OFF ]
-"23
-[p x PCLKEN=ON ]
-"24
-[p x FCMEN=OFF ]
-"25
-[p x IESO=OFF ]
-"28
-[p x PWRTEN=OFF ]
-"29
-[p x BOREN=SBORDIS ]
-"30
-[p x BORV=19 ]
-"33
-[p x WDTEN=OFF ]
-"34
-[p x WDTPS=32768 ]
-"37
-[p x HFOFST=ON ]
-"38
-[p x MCLRE=OFF ]
-"41
-[p x STVREN=ON ]
-"42
-[p x LVP=OFF ]
-"43
-[p x BBSIZ=OFF ]
-"44
-[p x XINST=OFF ]
-"47
-[p x CP0=OFF ]
-"48
-[p x CP1=OFF ]
-"51
-[p x CPB=OFF ]
-"52
-[p x CPD=OFF ]
-"55
-[p x WRT0=OFF ]
-"56
-[p x WRT1=OFF ]
-"59
-[p x WRTC=OFF ]
-"60
-[p x WRTB=OFF ]
-"61
-[p x WRTD=OFF ]
-"64
-[p x EBTR0=OFF ]
-"65
-[p x EBTR1=OFF ]
-"68
-[p x EBTRB=OFF ]
+"7044
+[s S311 :7 `uc 1 :1 `uc 1 ]
+[n S311 . . NOT_RABPU ]
+"7048
+[s S312 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S312 . RABIP . TMR0IP . INTEDG2 INTEDG1 INTEDG0 nRABPU ]
+"7058
+[s S313 :7 `uc 1 :1 `uc 1 ]
+[n S313 . . RABPU ]
+"7043
+[u S310 `S311 1 `S312 1 `S313 1 ]
+[n S310 . . . . ]
+"7063
+[v _INTCON2bits `VS310 ~T0 @X0 0 e@4081 ]
+"2008
+[s S81 :4 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S81 . . WPUB4 WPUB5 WPUB6 WPUB7 ]
+"2007
+[u S80 `S81 1 ]
+[n S80 . . ]
+"2016
+[v _WPUBbits `VS80 ~T0 @X0 0 e@3960 ]
+"5784
+[s S252 :2 `uc 1 :1 `uc 1 ]
+[n S252 . . R_NOT_W ]
+"5788
+[s S253 :5 `uc 1 :1 `uc 1 ]
+[n S253 . . D_NOT_A ]
+"5792
+[s S254 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S254 . BF UA R_nW S P D_nA CKE SMP ]
+"5802
+[s S255 :2 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 ]
+[n S255 . . R . D ]
+"5808
+[s S256 :2 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 ]
+[n S256 . . W . A ]
+"5814
+[s S257 :2 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 ]
+[n S257 . . nW . nA ]
+"5820
+[s S258 :2 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 ]
+[n S258 . . R_W . D_A ]
+"5826
+[s S259 :2 `uc 1 :1 `uc 1 ]
+[n S259 . . NOT_WRITE ]
+"5830
+[s S260 :5 `uc 1 :1 `uc 1 ]
+[n S260 . . NOT_ADDRESS ]
+"5834
+[s S261 :2 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 ]
+[n S261 . . nWRITE . nADDRESS ]
+"5840
+[s S262 :2 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S262 . . RW START STOP DA ]
+"5847
+[s S263 :2 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 ]
+[n S263 . . NOT_W . NOT_A ]
+"5783
+[u S251 `S252 1 `S253 1 `S254 1 `S255 1 `S256 1 `S257 1 `S258 1 `S259 1 `S260 1 `S261 1 `S262 1 `S263 1 ]
+[n S251 . . . . . . . . . . . . . ]
+"5854
+[v _SSPSTATbits `VS251 ~T0 @X0 0 e@4039 ]
+"5714
+[s S249 :4 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S249 . SSPM CKP SSPEN SSPOV WCOL ]
+"5721
+[s S250 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S250 . SSPM0 SSPM1 SSPM2 SSPM3 ]
+"5713
+[u S248 `S249 1 `S250 1 ]
+[n S248 . . . ]
+"5728
+[v _SSPCON1bits `VS248 ~T0 @X0 0 e@4038 ]
+"5652
+[s S247 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S247 . SEN RSEN PEN RCEN ACKEN ACKDT ACKSTAT GCEN ]
+"5651
+[u S246 `S247 1 ]
+[n S246 . . ]
+"5663
+[v _SSPCON2bits `VS246 ~T0 @X0 0 e@4037 ]
+"1810
+[s S71 :8 `uc 1 ]
+[n S71 . MSK ]
+"1813
+[s S72 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S72 . MSK0 MSK1 MSK2 MSK3 MSK4 MSK5 MSK6 MSK7 ]
+"1809
+[u S70 `S71 1 `S72 1 ]
+[n S70 . . . ]
+"1824
+[v _SSPMSKbits `VS70 ~T0 @X0 0 e@3951 ]
+"5999
+[v _SSPADD `Vuc ~T0 @X0 0 e@4040 ]
+"3510
+[s S145 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S145 . TMR1IF TMR2IF CCP1IF SSPIF TXIF RCIF ADIF ]
+"3519
+[s S146 :4 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S146 . . TX1IF RC1IF ]
+"3509
+[u S144 `S145 1 `S146 1 ]
+[n S144 . . . ]
+"3525
+[v _PIR1bits `VS144 ~T0 @X0 0 e@3998 ]
+"3439
+[s S142 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S142 . TMR1IE TMR2IE CCP1IE SSPIE TXIE RCIE ADIE ]
+"3448
+[s S143 :4 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S143 . . TX1IE RC1IE ]
+"3438
+[u S141 `S142 1 `S143 1 ]
+[n S141 . . . ]
+"3454
+[v _PIE1bits `VS141 ~T0 @X0 0 e@3997 ]
+"7114
+[s S315 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S315 . RABIF INT0IF TMR0IF RABIE INT0IE TMR0IE PEIE_GIEL GIE_GIEH ]
+"7124
+[s S316 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S316 . . INT0F T0IF . INT0E T0IE PEIE GIE ]
+"7134
+[s S317 :6 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S317 . . GIEL GIEH ]
+"7113
+[u S314 `S315 1 `S316 1 `S317 1 ]
+[n S314 . . . . ]
+"7140
+[v _INTCONbits `VS314 ~T0 @X0 0 e@4082 ]
+"6006
+[v _SSPBUF `Vuc ~T0 @X0 0 e@4041 ]
 [; ;htc.h: 26: extern const char __xc8_OPTIM_SPEED;
 [; ;htc.h: 28: extern double __fpnormalize(double);
 [; ;xc8debug.h: 14: extern void __builtin_software_breakpoint(void);
@@ -3241,64 +3280,429 @@ Version 3.2 HI-TECH Software Intermediate Code
 "84
 [v _RightPWM `S321 ~T0 @X0 1 e ]
 [; ;parameters.h: 84: struct PWM RightPWM;
-[v $root$_main `(v ~T0 @X0 0 e ]
-"76 main.c
-[v _main `(v ~T0 @X0 1 ef ]
+"8 i2c.c
+[v _InitI2C `(v ~T0 @X0 1 ef ]
 {
-[; ;main.c: 76: void main(void) {
-[e :U _main ]
+[; ;i2c.c: 8: void InitI2C(void) {
+[e :U _InitI2C ]
 [f ]
-[; ;main.c: 78: OSCCONbits.IRCF = 0b111;
-"78
-[e = . . _OSCCONbits 0 4 -> -> 7 `i `uc ]
-[; ;main.c: 81: TRISBbits.RB7 = 0;
-"81
-[e = . . _TRISBbits 1 4 -> -> 0 `i `uc ]
-[; ;main.c: 82: TRISCbits.RC0 = 0;
-"82
-[e = . . _TRISCbits 1 0 -> -> 0 `i `uc ]
-[; ;main.c: 83: TRISCbits.RC1 = 0;
-"83
-[e = . . _TRISCbits 1 1 -> -> 0 `i `uc ]
-[; ;main.c: 84: TRISCbits.RC2 = 0;
-"84
-[e = . . _TRISCbits 1 2 -> -> 0 `i `uc ]
-[; ;main.c: 85: TRISCbits.RC3 = 0;
-"85
-[e = . . _TRISCbits 1 3 -> -> 0 `i `uc ]
-[; ;main.c: 86: TRISCbits.RC4 = 0;
-"86
-[e = . . _TRISCbits 1 4 -> -> 0 `i `uc ]
-[; ;main.c: 87: TRISCbits.RC5 = 0;
-"87
-[e = . . _TRISCbits 1 5 -> -> 0 `i `uc ]
-[; ;main.c: 88: LATC = 0x00;
-"88
-[e = _LATC -> -> 0 `i `uc ]
-[; ;main.c: 91: InitI2C();
-"91
-[e ( _InitI2C ..  ]
-[; ;main.c: 92: InitPWM();
-"92
-[e ( _InitPWM ..  ]
-[; ;main.c: 96: while(1) {
-"96
-[e :U 324 ]
-{
-[; ;main.c: 97: CheckPWMOutput();
-"97
-[e ( _CheckPWMOutput ..  ]
-"98
-}
-[e :U 323 ]
-"96
-[e $U 324  ]
-[e :U 325 ]
-[; ;main.c: 98: }
-[; ;main.c: 99: return;
-"99
-[e $UE 322  ]
-[; ;main.c: 100: }
-"100
+[; ;i2c.c: 10: TRISBbits.RB4 = 1;
+"10
+[e = . . _TRISBbits 1 1 -> -> 1 `i `uc ]
+[; ;i2c.c: 11: TRISBbits.RB6 = 1;
+"11
+[e = . . _TRISBbits 1 3 -> -> 1 `i `uc ]
+[; ;i2c.c: 15: INTCON2bits.NOT_RABPU = 0;
+"15
+[e = . . _INTCON2bits 0 1 -> -> 0 `i `uc ]
+[; ;i2c.c: 17: WPUBbits.WPUB4 = 1;
+"17
+[e = . . _WPUBbits 0 1 -> -> 1 `i `uc ]
+[; ;i2c.c: 18: WPUBbits.WPUB6 = 1;
+"18
+[e = . . _WPUBbits 0 3 -> -> 1 `i `uc ]
+[; ;i2c.c: 21: SSPSTATbits.SMP = 1;
+"21
+[e = . . _SSPSTATbits 2 7 -> -> 1 `i `uc ]
+[; ;i2c.c: 24: SSPCON1bits.SSPM = 0b0110;
+"24
+[e = . . _SSPCON1bits 0 0 -> -> 6 `i `uc ]
+[; ;i2c.c: 26: SSPCON2bits.SEN = 1;
+"26
+[e = . . _SSPCON2bits 0 0 -> -> 1 `i `uc ]
+[; ;i2c.c: 30: SSPMSKbits.MSK = 0b01000110;
+"30
+[e = . . _SSPMSKbits 0 0 -> -> 70 `i `uc ]
+[; ;i2c.c: 35: SSPADD = 0x23<<1;
+"35
+[e = _SSPADD -> << -> 35 `i -> 1 `i `uc ]
+[; ;i2c.c: 38: PIR1bits.SSPIF = 0;
+"38
+[e = . . _PIR1bits 0 3 -> -> 0 `i `uc ]
+[; ;i2c.c: 40: PIE1bits.SSPIE = 1;
+"40
+[e = . . _PIE1bits 0 3 -> -> 1 `i `uc ]
+[; ;i2c.c: 43: INTCONbits.GIE = 1;
+"43
+[e = . . _INTCONbits 1 7 -> -> 1 `i `uc ]
+[; ;i2c.c: 45: INTCONbits.PEIE = 1;
+"45
+[e = . . _INTCONbits 1 6 -> -> 1 `i `uc ]
+[; ;i2c.c: 48: SSPCON1bits.SSPEN = 1;
+"48
+[e = . . _SSPCON1bits 0 2 -> -> 1 `i `uc ]
+[; ;i2c.c: 49: }
+"49
 [e :UE 322 ]
+}
+"80
+[v _currentByte `uc ~T0 @X0 1 e ]
+[i _currentByte
+-> -> 0 `i `uc
+]
+[; ;i2c.c: 80: unsigned char currentByte = 0;
+"81
+[v _state `uc ~T0 @X0 1 e ]
+[i _state
+-> -> 0 `i `uc
+]
+[; ;i2c.c: 81: unsigned char state = 0;
+[v $root$_I2C_Slave_Read `(v ~T0 @X0 0 e ]
+[v F3330 `(v ~T0 @X0 1 tf ]
+"94
+[v _I2C_Slave_Read `IF3330 ~T0 @X0 1 e ]
+"95
+{
+[; ;i2c.c: 94: void interrupt I2C_Slave_Read(void)
+[; ;i2c.c: 95: {
+[e :U _I2C_Slave_Read ]
+[f ]
+[; ;i2c.c: 96: if(PIR1bits.SSPIF == 1) {
+"96
+[e $ ! == -> . . _PIR1bits 0 3 `i -> 1 `i 324  ]
+{
+[; ;i2c.c: 98: currentByte = SSPBUF;
+"98
+[e = _currentByte _SSPBUF ]
+[; ;i2c.c: 100: SSPCON1bits.CKP = 0;
+"100
+[e = . . _SSPCON1bits 0 1 -> -> 0 `i `uc ]
+[; ;i2c.c: 102: if ((SSPCON1bits.SSPOV) || (SSPCON1bits.WCOL)) {
+"102
+[e $ ! || != -> . . _SSPCON1bits 0 3 `i -> -> -> 0 `i `Vuc `i != -> . . _SSPCON1bits 0 4 `i -> -> -> 0 `i `Vuc `i 325  ]
+{
+[; ;i2c.c: 103: SSPCON1bits.SSPOV = 0;
+"103
+[e = . . _SSPCON1bits 0 3 -> -> 0 `i `uc ]
+[; ;i2c.c: 104: SSPCON1bits.WCOL = 0;
+"104
+[e = . . _SSPCON1bits 0 4 -> -> 0 `i `uc ]
+[; ;i2c.c: 106: SSPCON1bits.CKP = 1;
+"106
+[e = . . _SSPCON1bits 0 1 -> -> 1 `i `uc ]
+"107
+}
+[; ;i2c.c: 107: } else if(!SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
+[e $U 326  ]
+[e :U 325 ]
+[e $ ! && ! != -> . . _SSPSTATbits 2 5 `i -> -> -> 0 `i `Vuc `i ! != -> . . _SSPSTATbits 2 2 `i -> -> -> 0 `i `Vuc `i 327  ]
+{
+[; ;i2c.c: 109: state = 0;
+"109
+[e = _state -> -> 0 `i `uc ]
+[; ;i2c.c: 111: SSPCON1bits.CKP = 1;
+"111
+[e = . . _SSPCON1bits 0 1 -> -> 1 `i `uc ]
+"112
+}
+[; ;i2c.c: 112: } else if (SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
+[e $U 328  ]
+[e :U 327 ]
+[e $ ! && != -> . . _SSPSTATbits 2 5 `i -> -> -> 0 `i `Vuc `i ! != -> . . _SSPSTATbits 2 2 `i -> -> -> 0 `i `Vuc `i 329  ]
+{
+[; ;i2c.c: 113: if (state == 0) {
+"113
+[e $ ! == -> _state `i -> 0 `i 330  ]
+{
+[; ;i2c.c: 115: state = currentByte;
+"115
+[e = _state _currentByte ]
+"116
+}
+[; ;i2c.c: 116: } else {
+[e $U 331  ]
+[e :U 330 ]
+{
+[; ;i2c.c: 118: switch (state) {
+"118
+[e $U 333  ]
+{
+[; ;i2c.c: 119: case 1:
+"119
+[e :U 334 ]
+[; ;i2c.c: 120: LeftPWM.target = currentByte;
+"120
+[e = . _LeftPWM 6 _currentByte ]
+[; ;i2c.c: 121: RightPWM.target = currentByte;
+"121
+[e = . _RightPWM 6 _currentByte ]
+[; ;i2c.c: 122: if (currentByte < MinimumDuty) {
+"122
+[e $ ! < -> _currentByte `i -> _MinimumDuty `i 335  ]
+{
+[; ;i2c.c: 123: LeftPWM.target = 0;
+"123
+[e = . _LeftPWM 6 -> -> 0 `i `uc ]
+[; ;i2c.c: 124: RightPWM.target = 0;
+"124
+[e = . _RightPWM 6 -> -> 0 `i `uc ]
+"125
+}
+[e :U 335 ]
+[; ;i2c.c: 125: }
+[; ;i2c.c: 126: break;
+"126
+[e $U 332  ]
+[; ;i2c.c: 127: case 2:
+"127
+[e :U 336 ]
+[; ;i2c.c: 128: LeftPWM.target = currentByte;
+"128
+[e = . _LeftPWM 6 _currentByte ]
+[; ;i2c.c: 129: if (currentByte < MinimumDuty) {
+"129
+[e $ ! < -> _currentByte `i -> _MinimumDuty `i 337  ]
+{
+[; ;i2c.c: 130: LeftPWM.target = 0;
+"130
+[e = . _LeftPWM 6 -> -> 0 `i `uc ]
+"131
+}
+[e :U 337 ]
+[; ;i2c.c: 131: }
+[; ;i2c.c: 132: break;
+"132
+[e $U 332  ]
+[; ;i2c.c: 133: case 3:
+"133
+[e :U 338 ]
+[; ;i2c.c: 134: RightPWM.target = currentByte;
+"134
+[e = . _RightPWM 6 _currentByte ]
+[; ;i2c.c: 135: if (currentByte < MinimumDuty) {
+"135
+[e $ ! < -> _currentByte `i -> _MinimumDuty `i 339  ]
+{
+[; ;i2c.c: 136: RightPWM.target = 0;
+"136
+[e = . _RightPWM 6 -> -> 0 `i `uc ]
+"137
+}
+[e :U 339 ]
+[; ;i2c.c: 137: }
+[; ;i2c.c: 138: break;
+"138
+[e $U 332  ]
+[; ;i2c.c: 139: case 4:
+"139
+[e :U 340 ]
+[; ;i2c.c: 140: PWMEnable = (char) currentByte & 0b00000001;
+"140
+[e = _PWMEnable -> & -> _currentByte `i -> 1 `i `uc ]
+[; ;i2c.c: 141: AccelType = (char) currentByte & 0b00000110;
+"141
+[e = _AccelType -> & -> _currentByte `i -> 6 `i `uc ]
+[; ;i2c.c: 142: break;
+"142
+[e $U 332  ]
+[; ;i2c.c: 143: case 5:
+"143
+[e :U 341 ]
+[; ;i2c.c: 144: if ((currentByte & 0b00000010)>>1) {
+"144
+[e $ ! != >> & -> _currentByte `i -> 2 `i -> 1 `i -> 0 `i 342  ]
+{
+[; ;i2c.c: 145: LeftPWM.targetDirection = 1;
+"145
+[e = . _LeftPWM 4 -> -> 1 `i `uc ]
+"146
+}
+[; ;i2c.c: 146: } else {
+[e $U 343  ]
+[e :U 342 ]
+{
+[; ;i2c.c: 147: LeftPWM.targetDirection = 0;
+"147
+[e = . _LeftPWM 4 -> -> 0 `i `uc ]
+"148
+}
+[e :U 343 ]
+[; ;i2c.c: 148: }
+[; ;i2c.c: 149: if ((currentByte & 0b00000100)>>2) {
+"149
+[e $ ! != >> & -> _currentByte `i -> 4 `i -> 2 `i -> 0 `i 344  ]
+{
+[; ;i2c.c: 150: RightPWM.targetDirection = 1;
+"150
+[e = . _RightPWM 4 -> -> 1 `i `uc ]
+"151
+}
+[; ;i2c.c: 151: } else {
+[e $U 345  ]
+[e :U 344 ]
+{
+[; ;i2c.c: 152: RightPWM.targetDirection = 0;
+"152
+[e = . _RightPWM 4 -> -> 0 `i `uc ]
+"153
+}
+[e :U 345 ]
+[; ;i2c.c: 153: }
+[; ;i2c.c: 154: break;
+"154
+[e $U 332  ]
+[; ;i2c.c: 155: case 7:
+"155
+[e :U 346 ]
+[; ;i2c.c: 156: PWMEnable = !(currentByte & 0b00000001);
+"156
+[e = _PWMEnable -> -> ! != & -> _currentByte `i -> 1 `i -> 0 `i `i `uc ]
+[; ;i2c.c: 157: LeftPWM.enabled = !(currentByte & 0b00000010);
+"157
+[e = . _LeftPWM 1 -> -> ! != & -> _currentByte `i -> 2 `i -> 0 `i `i `uc ]
+[; ;i2c.c: 158: RightPWM.enabled = !(currentByte & 0b00000100);
+"158
+[e = . _RightPWM 1 -> -> ! != & -> _currentByte `i -> 4 `i -> 0 `i `i `uc ]
+[; ;i2c.c: 159: break;
+"159
+[e $U 332  ]
+[; ;i2c.c: 160: case 6:
+"160
+[e :U 347 ]
+[; ;i2c.c: 161: PWMPause = currentByte & 0b00000001;
+"161
+[e = _PWMPause -> & -> _currentByte `i -> 1 `i `uc ]
+[; ;i2c.c: 162: LeftPWM.paused = !(currentByte & 0b00000010);
+"162
+[e = . _LeftPWM 2 -> -> ! != & -> _currentByte `i -> 2 `i -> 0 `i `i `uc ]
+[; ;i2c.c: 163: RightPWM.paused = !(currentByte & 0b00000100);
+"163
+[e = . _RightPWM 2 -> -> ! != & -> _currentByte `i -> 4 `i -> 0 `i `i `uc ]
+[; ;i2c.c: 164: break;
+"164
+[e $U 332  ]
+[; ;i2c.c: 165: case 8:
+"165
+[e :U 348 ]
+[; ;i2c.c: 166: AccelType = currentByte;
+"166
+[e = _AccelType _currentByte ]
+[; ;i2c.c: 167: break;
+"167
+[e $U 332  ]
+[; ;i2c.c: 168: case 9:
+"168
+[e :U 349 ]
+[; ;i2c.c: 169: AccelRate = currentByte;
+"169
+[e = _AccelRate -> _currentByte `ui ]
+[; ;i2c.c: 170: break;
+"170
+[e $U 332  ]
+[; ;i2c.c: 171: case 10:
+"171
+[e :U 350 ]
+[; ;i2c.c: 172: MinimumDuty = currentByte;
+"172
+[e = _MinimumDuty _currentByte ]
+[; ;i2c.c: 173: break;
+"173
+[e $U 332  ]
+"174
+}
+[; ;i2c.c: 174: }
+[e $U 332  ]
+"118
+[e :U 333 ]
+[e [\ _state , $ -> -> 1 `i `uc 334
+ , $ -> -> 2 `i `uc 336
+ , $ -> -> 3 `i `uc 338
+ , $ -> -> 4 `i `uc 340
+ , $ -> -> 5 `i `uc 341
+ , $ -> -> 7 `i `uc 346
+ , $ -> -> 6 `i `uc 347
+ , $ -> -> 8 `i `uc 348
+ , $ -> -> 9 `i `uc 349
+ , $ -> -> 10 `i `uc 350
+ 332 ]
+"174
+[e :U 332 ]
+[; ;i2c.c: 175: state = 0;
+"175
+[e = _state -> -> 0 `i `uc ]
+"176
+}
+[e :U 331 ]
+[; ;i2c.c: 176: }
+[; ;i2c.c: 177: SSPCON1bits.CKP = 1;
+"177
+[e = . . _SSPCON1bits 0 1 -> -> 1 `i `uc ]
+"178
+}
+[; ;i2c.c: 178: } else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
+[e $U 351  ]
+[e :U 329 ]
+[e $ ! && ! != -> . . _SSPSTATbits 2 5 `i -> -> -> 0 `i `Vuc `i != -> . . _SSPSTATbits 2 2 `i -> -> -> 0 `i `Vuc `i 352  ]
+{
+[; ;i2c.c: 179: if (currentByte>>1 == 1) {
+"179
+[e $ ! == >> -> _currentByte `i -> 1 `i -> 1 `i 353  ]
+{
+[; ;i2c.c: 180: SSPBUF = LeftPWM.duty;
+"180
+[e = _SSPBUF . _LeftPWM 5 ]
+"181
+}
+[; ;i2c.c: 181: } else if (currentByte>>1 == 2) {
+[e $U 354  ]
+[e :U 353 ]
+[e $ ! == >> -> _currentByte `i -> 1 `i -> 2 `i 355  ]
+{
+[; ;i2c.c: 182: SSPBUF = LeftPWM.duty;
+"182
+[e = _SSPBUF . _LeftPWM 5 ]
+"183
+}
+[; ;i2c.c: 183: } else if (currentByte>>1 == 3) {
+[e $U 356  ]
+[e :U 355 ]
+[e $ ! == >> -> _currentByte `i -> 1 `i -> 3 `i 357  ]
+{
+[; ;i2c.c: 184: SSPBUF = RightPWM.duty;
+"184
+[e = _SSPBUF . _RightPWM 5 ]
+"185
+}
+[; ;i2c.c: 185: } else if (currentByte>>1 == 4) {
+[e $U 358  ]
+[e :U 357 ]
+[e $ ! == >> -> _currentByte `i -> 1 `i -> 4 `i 359  ]
+{
+[; ;i2c.c: 186: SSPBUF = PWMEnable;
+"186
+[e = _SSPBUF _PWMEnable ]
+"187
+}
+[e :U 359 ]
+"189
+[e :U 358 ]
+[e :U 356 ]
+[e :U 354 ]
+[; ;i2c.c: 187: }
+[; ;i2c.c: 189: SSPCON1bits.CKP = 1;
+[e = . . _SSPCON1bits 0 1 -> -> 1 `i `uc ]
+[; ;i2c.c: 191: while(SSPSTATbits.BF);
+"191
+[e $U 360  ]
+[e :U 361 ]
+[e :U 360 ]
+[e $ != -> . . _SSPSTATbits 2 0 `i -> -> -> 0 `i `Vuc `i 361  ]
+[e :U 362 ]
+"192
+}
+[e :U 352 ]
+"194
+[e :U 351 ]
+[e :U 328 ]
+[e :U 326 ]
+[; ;i2c.c: 192: }
+[; ;i2c.c: 194: PIR1bits.SSPIF = 0;
+[e = . . _PIR1bits 0 3 -> -> 0 `i `uc ]
+"195
+}
+[e :U 324 ]
+[; ;i2c.c: 195: }
+[; ;i2c.c: 196: }
+"196
+[e :UE 323 ]
 }

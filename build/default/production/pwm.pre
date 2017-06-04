@@ -1,60 +1,5 @@
 
-# 1 "main.c"
-
-
-# 17
-#pragma config CPUDIV = NOCLKDIV
-#pragma config USBDIV = OFF
-
-
-#pragma config FOSC = IRC
-#pragma config PLLEN = OFF
-#pragma config PCLKEN = ON
-#pragma config FCMEN = OFF
-#pragma config IESO = OFF
-
-
-#pragma config PWRTEN = OFF
-#pragma config BOREN = SBORDIS
-#pragma config BORV = 19
-
-
-#pragma config WDTEN = OFF
-#pragma config WDTPS = 32768
-
-
-#pragma config HFOFST = ON
-#pragma config MCLRE = OFF
-
-
-#pragma config STVREN = ON
-#pragma config LVP = OFF
-#pragma config BBSIZ = OFF
-#pragma config XINST = OFF
-
-
-#pragma config CP0 = OFF
-#pragma config CP1 = OFF
-
-
-#pragma config CPB = OFF
-#pragma config CPD = OFF
-
-
-#pragma config WRT0 = OFF
-#pragma config WRT1 = OFF
-
-
-#pragma config WRTC = OFF
-#pragma config WRTB = OFF
-#pragma config WRTD = OFF
-
-
-#pragma config EBTR0 = OFF
-#pragma config EBTR1 = OFF
-
-
-#pragma config EBTRB = OFF
+# 1 "pwm.c"
 
 # 26 "/Applications/microchip/xc8/v1.42/include/htc.h"
 extern const char __xc8_OPTIM_SPEED;
@@ -4341,29 +4286,286 @@ unsigned char target;
 struct PWM LeftPWM;
 struct PWM RightPWM;
 
-# 76 "main.c"
-void main(void) {
+# 10 "pwm.c"
+void InitPWM(void) {
 
-OSCCONbits.IRCF = 0b111;
+T0CONbits.T0PS = 0b011;
 
+T0CONbits.PSA = 0;
 
-TRISBbits.RB7 = 0;
-TRISCbits.RC0 = 0;
-TRISCbits.RC1 = 0;
-TRISCbits.RC2 = 0;
-TRISCbits.RC3 = 0;
-TRISCbits.RC4 = 0;
-TRISCbits.RC5 = 0;
-LATC = 0x00;
+T0CONbits.T0CS = 0;
 
+T0CONbits.T08BIT = 1;
 
-InitI2C();
-InitPWM();
+T0CONbits.TMR0ON = 1;
 
 
 
-while(1) {
-CheckPWMOutput();
+TRISAbits.RA4 = 0;
+TRISAbits.RA5 = 0;
+
+LATAbits.LATA4 = 0;
+LATAbits.LATA5 = 0;
+
+LeftPWM.state = 0;
+LeftPWM.paused = 0;
+LeftPWM.enabled = 1;
+LeftPWM.direction = 1;
+LeftPWM.targetDirection = 1;
+LeftPWM.duty = 0;
+LeftPWM.target = 0;
+
+RightPWM.state = 0;
+RightPWM.paused = 0;
+RightPWM.enabled = 1;
+RightPWM.direction = 1;
+RightPWM.targetDirection = 1;
+RightPWM.duty = 0;
+RightPWM.target = 0;
 }
-return;
+
+# 51
+char ExponentialProfile(unsigned char current, unsigned char target) {
+unsigned char change = 0;
+if (current > target) {
+
+if (current-MinimumDuty > 200) {
+change = 50;
+} else if (current-MinimumDuty > 150) {
+change = 25;
+} else if (current-MinimumDuty > 100) {
+change = 20;
+} else if (current-MinimumDuty > 75) {
+change = 10;
+} else if (current-MinimumDuty > 50) {
+change = 5;
+} else {
+change = 1;
+}
+if (current-target < change) {
+change = current-target;
+}
+} else {
+
+if (current-MinimumDuty > 200) {
+change = current-target;
+} else if (current-MinimumDuty > 150) {
+change = 25;
+} else if (current-MinimumDuty > 100) {
+change = 20;
+} else if (current-MinimumDuty > 75) {
+change = 10;
+} else if (current-MinimumDuty > 50) {
+change = 5;
+} else {
+change = 1;
+}
+if (target-current < change) {
+change = target-current;
+}
+}
+return change;
+}
+
+# 98
+void StopLeft(void) {
+
+
+if (LeftPWM.duty == 0 && LeftPWM.direction != LeftPWM.targetDirection) {
+LeftPWM.direction = LeftPWM.targetDirection;
+LATCbits.LATC4 = LeftPWM.direction;
+LATCbits.LATC5 = !LeftPWM.direction;
+} else {
+switch (AccelType) {
+case 0:
+LeftPWM.duty = 0;
+break;
+case 1:
+if (LeftPWM.duty > MinimumDuty) {
+LeftPWM.duty -= 1;
+} else {
+LeftPWM.duty = 0;
+}
+break;
+case 2:
+if (MinimumDuty < LeftPWM.duty) {
+LeftPWM.duty -= ExponentialProfile(LeftPWM.duty, MinimumDuty);
+} else {
+LeftPWM.duty = 0;
+}
+break;
+default:
+break;
+}
+}
+}
+
+void StopRight(void) {
+
+
+if (RightPWM.duty == 0 && RightPWM.direction != RightPWM.targetDirection) {
+RightPWM.direction = RightPWM.targetDirection;
+LATCbits.LATC3 = RightPWM.direction;
+LATCbits.LATC2 = !RightPWM.direction;
+} else {
+switch (AccelType) {
+case 0:
+RightPWM.duty = 0;
+break;
+case 1:
+if (RightPWM.duty > MinimumDuty) {
+RightPWM.duty -= 1;
+} else {
+RightPWM.duty = 0;
+}
+break;
+case 2:
+if (MinimumDuty < RightPWM.duty) {
+RightPWM.duty -= ExponentialProfile(RightPWM.duty, MinimumDuty);
+} else {
+RightPWM.duty = 0;
+}
+break;
+default:
+break;
+}
+}
+}
+
+void AccelerateLeft(void) {
+if (LeftPWM.duty < MinimumDuty && LeftPWM.target >= MinimumDuty) {
+LeftPWM.duty = MinimumDuty;
+} else if (LeftPWM.duty <= MinimumDuty && LeftPWM.target < MinimumDuty) {
+LeftPWM.duty = 0;
+}
+switch (AccelType) {
+case 0:
+LeftPWM.duty = LeftPWM.target;
+break;
+case 1:
+if (LeftPWM.duty > LeftPWM.target) {
+LeftPWM.duty -= 1;
+} else if (LeftPWM.duty < LeftPWM.target) {
+LeftPWM.duty += 1;
+}
+break;
+case 2:
+if (LeftPWM.duty > LeftPWM.target) {
+LeftPWM.duty -= ExponentialProfile(LeftPWM.duty, LeftPWM.target);
+} else if (LeftPWM.duty < LeftPWM.target) {
+LeftPWM.duty += ExponentialProfile(LeftPWM.duty, LeftPWM.target);
+}
+break;
+default:
+break;
+}
+}
+
+void AccelerateRight(void) {
+if (RightPWM.duty < MinimumDuty && RightPWM.target >= MinimumDuty) {
+RightPWM.duty = MinimumDuty;
+} else if (RightPWM.duty <= MinimumDuty && RightPWM.target < MinimumDuty) {
+RightPWM.duty = 0;
+}
+switch (AccelType) {
+case 0:
+RightPWM.duty = RightPWM.target;
+break;
+case 1:
+if (RightPWM.duty > RightPWM.target) {
+RightPWM.duty -= 1;
+} else if (RightPWM.duty < RightPWM.target) {
+RightPWM.duty += 1;
+}
+break;
+case 2:
+if (RightPWM.duty > RightPWM.target) {
+RightPWM.duty -= ExponentialProfile(RightPWM.duty, RightPWM.target);
+} else if (RightPWM.duty < RightPWM.target) {
+RightPWM.duty += ExponentialProfile(RightPWM.duty, RightPWM.target);
+}
+break;
+default:
+break;
+}
+}
+
+# 227
+void AcceleratePWM(void) {
+if (PWMPause) {
+StopLeft();
+StopRight();
+} else {
+
+
+
+if (LeftPWM.direction != LeftPWM.targetDirection) {
+StopLeft();
+} else if (LeftPWM.duty != LeftPWM.target) {
+AccelerateLeft();
+}
+
+if (RightPWM.direction != RightPWM.targetDirection) {
+StopRight();
+} else if (RightPWM.duty != RightPWM.target) {
+AccelerateRight();
+}
+}
+}
+
+# 267
+void CheckPWMOutput(void) {
+
+if (PWMEnable) {
+if (LeftPWM.enabled) {
+
+if (TMR0 < LeftPWM.duty && LeftPWM.state == 0) {
+
+LeftPWM.state = 1;
+
+LATAbits.LATA4 = 1;
+
+LATCbits.LATC1 = 1;
+} else if (TMR0 >= LeftPWM.duty && LeftPWM.state == 1) {
+
+
+LeftPWM.state = 0;
+
+LATAbits.LATA4 = 0;
+
+LATCbits.LATC1 = 0;
+}
+}
+
+
+if (TMR0 < RightPWM.duty && RightPWM.state == 0) {
+RightPWM.state = 1;
+
+LATAbits.LATA5 = 1;
+
+LATCbits.LATC0 = 1;
+} else if (TMR0 >= RightPWM.duty && RightPWM.state == 1) {
+RightPWM.state = 0;
+
+LATAbits.LATA5 = 0;
+
+LATCbits.LATC0 = 0;
+}
+} else if (RightPWM.state || LeftPWM.state) {
+
+
+LATAbits.LATA4 = 0;
+LATAbits.LATA5 = 0;
+RightPWM.state = 0;
+LeftPWM.state = 0;
+}
+
+# 317
+if (AccelCount >= AccelRate) {
+AcceleratePWM();
+AccelCount = 0;
+} else {
+AccelCount++;
+}
+
 }

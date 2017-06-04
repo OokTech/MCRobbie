@@ -1,0 +1,2879 @@
+
+
+Microchip Technology PIC18 LITE Macro Assembler V1.42 build -159332390 
+                                                                                               Sun Jun  4 15:11:48 2017
+
+Microchip Technology Omniscient Code Generator v1.42 (Free mode) build 201704130522
+     1                           	processor	18F14K50
+     2                           	fnconf	rparam,??,?,0
+     3                           	opt	pw 120
+     4                           	opt	lm
+     5                           	psect	idataCOMRAM,global,class=CODE,delta=1,noexec
+     6                           	psect	cinit,global,reloc=2,class=CODE,delta=1
+     7                           	psect	bssCOMRAM,global,class=COMRAM,space=1,delta=1,noexec
+     8                           	psect	dataCOMRAM,global,class=COMRAM,space=1,delta=1,noexec
+     9                           	psect	cstackCOMRAM,global,class=COMRAM,space=1,delta=1,noexec
+    10                           	psect	text0,global,reloc=2,class=CODE,delta=1
+    11                           	psect	text1,global,reloc=2,class=CODE,delta=1
+    12                           	psect	text2,global,reloc=2,class=CODE,delta=1
+    13                           	psect	text3,global,reloc=2,class=CODE,delta=1
+    14                           	psect	text4,global,reloc=2,class=CODE,delta=1
+    15                           	psect	text5,global,reloc=2,class=CODE,delta=1
+    16                           	psect	text6,global,reloc=2,class=CODE,delta=1
+    17                           	psect	text7,global,reloc=2,class=CODE,delta=1
+    18                           	psect	text8,global,reloc=2,class=CODE,delta=1
+    19                           	psect	text9,global,reloc=2,class=CODE,delta=1
+    20                           	psect	intcode,global,reloc=2,class=CODE,delta=1
+    21                           	psect	intsave_regs,global,class=BIGRAM,space=1,delta=1,noexec
+    22                           	psect	rparam,global,class=COMRAM,space=1,delta=1,noexec
+    23                           	psect	temp,global,ovrld,common,class=COMRAM,space=1,delta=1
+    24  0000                     
+    25                           ; Version 1.42
+    26                           ; Generated 13/04/2017 GMT
+    27                           ; 
+    28                           ; Copyright © 2017, Microchip Technology Inc. and its subsidiaries ("Microchip")
+    29                           ; All rights reserved.
+    30                           ; 
+    31                           ; This software is developed by Microchip Technology Inc. and its subsidiaries ("Microch
+      +                          ip").
+    32                           ; 
+    33                           ; Redistribution and use in source and binary forms, with or without modification, are
+    34                           ; permitted provided that the following conditions are met:
+    35                           ; 
+    36                           ;     1. Redistributions of source code must retain the above copyright notice, this lis
+      +                          t of
+    37                           ;        conditions and the following disclaimer.
+    38                           ; 
+    39                           ;     2. Redistributions in binary form must reproduce the above copyright notice, this 
+      +                          list
+    40                           ;        of conditions and the following disclaimer in the documentation and/or other
+    41                           ;        materials provided with the distribution.
+    42                           ; 
+    43                           ;     3. Microchip's name may not be used to endorse or promote products derived from th
+      +                          is
+    44                           ;        software without specific prior written permission.
+    45                           ; 
+    46                           ; THIS SOFTWARE IS PROVIDED BY MICROCHIP "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+    47                           ; INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS F
+      +                          OR
+    48                           ; PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL MICROCHIP BE LIABLE FOR ANY DIRECT, INDIREC
+      +                          T,
+    49                           ; INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING BUT NOT LIMITED TO
+    50                           ; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS
+    51                           ; INTERRUPTION) HOWSOEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, ST
+      +                          RICT
+    52                           ; LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE U
+      +                          SE OF
+    53                           ; THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    54                           ; 
+    55                           ; 
+    56                           ; Code-generator required, PIC18F14K50 Definitions
+    57                           ; 
+    58                           ; SFR Addresses
+    59  0000                     
+    60                           	psect	idataCOMRAM
+    61  0008D4                     __pidataCOMRAM:
+    62                           	opt stack 0
+    63                           
+    64                           ;initializer for _AccelRate
+    65  0008D4  03E8               	dw	1000
+    66                           
+    67                           ;initializer for _AccelType
+    68  0008D6  02                 	db	2
+    69                           
+    70                           ;initializer for _PWMEnable
+    71  0008D7  01                 	db	1
+    72  0000                     _TMR0	set	4054
+    73  0000                     _LATCbits	set	3979
+    74  0000                     _LATAbits	set	3977
+    75  0000                     _TRISAbits	set	3986
+    76  0000                     _T0CONbits	set	4053
+    77  0000                     _SSPBUF	set	4041
+    78  0000                     _INTCONbits	set	4082
+    79  0000                     _PIE1bits	set	3997
+    80  0000                     _PIR1bits	set	3998
+    81  0000                     _SSPADD	set	4040
+    82  0000                     _SSPMSKbits	set	3951
+    83  0000                     _SSPCON2bits	set	4037
+    84  0000                     _SSPCON1bits	set	4038
+    85  0000                     _SSPSTATbits	set	4039
+    86  0000                     _WPUBbits	set	3960
+    87  0000                     _INTCON2bits	set	4081
+    88  0000                     _LATC	set	3979
+    89  0000                     _TRISCbits	set	3988
+    90  0000                     _TRISBbits	set	3987
+    91  0000                     _OSCCONbits	set	4051
+    92                           
+    93                           ; #config settings
+    94  0000                     
+    95                           	psect	cinit
+    96  00084A                     __pcinit:
+    97                           	opt stack 0
+    98  00084A                     start_initialization:
+    99                           	opt stack 0
+   100  00084A                     __initialization:
+   101                           	opt stack 0
+   102                           
+   103                           ; Initialize objects allocated to COMRAM (4 bytes)
+   104                           ; load TBLPTR registers with __pidataCOMRAM
+   105  00084A  0ED4               	movlw	low __pidataCOMRAM
+   106  00084C  6EF6               	movwf	tblptrl,c
+   107  00084E  0E08               	movlw	high __pidataCOMRAM
+   108  000850  6EF7               	movwf	tblptrh,c
+   109  000852  0E00               	movlw	low (__pidataCOMRAM shr (0+16))
+   110  000854  6EF8               	movwf	tblptru,c
+   111  000856  EE00  F02A         	lfsr	0,__pdataCOMRAM
+   112  00085A  EE10 F004          	lfsr	1,4
+   113  00085E                     copy_data0:
+   114  00085E  0009               	tblrd		*+
+   115  000860  CFF5 FFEE          	movff	tablat,postinc0
+   116  000864  50E5               	movf	postdec1,w,c
+   117  000866  50E1               	movf	fsr1l,w,c
+   118  000868  E1FA               	bnz	copy_data0
+   119                           
+   120                           ; Clear objects allocated to COMRAM (12 bytes)
+   121  00086A  EE00  F01E         	lfsr	0,__pbssCOMRAM
+   122  00086E  0E0C               	movlw	12
+   123  000870                     clear_0:
+   124  000870  6AEE               	clrf	postinc0,c
+   125  000872  06E8               	decf	wreg,f,c
+   126  000874  E1FD               	bnz	clear_0
+   127  000876                     end_of_initialization:
+   128                           	opt stack 0
+   129  000876                     __end_of__initialization:
+   130                           	opt stack 0
+   131  000876  902E               	bcf	int$flags,0,c	;clear compiler interrupt flag (level 1)
+   132  000878  922E               	bcf	int$flags,1,c	;clear compiler interrupt flag (level 2)
+   133  00087A  0E00               	movlw	low (__Lmediumconst shr (0+16))
+   134  00087C  6EF8               	movwf	tblptru,c
+   135  00087E  0100               	movlb	0
+   136  000880  EF57  F004         	goto	_main	;jump to C main() function
+   137                           tblptru	equ	0xFF8
+   138                           tblptrh	equ	0xFF7
+   139                           tblptrl	equ	0xFF6
+   140                           tablat	equ	0xFF5
+   141                           postinc0	equ	0xFEE
+   142                           wreg	equ	0xFE8
+   143                           postdec1	equ	0xFE5
+   144                           fsr1l	equ	0xFE1
+   145                           
+   146                           	psect	bssCOMRAM
+   147  00001E                     __pbssCOMRAM:
+   148                           	opt stack 0
+   149  00001E                     _RightPWM:
+   150                           	opt stack 0
+   151  00001E                     	ds	3
+   152  000021                     _LeftPWM:
+   153                           	opt stack 0
+   154  000021                     	ds	3
+   155  000024                     _AccelCount:
+   156                           	opt stack 0
+   157  000024                     	ds	2
+   158  000026                     _state:
+   159                           	opt stack 0
+   160  000026                     	ds	1
+   161  000027                     _currentByte:
+   162                           	opt stack 0
+   163  000027                     	ds	1
+   164  000028                     _MinimumDuty:
+   165                           	opt stack 0
+   166  000028                     	ds	1
+   167  000029                     _PWMPause:
+   168                           	opt stack 0
+   169  000029                     	ds	1
+   170                           tblptru	equ	0xFF8
+   171                           tblptrh	equ	0xFF7
+   172                           tblptrl	equ	0xFF6
+   173                           tablat	equ	0xFF5
+   174                           postinc0	equ	0xFEE
+   175                           wreg	equ	0xFE8
+   176                           postdec1	equ	0xFE5
+   177                           fsr1l	equ	0xFE1
+   178                           
+   179                           	psect	dataCOMRAM
+   180  00002A                     __pdataCOMRAM:
+   181                           	opt stack 0
+   182  00002A                     _AccelRate:
+   183                           	opt stack 0
+   184  00002A                     	ds	2
+   185  00002C                     _AccelType:
+   186                           	opt stack 0
+   187  00002C                     	ds	1
+   188  00002D                     _PWMEnable:
+   189                           	opt stack 0
+   190  00002D                     	ds	1
+   191                           tblptru	equ	0xFF8
+   192                           tblptrh	equ	0xFF7
+   193                           tblptrl	equ	0xFF6
+   194                           tablat	equ	0xFF5
+   195                           postinc0	equ	0xFEE
+   196                           wreg	equ	0xFE8
+   197                           postdec1	equ	0xFE5
+   198                           fsr1l	equ	0xFE1
+   199                           
+   200                           	psect	cstackCOMRAM
+   201  000001                     __pcstackCOMRAM:
+   202                           	opt stack 0
+   203  000001                     ??_I2C_Slave_Read:
+   204  000001                     
+   205                           ; 1 bytes @ 0x0
+   206  000001                     	ds	15
+   207  000010                     ExponentialProfile@target:
+   208                           	opt stack 0
+   209                           
+   210                           ; 1 bytes @ 0xF
+   211  000010                     	ds	1
+   212  000011                     ??_ExponentialProfile:
+   213                           
+   214                           ; 1 bytes @ 0x10
+   215  000011                     	ds	7
+   216  000018                     ExponentialProfile@change:
+   217                           	opt stack 0
+   218                           
+   219                           ; 1 bytes @ 0x17
+   220  000018                     	ds	1
+   221  000019                     ExponentialProfile@current:
+   222                           	opt stack 0
+   223                           
+   224                           ; 1 bytes @ 0x18
+   225  000019                     	ds	1
+   226  00001A                     ??_StopLeft:
+   227  00001A                     ??_StopRight:
+   228  00001A                     
+   229                           ; 1 bytes @ 0x19
+   230  00001A                     	ds	1
+   231  00001B                     ??_AcceleratePWM:
+   232                           
+   233                           ; 1 bytes @ 0x1A
+   234  00001B                     	ds	1
+   235  00001C                     ??_CheckPWMOutput:
+   236                           
+   237                           ; 1 bytes @ 0x1B
+   238  00001C                     	ds	2
+   239  00001E                     tblptru	equ	0xFF8
+   240                           tblptrh	equ	0xFF7
+   241                           tblptrl	equ	0xFF6
+   242                           tablat	equ	0xFF5
+   243                           postinc0	equ	0xFEE
+   244                           wreg	equ	0xFE8
+   245                           postdec1	equ	0xFE5
+   246                           fsr1l	equ	0xFE1
+   247                           
+   248                           ; 1 bytes @ 0x1D
+   249 ;;
+   250 ;;Main: autosize = 0, tempsize = 0, incstack = 0, save=0
+   251 ;;
+   252 ;; *************** function _main *****************
+   253 ;; Defined at:
+   254 ;;		line 76 in file "main.c"
+   255 ;; Parameters:    Size  Location     Type
+   256 ;;		None
+   257 ;; Auto vars:     Size  Location     Type
+   258 ;;		None
+   259 ;; Return value:  Size  Location     Type
+   260 ;;                  1    wreg      void 
+   261 ;; Registers used:
+   262 ;;		wreg, status,2, status,0, cstack
+   263 ;; Tracked objects:
+   264 ;;		On entry : 0/0
+   265 ;;		On exit  : 0/0
+   266 ;;		Unchanged: 0/0
+   267 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2
+   268 ;;      Params:         0       0       0       0
+   269 ;;      Locals:         0       0       0       0
+   270 ;;      Temps:          0       0       0       0
+   271 ;;      Totals:         0       0       0       0
+   272 ;;Total ram usage:        0 bytes
+   273 ;; Hardware stack levels required when called:    5
+   274 ;; This function calls:
+   275 ;;		_CheckPWMOutput
+   276 ;;		_InitI2C
+   277 ;;		_InitPWM
+   278 ;; This function is called by:
+   279 ;;		Startup code after reset
+   280 ;; This function uses a non-reentrant model
+   281 ;;
+   282                           
+   283                           	psect	text0
+   284  0008AE                     __ptext0:
+   285                           	opt stack 0
+   286  0008AE                     _main:
+   287                           	opt stack 26
+   288                           
+   289                           ;main.c: 78: OSCCONbits.IRCF = 0b111;
+   290                           
+   291                           ;incstack = 0
+   292  0008AE  88D3               	bsf	4051,4,c	;volatile
+   293  0008B0  8AD3               	bsf	4051,5,c	;volatile
+   294  0008B2  8CD3               	bsf	4051,6,c	;volatile
+   295                           
+   296                           ;main.c: 81: TRISBbits.RB7 = 0;
+   297  0008B4  9E93               	bcf	3987,7,c	;volatile
+   298                           
+   299                           ;main.c: 82: TRISCbits.RC0 = 0;
+   300  0008B6  9094               	bcf	3988,0,c	;volatile
+   301                           
+   302                           ;main.c: 83: TRISCbits.RC1 = 0;
+   303  0008B8  9294               	bcf	3988,1,c	;volatile
+   304                           
+   305                           ;main.c: 84: TRISCbits.RC2 = 0;
+   306  0008BA  9494               	bcf	3988,2,c	;volatile
+   307                           
+   308                           ;main.c: 85: TRISCbits.RC3 = 0;
+   309  0008BC  9694               	bcf	3988,3,c	;volatile
+   310                           
+   311                           ;main.c: 86: TRISCbits.RC4 = 0;
+   312  0008BE  9894               	bcf	3988,4,c	;volatile
+   313                           
+   314                           ;main.c: 87: TRISCbits.RC5 = 0;
+   315  0008C0  9A94               	bcf	3988,5,c	;volatile
+   316                           
+   317                           ;main.c: 88: LATC = 0x00;
+   318  0008C2  0E00               	movlw	0
+   319  0008C4  6E8B               	movwf	3979,c	;volatile
+   320                           
+   321                           ;main.c: 91: InitI2C();
+   322  0008C6  EC42  F004         	call	_InitI2C	;wreg free
+   323                           
+   324                           ;main.c: 92: InitPWM();
+   325  0008CA  EC06  F004         	call	_InitPWM	;wreg free
+   326  0008CE                     l1517:
+   327                           
+   328                           ;main.c: 97: CheckPWMOutput();
+   329  0008CE  EC5A  F002         	call	_CheckPWMOutput	;wreg free
+   330  0008D2  D7FD               	goto	l1517
+   331  0008D4                     __end_of_main:
+   332                           	opt stack 0
+   333                           tblptru	equ	0xFF8
+   334                           tblptrh	equ	0xFF7
+   335                           tblptrl	equ	0xFF6
+   336                           tablat	equ	0xFF5
+   337                           postinc0	equ	0xFEE
+   338                           wreg	equ	0xFE8
+   339                           postdec1	equ	0xFE5
+   340                           fsr1l	equ	0xFE1
+   341                           
+   342 ;; *************** function _InitPWM *****************
+   343 ;; Defined at:
+   344 ;;		line 10 in file "pwm.c"
+   345 ;; Parameters:    Size  Location     Type
+   346 ;;		None
+   347 ;; Auto vars:     Size  Location     Type
+   348 ;;		None
+   349 ;; Return value:  Size  Location     Type
+   350 ;;                  1    wreg      void 
+   351 ;; Registers used:
+   352 ;;		wreg, status,2
+   353 ;; Tracked objects:
+   354 ;;		On entry : 0/0
+   355 ;;		On exit  : 0/0
+   356 ;;		Unchanged: 0/0
+   357 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2
+   358 ;;      Params:         0       0       0       0
+   359 ;;      Locals:         0       0       0       0
+   360 ;;      Temps:          0       0       0       0
+   361 ;;      Totals:         0       0       0       0
+   362 ;;Total ram usage:        0 bytes
+   363 ;; Hardware stack levels used:    1
+   364 ;; Hardware stack levels required when called:    1
+   365 ;; This function calls:
+   366 ;;		Nothing
+   367 ;; This function is called by:
+   368 ;;		_main
+   369 ;; This function uses a non-reentrant model
+   370 ;;
+   371                           
+   372                           	psect	text1
+   373  00080C                     __ptext1:
+   374                           	opt stack 0
+   375  00080C                     _InitPWM:
+   376                           	opt stack 29
+   377                           
+   378                           ;pwm.c: 12: T0CONbits.T0PS = 0b011;
+   379                           
+   380                           ;incstack = 0
+   381  00080C  50D5               	movf	4053,w,c	;volatile
+   382  00080E  0BF8               	andlw	-8
+   383  000810  0903               	iorlw	3
+   384  000812  6ED5               	movwf	4053,c	;volatile
+   385                           
+   386                           ;pwm.c: 14: T0CONbits.PSA = 0;
+   387  000814  96D5               	bcf	4053,3,c	;volatile
+   388                           
+   389                           ;pwm.c: 16: T0CONbits.T0CS = 0;
+   390  000816  9AD5               	bcf	4053,5,c	;volatile
+   391                           
+   392                           ;pwm.c: 18: T0CONbits.T08BIT = 1;
+   393  000818  8CD5               	bsf	4053,6,c	;volatile
+   394                           
+   395                           ;pwm.c: 20: T0CONbits.TMR0ON = 1;
+   396  00081A  8ED5               	bsf	4053,7,c	;volatile
+   397                           
+   398                           ;pwm.c: 24: TRISAbits.RA4 = 0;
+   399  00081C  9892               	bcf	3986,4,c	;volatile
+   400                           
+   401                           ;pwm.c: 25: TRISAbits.RA5 = 0;
+   402  00081E  9A92               	bcf	3986,5,c	;volatile
+   403                           
+   404                           ;pwm.c: 27: LATAbits.LATA4 = 0;
+   405  000820  9889               	bcf	3977,4,c	;volatile
+   406                           
+   407                           ;pwm.c: 28: LATAbits.LATA5 = 0;
+   408  000822  9A89               	bcf	3977,5,c	;volatile
+   409                           
+   410                           ;pwm.c: 30: LeftPWM.state = 0;
+   411  000824  9021               	bcf	_LeftPWM,0,c
+   412                           
+   413                           ;pwm.c: 31: LeftPWM.paused = 0;
+   414  000826  9421               	bcf	_LeftPWM,2,c
+   415                           
+   416                           ;pwm.c: 32: LeftPWM.enabled = 1;
+   417  000828  8221               	bsf	_LeftPWM,1,c
+   418                           
+   419                           ;pwm.c: 33: LeftPWM.direction = 1;
+   420  00082A  8621               	bsf	_LeftPWM,3,c
+   421                           
+   422                           ;pwm.c: 34: LeftPWM.targetDirection = 1;
+   423  00082C  8821               	bsf	_LeftPWM,4,c
+   424                           
+   425                           ;pwm.c: 35: LeftPWM.duty = 0;
+   426  00082E  0E00               	movlw	0
+   427  000830  6E22               	movwf	_LeftPWM+1,c
+   428                           
+   429                           ;pwm.c: 36: LeftPWM.target = 0;
+   430  000832  0E00               	movlw	0
+   431  000834  6E23               	movwf	_LeftPWM+2,c
+   432                           
+   433                           ;pwm.c: 38: RightPWM.state = 0;
+   434  000836  901E               	bcf	_RightPWM,0,c
+   435                           
+   436                           ;pwm.c: 39: RightPWM.paused = 0;
+   437  000838  941E               	bcf	_RightPWM,2,c
+   438                           
+   439                           ;pwm.c: 40: RightPWM.enabled = 1;
+   440  00083A  821E               	bsf	_RightPWM,1,c
+   441                           
+   442                           ;pwm.c: 41: RightPWM.direction = 1;
+   443  00083C  861E               	bsf	_RightPWM,3,c
+   444                           
+   445                           ;pwm.c: 42: RightPWM.targetDirection = 1;
+   446  00083E  881E               	bsf	_RightPWM,4,c
+   447                           
+   448                           ;pwm.c: 43: RightPWM.duty = 0;
+   449  000840  0E00               	movlw	0
+   450  000842  6E1F               	movwf	_RightPWM+1,c
+   451                           
+   452                           ;pwm.c: 44: RightPWM.target = 0;
+   453  000844  0E00               	movlw	0
+   454  000846  6E20               	movwf	_RightPWM+2,c
+   455  000848  0012               	return		;funcret
+   456  00084A                     __end_of_InitPWM:
+   457                           	opt stack 0
+   458                           tblptru	equ	0xFF8
+   459                           tblptrh	equ	0xFF7
+   460                           tblptrl	equ	0xFF6
+   461                           tablat	equ	0xFF5
+   462                           postinc0	equ	0xFEE
+   463                           wreg	equ	0xFE8
+   464                           postdec1	equ	0xFE5
+   465                           fsr1l	equ	0xFE1
+   466                           
+   467 ;; *************** function _InitI2C *****************
+   468 ;; Defined at:
+   469 ;;		line 8 in file "i2c.c"
+   470 ;; Parameters:    Size  Location     Type
+   471 ;;		None
+   472 ;; Auto vars:     Size  Location     Type
+   473 ;;		None
+   474 ;; Return value:  Size  Location     Type
+   475 ;;                  1    wreg      void 
+   476 ;; Registers used:
+   477 ;;		wreg, status,2
+   478 ;; Tracked objects:
+   479 ;;		On entry : 0/0
+   480 ;;		On exit  : 0/0
+   481 ;;		Unchanged: 0/0
+   482 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2
+   483 ;;      Params:         0       0       0       0
+   484 ;;      Locals:         0       0       0       0
+   485 ;;      Temps:          0       0       0       0
+   486 ;;      Totals:         0       0       0       0
+   487 ;;Total ram usage:        0 bytes
+   488 ;; Hardware stack levels used:    1
+   489 ;; Hardware stack levels required when called:    1
+   490 ;; This function calls:
+   491 ;;		Nothing
+   492 ;; This function is called by:
+   493 ;;		_main
+   494 ;; This function uses a non-reentrant model
+   495 ;;
+   496                           
+   497                           	psect	text2
+   498  000884                     __ptext2:
+   499                           	opt stack 0
+   500  000884                     _InitI2C:
+   501                           	opt stack 29
+   502                           
+   503                           ;i2c.c: 10: TRISBbits.RB4 = 1;
+   504                           
+   505                           ;incstack = 0
+   506  000884  8893               	bsf	3987,4,c	;volatile
+   507                           
+   508                           ;i2c.c: 11: TRISBbits.RB6 = 1;
+   509  000886  8C93               	bsf	3987,6,c	;volatile
+   510                           
+   511                           ;i2c.c: 15: INTCON2bits.NOT_RABPU = 0;
+   512  000888  9EF1               	bcf	intcon2,7,c	;volatile
+   513                           
+   514                           ;i2c.c: 17: WPUBbits.WPUB4 = 1;
+   515  00088A  8878               	bsf	3960,4,c	;volatile
+   516                           
+   517                           ;i2c.c: 18: WPUBbits.WPUB6 = 1;
+   518  00088C  8C78               	bsf	3960,6,c	;volatile
+   519                           
+   520                           ;i2c.c: 21: SSPSTATbits.SMP = 1;
+   521  00088E  8EC7               	bsf	4039,7,c	;volatile
+   522                           
+   523                           ;i2c.c: 24: SSPCON1bits.SSPM = 0b0110;
+   524  000890  50C6               	movf	4038,w,c	;volatile
+   525  000892  0BF0               	andlw	-16
+   526  000894  0906               	iorlw	6
+   527  000896  6EC6               	movwf	4038,c	;volatile
+   528                           
+   529                           ;i2c.c: 26: SSPCON2bits.SEN = 1;
+   530  000898  80C5               	bsf	4037,0,c	;volatile
+   531                           
+   532                           ;i2c.c: 30: SSPMSKbits.MSK = 0b01000110;
+   533  00089A  0E46               	movlw	70
+   534  00089C  6E6F               	movwf	3951,c	;volatile
+   535                           
+   536                           ;i2c.c: 35: SSPADD = 0x23<<1;
+   537  00089E  0E46               	movlw	70
+   538  0008A0  6EC8               	movwf	4040,c	;volatile
+   539                           
+   540                           ;i2c.c: 38: PIR1bits.SSPIF = 0;
+   541  0008A2  969E               	bcf	3998,3,c	;volatile
+   542                           
+   543                           ;i2c.c: 40: PIE1bits.SSPIE = 1;
+   544  0008A4  869D               	bsf	3997,3,c	;volatile
+   545                           
+   546                           ;i2c.c: 43: INTCONbits.GIE = 1;
+   547  0008A6  8EF2               	bsf	intcon,7,c	;volatile
+   548                           
+   549                           ;i2c.c: 45: INTCONbits.PEIE = 1;
+   550  0008A8  8CF2               	bsf	intcon,6,c	;volatile
+   551                           
+   552                           ;i2c.c: 48: SSPCON1bits.SSPEN = 1;
+   553  0008AA  8AC6               	bsf	4038,5,c	;volatile
+   554  0008AC  0012               	return		;funcret
+   555  0008AE                     __end_of_InitI2C:
+   556                           	opt stack 0
+   557                           tblptru	equ	0xFF8
+   558                           tblptrh	equ	0xFF7
+   559                           tblptrl	equ	0xFF6
+   560                           tablat	equ	0xFF5
+   561                           intcon	equ	0xFF2
+   562                           intcon2	equ	0xFF1
+   563                           postinc0	equ	0xFEE
+   564                           wreg	equ	0xFE8
+   565                           postdec1	equ	0xFE5
+   566                           fsr1l	equ	0xFE1
+   567                           
+   568 ;; *************** function _CheckPWMOutput *****************
+   569 ;; Defined at:
+   570 ;;		line 267 in file "pwm.c"
+   571 ;; Parameters:    Size  Location     Type
+   572 ;;		None
+   573 ;; Auto vars:     Size  Location     Type
+   574 ;;		None
+   575 ;; Return value:  Size  Location     Type
+   576 ;;                  1    wreg      void 
+   577 ;; Registers used:
+   578 ;;		wreg, status,2, status,0, cstack
+   579 ;; Tracked objects:
+   580 ;;		On entry : 0/0
+   581 ;;		On exit  : 0/0
+   582 ;;		Unchanged: 0/0
+   583 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2
+   584 ;;      Params:         0       0       0       0
+   585 ;;      Locals:         0       0       0       0
+   586 ;;      Temps:          2       0       0       0
+   587 ;;      Totals:         2       0       0       0
+   588 ;;Total ram usage:        2 bytes
+   589 ;; Hardware stack levels used:    1
+   590 ;; Hardware stack levels required when called:    4
+   591 ;; This function calls:
+   592 ;;		_AcceleratePWM
+   593 ;; This function is called by:
+   594 ;;		_main
+   595 ;; This function uses a non-reentrant model
+   596 ;;
+   597                           
+   598                           	psect	text3
+   599  0004B4                     __ptext3:
+   600                           	opt stack 0
+   601  0004B4                     _CheckPWMOutput:
+   602                           	opt stack 26
+   603                           
+   604                           ;pwm.c: 269: if (PWMEnable) {
+   605                           
+   606                           ;incstack = 0
+   607  0004B4  502D               	movf	_PWMEnable,w,c
+   608  0004B6  B4D8               	btfsc	status,2,c
+   609  0004B8  D033               	goto	l267
+   610                           
+   611                           ;pwm.c: 270: if (LeftPWM.enabled) {
+   612  0004BA  A221               	btfss	_LeftPWM,1,c
+   613  0004BC  D018               	goto	l1487
+   614                           
+   615                           ;pwm.c: 272: if (TMR0 < LeftPWM.duty && LeftPWM.state == 0) {
+   616  0004BE  5022               	movf	_LeftPWM+1,w,c
+   617  0004C0  5CD6               	subwf	4054,w,c	;volatile
+   618  0004C2  0E00               	movlw	0
+   619  0004C4  58D7               	subwfb	4055,w,c	;volatile
+   620  0004C6  A0D8               	btfss	status,0,c
+   621  0004C8  B021               	btfsc	_LeftPWM,0,c
+   622  0004CA  D004               	goto	l1481
+   623                           
+   624                           ;pwm.c: 274: LeftPWM.state = 1;
+   625  0004CC  8021               	bsf	_LeftPWM,0,c
+   626                           
+   627                           ;pwm.c: 276: LATAbits.LATA4 = 1;
+   628  0004CE  8889               	bsf	3977,4,c	;volatile
+   629                           
+   630                           ;pwm.c: 278: LATCbits.LATC1 = 1;
+   631  0004D0  828B               	bsf	3979,1,c	;volatile
+   632                           
+   633                           ;pwm.c: 279: } else if (TMR0 >= LeftPWM.duty && LeftPWM.state == 1) {
+   634  0004D2  D00D               	goto	l1487
+   635  0004D4                     l1481:
+   636  0004D4  5022               	movf	_LeftPWM+1,w,c
+   637  0004D6  6E1C               	movwf	??_CheckPWMOutput& (0+255),c
+   638  0004D8  6A1D               	clrf	(??_CheckPWMOutput+1)& (0+255),c
+   639  0004DA  501C               	movf	??_CheckPWMOutput,w,c
+   640  0004DC  5CD6               	subwf	4054,w,c	;volatile
+   641  0004DE  501D               	movf	??_CheckPWMOutput+1,w,c
+   642  0004E0  58D7               	subwfb	4055,w,c	;volatile
+   643  0004E2  B0D8               	btfsc	status,0,c
+   644  0004E4  A021               	btfss	_LeftPWM,0,c
+   645  0004E6  D003               	goto	l1487
+   646                           
+   647                           ;pwm.c: 282: LeftPWM.state = 0;
+   648  0004E8  9021               	bcf	_LeftPWM,0,c
+   649                           
+   650                           ;pwm.c: 284: LATAbits.LATA4 = 0;
+   651  0004EA  9889               	bcf	3977,4,c	;volatile
+   652                           
+   653                           ;pwm.c: 286: LATCbits.LATC1 = 0;
+   654  0004EC  928B               	bcf	3979,1,c	;volatile
+   655  0004EE                     l1487:
+   656                           
+   657                           ;pwm.c: 287: }
+   658                           ;pwm.c: 288: }
+   659                           ;pwm.c: 291: if (TMR0 < RightPWM.duty && RightPWM.state == 0) {
+   660  0004EE  501F               	movf	_RightPWM+1,w,c
+   661  0004F0  5CD6               	subwf	4054,w,c	;volatile
+   662  0004F2  0E00               	movlw	0
+   663  0004F4  58D7               	subwfb	4055,w,c	;volatile
+   664  0004F6  A0D8               	btfss	status,0,c
+   665  0004F8  B01E               	btfsc	_RightPWM,0,c
+   666  0004FA  D004               	goto	l1493
+   667                           
+   668                           ;pwm.c: 292: RightPWM.state = 1;
+   669  0004FC  801E               	bsf	_RightPWM,0,c
+   670                           
+   671                           ;pwm.c: 294: LATAbits.LATA5 = 1;
+   672  0004FE  8A89               	bsf	3977,5,c	;volatile
+   673                           
+   674                           ;pwm.c: 296: LATCbits.LATC0 = 1;
+   675  000500  808B               	bsf	3979,0,c	;volatile
+   676                           
+   677                           ;pwm.c: 297: } else if (TMR0 >= RightPWM.duty && RightPWM.state == 1) {
+   678  000502  D016               	goto	l1501
+   679  000504                     l1493:
+   680  000504  501F               	movf	_RightPWM+1,w,c
+   681  000506  6E1C               	movwf	??_CheckPWMOutput& (0+255),c
+   682  000508  6A1D               	clrf	(??_CheckPWMOutput+1)& (0+255),c
+   683  00050A  501C               	movf	??_CheckPWMOutput,w,c
+   684  00050C  5CD6               	subwf	4054,w,c	;volatile
+   685  00050E  501D               	movf	??_CheckPWMOutput+1,w,c
+   686  000510  58D7               	subwfb	4055,w,c	;volatile
+   687  000512  B0D8               	btfsc	status,0,c
+   688  000514  A01E               	btfss	_RightPWM,0,c
+   689  000516  D00C               	goto	l1501
+   690                           
+   691                           ;pwm.c: 298: RightPWM.state = 0;
+   692  000518  901E               	bcf	_RightPWM,0,c
+   693                           
+   694                           ;pwm.c: 300: LATAbits.LATA5 = 0;
+   695  00051A  9A89               	bcf	3977,5,c	;volatile
+   696                           
+   697                           ;pwm.c: 302: LATCbits.LATC0 = 0;
+   698  00051C  908B               	bcf	3979,0,c	;volatile
+   699                           
+   700                           ;pwm.c: 303: }
+   701                           ;pwm.c: 304: } else if (RightPWM.state || LeftPWM.state) {
+   702  00051E  D008               	goto	l1501
+   703  000520                     l267:
+   704  000520  B01E               	btfsc	_RightPWM,0,c
+   705  000522  D002               	goto	l278
+   706  000524  A021               	btfss	_LeftPWM,0,c
+   707  000526  D004               	goto	l1501
+   708  000528                     l278:
+   709                           
+   710                           ;pwm.c: 307: LATAbits.LATA4 = 0;
+   711  000528  9889               	bcf	3977,4,c	;volatile
+   712                           
+   713                           ;pwm.c: 308: LATAbits.LATA5 = 0;
+   714  00052A  9A89               	bcf	3977,5,c	;volatile
+   715                           
+   716                           ;pwm.c: 309: RightPWM.state = 0;
+   717  00052C  901E               	bcf	_RightPWM,0,c
+   718                           
+   719                           ;pwm.c: 310: LeftPWM.state = 0;
+   720  00052E  9021               	bcf	_LeftPWM,0,c
+   721  000530                     l1501:
+   722                           
+   723                           ;pwm.c: 311: }
+   724                           ;pwm.c: 317: if (AccelCount >= AccelRate) {
+   725  000530  502A               	movf	_AccelRate,w,c
+   726  000532  5C24               	subwf	_AccelCount,w,c
+   727  000534  502B               	movf	_AccelRate+1,w,c
+   728  000536  5825               	subwfb	_AccelCount+1,w,c
+   729  000538  A0D8               	btfss	status,0,c
+   730  00053A  D007               	goto	l1507
+   731                           
+   732                           ;pwm.c: 318: AcceleratePWM();
+   733  00053C  ECD0  F003         	call	_AcceleratePWM	;wreg free
+   734                           
+   735                           ;pwm.c: 319: AccelCount = 0;
+   736  000540  0E00               	movlw	0
+   737  000542  6E25               	movwf	_AccelCount+1,c
+   738  000544  0E00               	movlw	0
+   739  000546  6E24               	movwf	_AccelCount,c
+   740                           
+   741                           ;pwm.c: 320: } else {
+   742  000548  0012               	return	
+   743  00054A                     l1507:
+   744                           
+   745                           ;pwm.c: 321: AccelCount++;
+   746  00054A  4A24               	infsnz	_AccelCount,f,c
+   747  00054C  2A25               	incf	_AccelCount+1,f,c
+   748  00054E  0012               	return	
+   749  000550                     __end_of_CheckPWMOutput:
+   750                           	opt stack 0
+   751                           tblptru	equ	0xFF8
+   752                           tblptrh	equ	0xFF7
+   753                           tblptrl	equ	0xFF6
+   754                           tablat	equ	0xFF5
+   755                           intcon	equ	0xFF2
+   756                           intcon2	equ	0xFF1
+   757                           postinc0	equ	0xFEE
+   758                           wreg	equ	0xFE8
+   759                           postdec1	equ	0xFE5
+   760                           fsr1l	equ	0xFE1
+   761                           status	equ	0xFD8
+   762                           
+   763 ;; *************** function _AcceleratePWM *****************
+   764 ;; Defined at:
+   765 ;;		line 227 in file "pwm.c"
+   766 ;; Parameters:    Size  Location     Type
+   767 ;;		None
+   768 ;; Auto vars:     Size  Location     Type
+   769 ;;		None
+   770 ;; Return value:  Size  Location     Type
+   771 ;;                  1    wreg      void 
+   772 ;; Registers used:
+   773 ;;		wreg, status,2, status,0, cstack
+   774 ;; Tracked objects:
+   775 ;;		On entry : 0/0
+   776 ;;		On exit  : 0/0
+   777 ;;		Unchanged: 0/0
+   778 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2
+   779 ;;      Params:         0       0       0       0
+   780 ;;      Locals:         0       0       0       0
+   781 ;;      Temps:          1       0       0       0
+   782 ;;      Totals:         1       0       0       0
+   783 ;;Total ram usage:        1 bytes
+   784 ;; Hardware stack levels used:    1
+   785 ;; Hardware stack levels required when called:    3
+   786 ;; This function calls:
+   787 ;;		_AccelerateLeft
+   788 ;;		_AccelerateRight
+   789 ;;		_StopLeft
+   790 ;;		_StopRight
+   791 ;; This function is called by:
+   792 ;;		_CheckPWMOutput
+   793 ;; This function uses a non-reentrant model
+   794 ;;
+   795                           
+   796                           	psect	text4
+   797  0007A0                     __ptext4:
+   798                           	opt stack 0
+   799  0007A0                     _AcceleratePWM:
+   800                           	opt stack 26
+   801                           
+   802                           ;pwm.c: 228: if (PWMPause) {
+   803                           
+   804                           ;incstack = 0
+   805  0007A0  5029               	movf	_PWMPause,w,c
+   806  0007A2  B4D8               	btfsc	status,2,c
+   807  0007A4  D005               	goto	l1455
+   808                           
+   809                           ;pwm.c: 229: StopLeft();
+   810  0007A6  ECF6  F002         	call	_StopLeft	;wreg free
+   811                           
+   812                           ;pwm.c: 230: StopRight();
+   813  0007AA  ECA8  F002         	call	_StopRight	;wreg free
+   814                           
+   815                           ;pwm.c: 231: } else {
+   816  0007AE  0012               	return	
+   817  0007B0                     l1455:
+   818                           
+   819                           ;pwm.c: 235: if (LeftPWM.direction != LeftPWM.targetDirection) {
+   820  0007B0  A821               	btfss	_LeftPWM,4,c
+   821  0007B2  D002               	goto	u1520
+   822  0007B4  0E01               	movlw	1
+   823  0007B6  D001               	goto	u1522
+   824  0007B8                     u1520:
+   825  0007B8  0E00               	movlw	0
+   826  0007BA                     u1522:
+   827  0007BA  6E1B               	movwf	??_AcceleratePWM& (0+255),c
+   828  0007BC  A621               	btfss	_LeftPWM,3,c
+   829  0007BE  D002               	goto	u1530
+   830  0007C0  0E01               	movlw	1
+   831  0007C2  D001               	goto	u1532
+   832  0007C4                     u1530:
+   833  0007C4  0E00               	movlw	0
+   834  0007C6                     u1532:
+   835  0007C6  1A1B               	xorwf	??_AcceleratePWM,f,c
+   836  0007C8  B4D8               	btfsc	status,2,c
+   837  0007CA  D003               	goto	l1459
+   838                           
+   839                           ;pwm.c: 236: StopLeft();
+   840  0007CC  ECF6  F002         	call	_StopLeft	;wreg free
+   841                           
+   842                           ;pwm.c: 237: } else if (LeftPWM.duty != LeftPWM.target) {
+   843  0007D0  D005               	goto	l1463
+   844  0007D2                     l1459:
+   845  0007D2  5023               	movf	_LeftPWM+2,w,c
+   846  0007D4  1822               	xorwf	_LeftPWM+1,w,c
+   847  0007D6  A4D8               	btfss	status,2,c
+   848                           
+   849                           ;pwm.c: 238: AccelerateLeft();
+   850  0007D8  EC8A  F003         	call	_AccelerateLeft	;wreg free
+   851  0007DC                     l1463:
+   852                           
+   853                           ;pwm.c: 239: }
+   854                           ;pwm.c: 241: if (RightPWM.direction != RightPWM.targetDirection) {
+   855  0007DC  A81E               	btfss	_RightPWM,4,c
+   856  0007DE  D002               	goto	u1560
+   857  0007E0  0E01               	movlw	1
+   858  0007E2  D001               	goto	u1562
+   859  0007E4                     u1560:
+   860  0007E4  0E00               	movlw	0
+   861  0007E6                     u1562:
+   862  0007E6  6E1B               	movwf	??_AcceleratePWM& (0+255),c
+   863  0007E8  A61E               	btfss	_RightPWM,3,c
+   864  0007EA  D002               	goto	u1570
+   865  0007EC  0E01               	movlw	1
+   866  0007EE  D001               	goto	u1572
+   867  0007F0                     u1570:
+   868  0007F0  0E00               	movlw	0
+   869  0007F2                     u1572:
+   870  0007F2  1A1B               	xorwf	??_AcceleratePWM,f,c
+   871  0007F4  B4D8               	btfsc	status,2,c
+   872  0007F6  D003               	goto	l1467
+   873                           
+   874                           ;pwm.c: 242: StopRight();
+   875  0007F8  ECA8  F002         	call	_StopRight	;wreg free
+   876                           
+   877                           ;pwm.c: 243: } else if (RightPWM.duty != RightPWM.target) {
+   878  0007FC  0012               	return	
+   879  0007FE                     l1467:
+   880  0007FE  5020               	movf	_RightPWM+2,w,c
+   881  000800  181F               	xorwf	_RightPWM+1,w,c
+   882  000802  B4D8               	btfsc	status,2,c
+   883  000804  0012               	return	
+   884                           
+   885                           ;pwm.c: 244: AccelerateRight();
+   886  000806  EC44  F003         	call	_AccelerateRight	;wreg free
+   887  00080A  0012               	return	
+   888  00080C                     __end_of_AcceleratePWM:
+   889                           	opt stack 0
+   890                           tblptru	equ	0xFF8
+   891                           tblptrh	equ	0xFF7
+   892                           tblptrl	equ	0xFF6
+   893                           tablat	equ	0xFF5
+   894                           intcon	equ	0xFF2
+   895                           intcon2	equ	0xFF1
+   896                           postinc0	equ	0xFEE
+   897                           wreg	equ	0xFE8
+   898                           postdec1	equ	0xFE5
+   899                           fsr1l	equ	0xFE1
+   900                           status	equ	0xFD8
+   901                           
+   902 ;; *************** function _StopRight *****************
+   903 ;; Defined at:
+   904 ;;		line 130 in file "pwm.c"
+   905 ;; Parameters:    Size  Location     Type
+   906 ;;		None
+   907 ;; Auto vars:     Size  Location     Type
+   908 ;;		None
+   909 ;; Return value:  Size  Location     Type
+   910 ;;                  1    wreg      void 
+   911 ;; Registers used:
+   912 ;;		wreg, status,2, status,0, cstack
+   913 ;; Tracked objects:
+   914 ;;		On entry : 0/0
+   915 ;;		On exit  : 0/0
+   916 ;;		Unchanged: 0/0
+   917 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2
+   918 ;;      Params:         0       0       0       0
+   919 ;;      Locals:         0       0       0       0
+   920 ;;      Temps:          1       0       0       0
+   921 ;;      Totals:         1       0       0       0
+   922 ;;Total ram usage:        1 bytes
+   923 ;; Hardware stack levels used:    1
+   924 ;; Hardware stack levels required when called:    2
+   925 ;; This function calls:
+   926 ;;		_ExponentialProfile
+   927 ;; This function is called by:
+   928 ;;		_AcceleratePWM
+   929 ;; This function uses a non-reentrant model
+   930 ;;
+   931                           
+   932                           	psect	text5
+   933  000550                     __ptext5:
+   934                           	opt stack 0
+   935  000550                     _StopRight:
+   936                           	opt stack 26
+   937                           
+   938                           ;pwm.c: 133: if (RightPWM.duty == 0 && RightPWM.direction != RightPWM.targetDirection) {
+   939                           
+   940                           ;incstack = 0
+   941  000550  501F               	movf	_RightPWM+1,w,c
+   942  000552  A4D8               	btfss	status,2,c
+   943  000554  D040               	goto	l1385
+   944  000556  A81E               	btfss	_RightPWM,4,c
+   945  000558  D002               	goto	u1260
+   946  00055A  0E01               	movlw	1
+   947  00055C  D001               	goto	u1262
+   948  00055E                     u1260:
+   949  00055E  0E00               	movlw	0
+   950  000560                     u1262:
+   951  000560  6E1A               	movwf	??_StopRight& (0+255),c
+   952  000562  A61E               	btfss	_RightPWM,3,c
+   953  000564  D002               	goto	u1270
+   954  000566  0E01               	movlw	1
+   955  000568  D001               	goto	u1272
+   956  00056A                     u1270:
+   957  00056A  0E00               	movlw	0
+   958  00056C                     u1272:
+   959  00056C  1A1A               	xorwf	??_StopRight,f,c
+   960  00056E  B4D8               	btfsc	status,2,c
+   961  000570  D032               	goto	l1385
+   962                           
+   963                           ;pwm.c: 134: RightPWM.direction = RightPWM.targetDirection;
+   964  000572  A81E               	btfss	_RightPWM,4,c
+   965  000574  D002               	bra	u1295
+   966  000576  861E               	bsf	_RightPWM,3,c
+   967  000578  D001               	bra	u1297
+   968  00057A                     u1295:
+   969  00057A  961E               	bcf	_RightPWM,3,c
+   970  00057C                     u1297:
+   971                           
+   972                           ;pwm.c: 135: LATCbits.LATC3 = RightPWM.direction;
+   973  00057C  A61E               	btfss	_RightPWM,3,c
+   974  00057E  D002               	bra	u1305
+   975  000580  868B               	bsf	3979,3,c	;volatile
+   976  000582  D001               	bra	u1307
+   977  000584                     u1305:
+   978  000584  968B               	bcf	3979,3,c	;volatile
+   979  000586                     u1307:
+   980                           
+   981                           ;pwm.c: 136: LATCbits.LATC2 = !RightPWM.direction;
+   982  000586  B61E               	btfsc	_RightPWM,3,c
+   983  000588  D003               	goto	u1310
+   984  00058A  6A1A               	clrf	??_StopRight& (0+255),c
+   985  00058C  2A1A               	incf	??_StopRight& (0+255),f,c
+   986  00058E  D001               	goto	u1328
+   987  000590                     u1310:
+   988  000590  6A1A               	clrf	??_StopRight& (0+255),c
+   989  000592                     u1328:
+   990  000592  461A               	rlncf	??_StopRight,f,c
+   991  000594  461A               	rlncf	??_StopRight,f,c
+   992  000596  508B               	movf	3979,w,c	;volatile
+   993  000598  181A               	xorwf	??_StopRight,w,c
+   994  00059A  0BFB               	andlw	-5
+   995  00059C  181A               	xorwf	??_StopRight,w,c
+   996  00059E  6E8B               	movwf	3979,c	;volatile
+   997                           
+   998                           ;pwm.c: 137: } else {
+   999  0005A0  0012               	return	
+  1000  0005A2                     l1369:
+  1001                           
+  1002                           ;pwm.c: 140: RightPWM.duty = 0;
+  1003  0005A2  0E00               	movlw	0
+  1004  0005A4  6E1F               	movwf	_RightPWM+1,c
+  1005                           
+  1006                           ;pwm.c: 141: break;
+  1007  0005A6  0012               	return	
+  1008  0005A8                     l1371:
+  1009                           
+  1010                           ;pwm.c: 143: if (RightPWM.duty > MinimumDuty) {
+  1011  0005A8  501F               	movf	_RightPWM+1,w,c
+  1012  0005AA  5C28               	subwf	_MinimumDuty,w,c
+  1013  0005AC  B0D8               	btfsc	status,0,c
+  1014  0005AE  D002               	goto	l1375
+  1015                           
+  1016                           ;pwm.c: 144: RightPWM.duty -= 1;
+  1017  0005B0  061F               	decf	_RightPWM+1,f,c
+  1018                           
+  1019                           ;pwm.c: 145: } else {
+  1020  0005B2  0012               	return	
+  1021  0005B4                     l1375:
+  1022                           
+  1023                           ;pwm.c: 146: RightPWM.duty = 0;
+  1024  0005B4  0E00               	movlw	0
+  1025  0005B6  6E1F               	movwf	_RightPWM+1,c
+  1026                           
+  1027                           ;pwm.c: 147: }
+  1028                           ;pwm.c: 148: break;
+  1029  0005B8  0012               	return	
+  1030  0005BA                     l1377:
+  1031                           
+  1032                           ;pwm.c: 150: if (MinimumDuty < RightPWM.duty) {
+  1033  0005BA  501F               	movf	_RightPWM+1,w,c
+  1034  0005BC  5C28               	subwf	_MinimumDuty,w,c
+  1035  0005BE  B0D8               	btfsc	status,0,c
+  1036  0005C0  D007               	goto	l1381
+  1037                           
+  1038                           ;pwm.c: 151: RightPWM.duty -= ExponentialProfile(RightPWM.duty, MinimumDuty);
+  1039  0005C2  C028  F010         	movff	_MinimumDuty,ExponentialProfile@target
+  1040  0005C6  501F               	movf	_RightPWM+1,w,c
+  1041  0005C8  EC1D  F001         	call	_ExponentialProfile
+  1042  0005CC  5E1F               	subwf	_RightPWM+1,f,c
+  1043                           
+  1044                           ;pwm.c: 152: } else {
+  1045  0005CE  0012               	return	
+  1046  0005D0                     l1381:
+  1047                           
+  1048                           ;pwm.c: 153: RightPWM.duty = 0;
+  1049  0005D0  0E00               	movlw	0
+  1050  0005D2  6E1F               	movwf	_RightPWM+1,c
+  1051                           
+  1052                           ;pwm.c: 158: }
+  1053                           
+  1054                           ;pwm.c: 157: break;
+  1055                           
+  1056                           ;pwm.c: 156: default:
+  1057                           
+  1058                           ;pwm.c: 154: }
+  1059                           ;pwm.c: 155: break;
+  1060  0005D4  0012               	return	
+  1061  0005D6                     l1385:
+  1062  0005D6  502C               	movf	_AccelType,w,c
+  1063                           
+  1064                           ; Switch size 1, requested type "space"
+  1065                           ; Number of cases is 3, Range of values is 0 to 2
+  1066                           ; switch strategies available:
+  1067                           ; Name         Instructions Cycles
+  1068                           ; simple_byte           10     6 (average)
+  1069                           ;	Chosen strategy is simple_byte
+  1070  0005D8  0A00               	xorlw	0	; case 0
+  1071  0005DA  B4D8               	btfsc	status,2,c
+  1072  0005DC  D7E2               	goto	l1369
+  1073  0005DE  0A01               	xorlw	1	; case 1
+  1074  0005E0  B4D8               	btfsc	status,2,c
+  1075  0005E2  D7E2               	goto	l1371
+  1076  0005E4  0A03               	xorlw	3	; case 2
+  1077  0005E6  A4D8               	btfss	status,2,c
+  1078  0005E8  0012               	return	
+  1079  0005EA  D7E7               	goto	l1377
+  1080  0005EC                     __end_of_StopRight:
+  1081                           	opt stack 0
+  1082                           tblptru	equ	0xFF8
+  1083                           tblptrh	equ	0xFF7
+  1084                           tblptrl	equ	0xFF6
+  1085                           tablat	equ	0xFF5
+  1086                           intcon	equ	0xFF2
+  1087                           intcon2	equ	0xFF1
+  1088                           postinc0	equ	0xFEE
+  1089                           wreg	equ	0xFE8
+  1090                           postdec1	equ	0xFE5
+  1091                           fsr1l	equ	0xFE1
+  1092                           status	equ	0xFD8
+  1093                           
+  1094 ;; *************** function _StopLeft *****************
+  1095 ;; Defined at:
+  1096 ;;		line 98 in file "pwm.c"
+  1097 ;; Parameters:    Size  Location     Type
+  1098 ;;		None
+  1099 ;; Auto vars:     Size  Location     Type
+  1100 ;;		None
+  1101 ;; Return value:  Size  Location     Type
+  1102 ;;                  1    wreg      void 
+  1103 ;; Registers used:
+  1104 ;;		wreg, status,2, status,0, cstack
+  1105 ;; Tracked objects:
+  1106 ;;		On entry : 0/0
+  1107 ;;		On exit  : 0/0
+  1108 ;;		Unchanged: 0/0
+  1109 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2
+  1110 ;;      Params:         0       0       0       0
+  1111 ;;      Locals:         0       0       0       0
+  1112 ;;      Temps:          1       0       0       0
+  1113 ;;      Totals:         1       0       0       0
+  1114 ;;Total ram usage:        1 bytes
+  1115 ;; Hardware stack levels used:    1
+  1116 ;; Hardware stack levels required when called:    2
+  1117 ;; This function calls:
+  1118 ;;		_ExponentialProfile
+  1119 ;; This function is called by:
+  1120 ;;		_AcceleratePWM
+  1121 ;; This function uses a non-reentrant model
+  1122 ;;
+  1123                           
+  1124                           	psect	text6
+  1125  0005EC                     __ptext6:
+  1126                           	opt stack 0
+  1127  0005EC                     _StopLeft:
+  1128                           	opt stack 26
+  1129                           
+  1130                           ;pwm.c: 101: if (LeftPWM.duty == 0 && LeftPWM.direction != LeftPWM.targetDirection) {
+  1131                           
+  1132                           ;incstack = 0
+  1133  0005EC  5022               	movf	_LeftPWM+1,w,c
+  1134  0005EE  A4D8               	btfss	status,2,c
+  1135  0005F0  D040               	goto	l1359
+  1136  0005F2  A821               	btfss	_LeftPWM,4,c
+  1137  0005F4  D002               	goto	u1160
+  1138  0005F6  0E01               	movlw	1
+  1139  0005F8  D001               	goto	u1162
+  1140  0005FA                     u1160:
+  1141  0005FA  0E00               	movlw	0
+  1142  0005FC                     u1162:
+  1143  0005FC  6E1A               	movwf	??_StopLeft& (0+255),c
+  1144  0005FE  A621               	btfss	_LeftPWM,3,c
+  1145  000600  D002               	goto	u1170
+  1146  000602  0E01               	movlw	1
+  1147  000604  D001               	goto	u1172
+  1148  000606                     u1170:
+  1149  000606  0E00               	movlw	0
+  1150  000608                     u1172:
+  1151  000608  1A1A               	xorwf	??_StopLeft,f,c
+  1152  00060A  B4D8               	btfsc	status,2,c
+  1153  00060C  D032               	goto	l1359
+  1154                           
+  1155                           ;pwm.c: 102: LeftPWM.direction = LeftPWM.targetDirection;
+  1156  00060E  A821               	btfss	_LeftPWM,4,c
+  1157  000610  D002               	bra	u1195
+  1158  000612  8621               	bsf	_LeftPWM,3,c
+  1159  000614  D001               	bra	u1197
+  1160  000616                     u1195:
+  1161  000616  9621               	bcf	_LeftPWM,3,c
+  1162  000618                     u1197:
+  1163                           
+  1164                           ;pwm.c: 103: LATCbits.LATC4 = LeftPWM.direction;
+  1165  000618  A621               	btfss	_LeftPWM,3,c
+  1166  00061A  D002               	bra	u1205
+  1167  00061C  888B               	bsf	3979,4,c	;volatile
+  1168  00061E  D001               	bra	u1207
+  1169  000620                     u1205:
+  1170  000620  988B               	bcf	3979,4,c	;volatile
+  1171  000622                     u1207:
+  1172                           
+  1173                           ;pwm.c: 104: LATCbits.LATC5 = !LeftPWM.direction;
+  1174  000622  B621               	btfsc	_LeftPWM,3,c
+  1175  000624  D003               	goto	u1210
+  1176  000626  6A1A               	clrf	??_StopLeft& (0+255),c
+  1177  000628  2A1A               	incf	??_StopLeft& (0+255),f,c
+  1178  00062A  D001               	goto	u1228
+  1179  00062C                     u1210:
+  1180  00062C  6A1A               	clrf	??_StopLeft& (0+255),c
+  1181  00062E                     u1228:
+  1182  00062E  3A1A               	swapf	??_StopLeft,f,c
+  1183  000630  461A               	rlncf	??_StopLeft,f,c
+  1184  000632  508B               	movf	3979,w,c	;volatile
+  1185  000634  181A               	xorwf	??_StopLeft,w,c
+  1186  000636  0BDF               	andlw	-33
+  1187  000638  181A               	xorwf	??_StopLeft,w,c
+  1188  00063A  6E8B               	movwf	3979,c	;volatile
+  1189                           
+  1190                           ;pwm.c: 105: } else {
+  1191  00063C  0012               	return	
+  1192  00063E                     l1343:
+  1193                           
+  1194                           ;pwm.c: 108: LeftPWM.duty = 0;
+  1195  00063E  0E00               	movlw	0
+  1196  000640  6E22               	movwf	_LeftPWM+1,c
+  1197                           
+  1198                           ;pwm.c: 109: break;
+  1199  000642  0012               	return	
+  1200  000644                     l1345:
+  1201                           
+  1202                           ;pwm.c: 111: if (LeftPWM.duty > MinimumDuty) {
+  1203  000644  5022               	movf	_LeftPWM+1,w,c
+  1204  000646  5C28               	subwf	_MinimumDuty,w,c
+  1205  000648  B0D8               	btfsc	status,0,c
+  1206  00064A  D002               	goto	l1349
+  1207                           
+  1208                           ;pwm.c: 112: LeftPWM.duty -= 1;
+  1209  00064C  0622               	decf	_LeftPWM+1,f,c
+  1210                           
+  1211                           ;pwm.c: 113: } else {
+  1212  00064E  0012               	return	
+  1213  000650                     l1349:
+  1214                           
+  1215                           ;pwm.c: 114: LeftPWM.duty = 0;
+  1216  000650  0E00               	movlw	0
+  1217  000652  6E22               	movwf	_LeftPWM+1,c
+  1218                           
+  1219                           ;pwm.c: 115: }
+  1220                           ;pwm.c: 116: break;
+  1221  000654  0012               	return	
+  1222  000656                     l1351:
+  1223                           
+  1224                           ;pwm.c: 118: if (MinimumDuty < LeftPWM.duty) {
+  1225  000656  5022               	movf	_LeftPWM+1,w,c
+  1226  000658  5C28               	subwf	_MinimumDuty,w,c
+  1227  00065A  B0D8               	btfsc	status,0,c
+  1228  00065C  D007               	goto	l1355
+  1229                           
+  1230                           ;pwm.c: 119: LeftPWM.duty -= ExponentialProfile(LeftPWM.duty, MinimumDuty);
+  1231  00065E  C028  F010         	movff	_MinimumDuty,ExponentialProfile@target
+  1232  000662  5022               	movf	_LeftPWM+1,w,c
+  1233  000664  EC1D  F001         	call	_ExponentialProfile
+  1234  000668  5E22               	subwf	_LeftPWM+1,f,c
+  1235                           
+  1236                           ;pwm.c: 120: } else {
+  1237  00066A  0012               	return	
+  1238  00066C                     l1355:
+  1239                           
+  1240                           ;pwm.c: 121: LeftPWM.duty = 0;
+  1241  00066C  0E00               	movlw	0
+  1242  00066E  6E22               	movwf	_LeftPWM+1,c
+  1243                           
+  1244                           ;pwm.c: 126: }
+  1245                           
+  1246                           ;pwm.c: 125: break;
+  1247                           
+  1248                           ;pwm.c: 124: default:
+  1249                           
+  1250                           ;pwm.c: 122: }
+  1251                           ;pwm.c: 123: break;
+  1252  000670  0012               	return	
+  1253  000672                     l1359:
+  1254  000672  502C               	movf	_AccelType,w,c
+  1255                           
+  1256                           ; Switch size 1, requested type "space"
+  1257                           ; Number of cases is 3, Range of values is 0 to 2
+  1258                           ; switch strategies available:
+  1259                           ; Name         Instructions Cycles
+  1260                           ; simple_byte           10     6 (average)
+  1261                           ;	Chosen strategy is simple_byte
+  1262  000674  0A00               	xorlw	0	; case 0
+  1263  000676  B4D8               	btfsc	status,2,c
+  1264  000678  D7E2               	goto	l1343
+  1265  00067A  0A01               	xorlw	1	; case 1
+  1266  00067C  B4D8               	btfsc	status,2,c
+  1267  00067E  D7E2               	goto	l1345
+  1268  000680  0A03               	xorlw	3	; case 2
+  1269  000682  A4D8               	btfss	status,2,c
+  1270  000684  0012               	return	
+  1271  000686  D7E7               	goto	l1351
+  1272  000688                     __end_of_StopLeft:
+  1273                           	opt stack 0
+  1274                           tblptru	equ	0xFF8
+  1275                           tblptrh	equ	0xFF7
+  1276                           tblptrl	equ	0xFF6
+  1277                           tablat	equ	0xFF5
+  1278                           intcon	equ	0xFF2
+  1279                           intcon2	equ	0xFF1
+  1280                           postinc0	equ	0xFEE
+  1281                           wreg	equ	0xFE8
+  1282                           postdec1	equ	0xFE5
+  1283                           fsr1l	equ	0xFE1
+  1284                           status	equ	0xFD8
+  1285                           
+  1286 ;; *************** function _AccelerateRight *****************
+  1287 ;; Defined at:
+  1288 ;;		line 191 in file "pwm.c"
+  1289 ;; Parameters:    Size  Location     Type
+  1290 ;;		None
+  1291 ;; Auto vars:     Size  Location     Type
+  1292 ;;		None
+  1293 ;; Return value:  Size  Location     Type
+  1294 ;;                  1    wreg      void 
+  1295 ;; Registers used:
+  1296 ;;		wreg, status,2, status,0, cstack
+  1297 ;; Tracked objects:
+  1298 ;;		On entry : 0/0
+  1299 ;;		On exit  : 0/0
+  1300 ;;		Unchanged: 0/0
+  1301 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2
+  1302 ;;      Params:         0       0       0       0
+  1303 ;;      Locals:         0       0       0       0
+  1304 ;;      Temps:          0       0       0       0
+  1305 ;;      Totals:         0       0       0       0
+  1306 ;;Total ram usage:        0 bytes
+  1307 ;; Hardware stack levels used:    1
+  1308 ;; Hardware stack levels required when called:    2
+  1309 ;; This function calls:
+  1310 ;;		_ExponentialProfile
+  1311 ;; This function is called by:
+  1312 ;;		_AcceleratePWM
+  1313 ;; This function uses a non-reentrant model
+  1314 ;;
+  1315                           
+  1316                           	psect	text7
+  1317  000688                     __ptext7:
+  1318                           	opt stack 0
+  1319  000688                     _AccelerateRight:
+  1320                           	opt stack 26
+  1321                           
+  1322                           ;pwm.c: 192: if (RightPWM.duty < MinimumDuty && RightPWM.target >= MinimumDuty) {
+  1323                           
+  1324                           ;incstack = 0
+  1325  000688  5028               	movf	_MinimumDuty,w,c
+  1326  00068A  5C1F               	subwf	_RightPWM+1,w,c
+  1327  00068C  B0D8               	btfsc	status,0,c
+  1328  00068E  D007               	goto	l1425
+  1329  000690  5028               	movf	_MinimumDuty,w,c
+  1330  000692  5C20               	subwf	_RightPWM+2,w,c
+  1331  000694  A0D8               	btfss	status,0,c
+  1332  000696  D003               	goto	l1425
+  1333                           
+  1334                           ;pwm.c: 193: RightPWM.duty = MinimumDuty;
+  1335  000698  C028  F01F         	movff	_MinimumDuty,_RightPWM+1
+  1336                           
+  1337                           ;pwm.c: 194: } else if (RightPWM.duty <= MinimumDuty && RightPWM.target < MinimumDuty) {
+  1338  00069C  D030               	goto	l1449
+  1339  00069E                     l1425:
+  1340  00069E  501F               	movf	_RightPWM+1,w,c
+  1341  0006A0  5C28               	subwf	_MinimumDuty,w,c
+  1342  0006A2  A0D8               	btfss	status,0,c
+  1343  0006A4  D02C               	goto	l1449
+  1344  0006A6  5028               	movf	_MinimumDuty,w,c
+  1345  0006A8  5C20               	subwf	_RightPWM+2,w,c
+  1346  0006AA  B0D8               	btfsc	status,0,c
+  1347  0006AC  D028               	goto	l1449
+  1348                           
+  1349                           ;pwm.c: 195: RightPWM.duty = 0;
+  1350  0006AE  0E00               	movlw	0
+  1351  0006B0  6E1F               	movwf	_RightPWM+1,c
+  1352                           
+  1353                           ;pwm.c: 196: }
+  1354                           ;pwm.c: 197: switch (AccelType) {
+  1355  0006B2  D025               	goto	l1449
+  1356  0006B4                     l242:
+  1357                           
+  1358                           ;pwm.c: 199: RightPWM.duty = RightPWM.target;
+  1359  0006B4  C020  F01F         	movff	_RightPWM+2,_RightPWM+1
+  1360                           
+  1361                           ;pwm.c: 200: break;
+  1362  0006B8  0012               	return	
+  1363  0006BA                     l1431:
+  1364                           
+  1365                           ;pwm.c: 202: if (RightPWM.duty > RightPWM.target) {
+  1366  0006BA  501F               	movf	_RightPWM+1,w,c
+  1367  0006BC  5C20               	subwf	_RightPWM+2,w,c
+  1368  0006BE  B0D8               	btfsc	status,0,c
+  1369  0006C0  D002               	goto	l1435
+  1370                           
+  1371                           ;pwm.c: 203: RightPWM.duty -= 1;
+  1372  0006C2  061F               	decf	_RightPWM+1,f,c
+  1373                           
+  1374                           ;pwm.c: 204: } else if (RightPWM.duty < RightPWM.target) {
+  1375  0006C4  0012               	return	
+  1376  0006C6                     l1435:
+  1377  0006C6  5020               	movf	_RightPWM+2,w,c
+  1378  0006C8  5C1F               	subwf	_RightPWM+1,w,c
+  1379  0006CA  B0D8               	btfsc	status,0,c
+  1380  0006CC  0012               	return	
+  1381                           
+  1382                           ;pwm.c: 205: RightPWM.duty += 1;
+  1383  0006CE  2A1F               	incf	_RightPWM+1,f,c
+  1384                           
+  1385                           ;pwm.c: 206: }
+  1386                           ;pwm.c: 207: break;
+  1387  0006D0  0012               	return	
+  1388  0006D2                     l1439:
+  1389                           
+  1390                           ;pwm.c: 209: if (RightPWM.duty > RightPWM.target) {
+  1391  0006D2  501F               	movf	_RightPWM+1,w,c
+  1392  0006D4  5C20               	subwf	_RightPWM+2,w,c
+  1393  0006D6  B0D8               	btfsc	status,0,c
+  1394  0006D8  D007               	goto	l1443
+  1395                           
+  1396                           ;pwm.c: 210: RightPWM.duty -= ExponentialProfile(RightPWM.duty, RightPWM.target);
+  1397  0006DA  C020  F010         	movff	_RightPWM+2,ExponentialProfile@target
+  1398  0006DE  501F               	movf	_RightPWM+1,w,c
+  1399  0006E0  EC1D  F001         	call	_ExponentialProfile
+  1400  0006E4  5E1F               	subwf	_RightPWM+1,f,c
+  1401                           
+  1402                           ;pwm.c: 211: } else if (RightPWM.duty < RightPWM.target) {
+  1403  0006E6  0012               	return	
+  1404  0006E8                     l1443:
+  1405  0006E8  5020               	movf	_RightPWM+2,w,c
+  1406  0006EA  5C1F               	subwf	_RightPWM+1,w,c
+  1407  0006EC  B0D8               	btfsc	status,0,c
+  1408  0006EE  0012               	return	
+  1409                           
+  1410                           ;pwm.c: 212: RightPWM.duty += ExponentialProfile(RightPWM.duty, RightPWM.target);
+  1411  0006F0  C020  F010         	movff	_RightPWM+2,ExponentialProfile@target
+  1412  0006F4  501F               	movf	_RightPWM+1,w,c
+  1413  0006F6  EC1D  F001         	call	_ExponentialProfile
+  1414  0006FA  261F               	addwf	_RightPWM+1,f,c
+  1415                           
+  1416                           ;pwm.c: 217: }
+  1417                           
+  1418                           ;pwm.c: 216: break;
+  1419                           
+  1420                           ;pwm.c: 215: default:
+  1421                           
+  1422                           ;pwm.c: 213: }
+  1423                           ;pwm.c: 214: break;
+  1424  0006FC  0012               	return	
+  1425  0006FE                     l1449:
+  1426  0006FE  502C               	movf	_AccelType,w,c
+  1427                           
+  1428                           ; Switch size 1, requested type "space"
+  1429                           ; Number of cases is 3, Range of values is 0 to 2
+  1430                           ; switch strategies available:
+  1431                           ; Name         Instructions Cycles
+  1432                           ; simple_byte           10     6 (average)
+  1433                           ;	Chosen strategy is simple_byte
+  1434  000700  0A00               	xorlw	0	; case 0
+  1435  000702  B4D8               	btfsc	status,2,c
+  1436  000704  D7D7               	goto	l242
+  1437  000706  0A01               	xorlw	1	; case 1
+  1438  000708  B4D8               	btfsc	status,2,c
+  1439  00070A  D7D7               	goto	l1431
+  1440  00070C  0A03               	xorlw	3	; case 2
+  1441  00070E  A4D8               	btfss	status,2,c
+  1442  000710  0012               	return	
+  1443  000712  D7DF               	goto	l1439
+  1444  000714                     __end_of_AccelerateRight:
+  1445                           	opt stack 0
+  1446                           tblptru	equ	0xFF8
+  1447                           tblptrh	equ	0xFF7
+  1448                           tblptrl	equ	0xFF6
+  1449                           tablat	equ	0xFF5
+  1450                           intcon	equ	0xFF2
+  1451                           intcon2	equ	0xFF1
+  1452                           postinc0	equ	0xFEE
+  1453                           wreg	equ	0xFE8
+  1454                           postdec1	equ	0xFE5
+  1455                           fsr1l	equ	0xFE1
+  1456                           status	equ	0xFD8
+  1457                           
+  1458 ;; *************** function _AccelerateLeft *****************
+  1459 ;; Defined at:
+  1460 ;;		line 162 in file "pwm.c"
+  1461 ;; Parameters:    Size  Location     Type
+  1462 ;;		None
+  1463 ;; Auto vars:     Size  Location     Type
+  1464 ;;		None
+  1465 ;; Return value:  Size  Location     Type
+  1466 ;;                  1    wreg      void 
+  1467 ;; Registers used:
+  1468 ;;		wreg, status,2, status,0, cstack
+  1469 ;; Tracked objects:
+  1470 ;;		On entry : 0/0
+  1471 ;;		On exit  : 0/0
+  1472 ;;		Unchanged: 0/0
+  1473 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2
+  1474 ;;      Params:         0       0       0       0
+  1475 ;;      Locals:         0       0       0       0
+  1476 ;;      Temps:          0       0       0       0
+  1477 ;;      Totals:         0       0       0       0
+  1478 ;;Total ram usage:        0 bytes
+  1479 ;; Hardware stack levels used:    1
+  1480 ;; Hardware stack levels required when called:    2
+  1481 ;; This function calls:
+  1482 ;;		_ExponentialProfile
+  1483 ;; This function is called by:
+  1484 ;;		_AcceleratePWM
+  1485 ;; This function uses a non-reentrant model
+  1486 ;;
+  1487                           
+  1488                           	psect	text8
+  1489  000714                     __ptext8:
+  1490                           	opt stack 0
+  1491  000714                     _AccelerateLeft:
+  1492                           	opt stack 26
+  1493                           
+  1494                           ;pwm.c: 163: if (LeftPWM.duty < MinimumDuty && LeftPWM.target >= MinimumDuty) {
+  1495                           
+  1496                           ;incstack = 0
+  1497  000714  5028               	movf	_MinimumDuty,w,c
+  1498  000716  5C22               	subwf	_LeftPWM+1,w,c
+  1499  000718  B0D8               	btfsc	status,0,c
+  1500  00071A  D007               	goto	l1393
+  1501  00071C  5028               	movf	_MinimumDuty,w,c
+  1502  00071E  5C23               	subwf	_LeftPWM+2,w,c
+  1503  000720  A0D8               	btfss	status,0,c
+  1504  000722  D003               	goto	l1393
+  1505                           
+  1506                           ;pwm.c: 164: LeftPWM.duty = MinimumDuty;
+  1507  000724  C028  F022         	movff	_MinimumDuty,_LeftPWM+1
+  1508                           
+  1509                           ;pwm.c: 165: } else if (LeftPWM.duty <= MinimumDuty && LeftPWM.target < MinimumDuty) {
+  1510  000728  D030               	goto	l1417
+  1511  00072A                     l1393:
+  1512  00072A  5022               	movf	_LeftPWM+1,w,c
+  1513  00072C  5C28               	subwf	_MinimumDuty,w,c
+  1514  00072E  A0D8               	btfss	status,0,c
+  1515  000730  D02C               	goto	l1417
+  1516  000732  5028               	movf	_MinimumDuty,w,c
+  1517  000734  5C23               	subwf	_LeftPWM+2,w,c
+  1518  000736  B0D8               	btfsc	status,0,c
+  1519  000738  D028               	goto	l1417
+  1520                           
+  1521                           ;pwm.c: 166: LeftPWM.duty = 0;
+  1522  00073A  0E00               	movlw	0
+  1523  00073C  6E22               	movwf	_LeftPWM+1,c
+  1524                           
+  1525                           ;pwm.c: 167: }
+  1526                           ;pwm.c: 168: switch (AccelType) {
+  1527  00073E  D025               	goto	l1417
+  1528  000740                     l224:
+  1529                           
+  1530                           ;pwm.c: 170: LeftPWM.duty = LeftPWM.target;
+  1531  000740  C023  F022         	movff	_LeftPWM+2,_LeftPWM+1
+  1532                           
+  1533                           ;pwm.c: 171: break;
+  1534  000744  0012               	return	
+  1535  000746                     l1399:
+  1536                           
+  1537                           ;pwm.c: 173: if (LeftPWM.duty > LeftPWM.target) {
+  1538  000746  5022               	movf	_LeftPWM+1,w,c
+  1539  000748  5C23               	subwf	_LeftPWM+2,w,c
+  1540  00074A  B0D8               	btfsc	status,0,c
+  1541  00074C  D002               	goto	l1403
+  1542                           
+  1543                           ;pwm.c: 174: LeftPWM.duty -= 1;
+  1544  00074E  0622               	decf	_LeftPWM+1,f,c
+  1545                           
+  1546                           ;pwm.c: 175: } else if (LeftPWM.duty < LeftPWM.target) {
+  1547  000750  0012               	return	
+  1548  000752                     l1403:
+  1549  000752  5023               	movf	_LeftPWM+2,w,c
+  1550  000754  5C22               	subwf	_LeftPWM+1,w,c
+  1551  000756  B0D8               	btfsc	status,0,c
+  1552  000758  0012               	return	
+  1553                           
+  1554                           ;pwm.c: 176: LeftPWM.duty += 1;
+  1555  00075A  2A22               	incf	_LeftPWM+1,f,c
+  1556                           
+  1557                           ;pwm.c: 177: }
+  1558                           ;pwm.c: 178: break;
+  1559  00075C  0012               	return	
+  1560  00075E                     l1407:
+  1561                           
+  1562                           ;pwm.c: 180: if (LeftPWM.duty > LeftPWM.target) {
+  1563  00075E  5022               	movf	_LeftPWM+1,w,c
+  1564  000760  5C23               	subwf	_LeftPWM+2,w,c
+  1565  000762  B0D8               	btfsc	status,0,c
+  1566  000764  D007               	goto	l1411
+  1567                           
+  1568                           ;pwm.c: 181: LeftPWM.duty -= ExponentialProfile(LeftPWM.duty, LeftPWM.target);
+  1569  000766  C023  F010         	movff	_LeftPWM+2,ExponentialProfile@target
+  1570  00076A  5022               	movf	_LeftPWM+1,w,c
+  1571  00076C  EC1D  F001         	call	_ExponentialProfile
+  1572  000770  5E22               	subwf	_LeftPWM+1,f,c
+  1573                           
+  1574                           ;pwm.c: 182: } else if (LeftPWM.duty < LeftPWM.target) {
+  1575  000772  0012               	return	
+  1576  000774                     l1411:
+  1577  000774  5023               	movf	_LeftPWM+2,w,c
+  1578  000776  5C22               	subwf	_LeftPWM+1,w,c
+  1579  000778  B0D8               	btfsc	status,0,c
+  1580  00077A  0012               	return	
+  1581                           
+  1582                           ;pwm.c: 183: LeftPWM.duty += ExponentialProfile(LeftPWM.duty, LeftPWM.target);
+  1583  00077C  C023  F010         	movff	_LeftPWM+2,ExponentialProfile@target
+  1584  000780  5022               	movf	_LeftPWM+1,w,c
+  1585  000782  EC1D  F001         	call	_ExponentialProfile
+  1586  000786  2622               	addwf	_LeftPWM+1,f,c
+  1587                           
+  1588                           ;pwm.c: 188: }
+  1589                           
+  1590                           ;pwm.c: 187: break;
+  1591                           
+  1592                           ;pwm.c: 186: default:
+  1593                           
+  1594                           ;pwm.c: 184: }
+  1595                           ;pwm.c: 185: break;
+  1596  000788  0012               	return	
+  1597  00078A                     l1417:
+  1598  00078A  502C               	movf	_AccelType,w,c
+  1599                           
+  1600                           ; Switch size 1, requested type "space"
+  1601                           ; Number of cases is 3, Range of values is 0 to 2
+  1602                           ; switch strategies available:
+  1603                           ; Name         Instructions Cycles
+  1604                           ; simple_byte           10     6 (average)
+  1605                           ;	Chosen strategy is simple_byte
+  1606  00078C  0A00               	xorlw	0	; case 0
+  1607  00078E  B4D8               	btfsc	status,2,c
+  1608  000790  D7D7               	goto	l224
+  1609  000792  0A01               	xorlw	1	; case 1
+  1610  000794  B4D8               	btfsc	status,2,c
+  1611  000796  D7D7               	goto	l1399
+  1612  000798  0A03               	xorlw	3	; case 2
+  1613  00079A  A4D8               	btfss	status,2,c
+  1614  00079C  0012               	return	
+  1615  00079E  D7DF               	goto	l1407
+  1616  0007A0                     __end_of_AccelerateLeft:
+  1617                           	opt stack 0
+  1618                           tblptru	equ	0xFF8
+  1619                           tblptrh	equ	0xFF7
+  1620                           tblptrl	equ	0xFF6
+  1621                           tablat	equ	0xFF5
+  1622                           intcon	equ	0xFF2
+  1623                           intcon2	equ	0xFF1
+  1624                           postinc0	equ	0xFEE
+  1625                           wreg	equ	0xFE8
+  1626                           postdec1	equ	0xFE5
+  1627                           fsr1l	equ	0xFE1
+  1628                           status	equ	0xFD8
+  1629                           
+  1630 ;; *************** function _ExponentialProfile *****************
+  1631 ;; Defined at:
+  1632 ;;		line 51 in file "pwm.c"
+  1633 ;; Parameters:    Size  Location     Type
+  1634 ;;  current         1    wreg     unsigned char 
+  1635 ;;  target          1   15[COMRAM] unsigned char 
+  1636 ;; Auto vars:     Size  Location     Type
+  1637 ;;  current         1   24[COMRAM] unsigned char 
+  1638 ;;  change          1   23[COMRAM] unsigned char 
+  1639 ;; Return value:  Size  Location     Type
+  1640 ;;                  1    wreg      unsigned char 
+  1641 ;; Registers used:
+  1642 ;;		wreg, status,2, status,0
+  1643 ;; Tracked objects:
+  1644 ;;		On entry : 0/0
+  1645 ;;		On exit  : 0/0
+  1646 ;;		Unchanged: 0/0
+  1647 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2
+  1648 ;;      Params:         1       0       0       0
+  1649 ;;      Locals:         2       0       0       0
+  1650 ;;      Temps:          7       0       0       0
+  1651 ;;      Totals:        10       0       0       0
+  1652 ;;Total ram usage:       10 bytes
+  1653 ;; Hardware stack levels used:    1
+  1654 ;; Hardware stack levels required when called:    1
+  1655 ;; This function calls:
+  1656 ;;		Nothing
+  1657 ;; This function is called by:
+  1658 ;;		_StopLeft
+  1659 ;;		_StopRight
+  1660 ;;		_AccelerateLeft
+  1661 ;;		_AccelerateRight
+  1662 ;; This function uses a non-reentrant model
+  1663 ;;
+  1664                           
+  1665                           	psect	text9
+  1666  00023A                     __ptext9:
+  1667                           	opt stack 0
+  1668  00023A                     _ExponentialProfile:
+  1669                           	opt stack 26
+  1670                           
+  1671                           ;incstack = 0
+  1672                           ;ExponentialProfile@current stored from wreg
+  1673  00023A  6E19               	movwf	ExponentialProfile@current,c
+  1674                           
+  1675                           ;pwm.c: 52: unsigned char change = 0;
+  1676  00023C  0E00               	movlw	0
+  1677  00023E  6E18               	movwf	ExponentialProfile@change,c
+  1678                           
+  1679                           ;pwm.c: 53: if (current > target) {
+  1680  000240  5019               	movf	ExponentialProfile@current,w,c
+  1681  000242  5C10               	subwf	ExponentialProfile@target,w,c
+  1682  000244  B0D8               	btfsc	status,0,c
+  1683  000246  D099               	goto	l1305
+  1684                           
+  1685                           ;pwm.c: 55: if (current-MinimumDuty > 200) {
+  1686  000248  5028               	movf	_MinimumDuty,w,c
+  1687  00024A  6E11               	movwf	??_ExponentialProfile& (0+255),c
+  1688  00024C  6A12               	clrf	(??_ExponentialProfile+1)& (0+255),c
+  1689  00024E  1E11               	comf	??_ExponentialProfile,f,c
+  1690  000250  1E12               	comf	??_ExponentialProfile+1,f,c
+  1691  000252  4A11               	infsnz	??_ExponentialProfile,f,c
+  1692  000254  2A12               	incf	??_ExponentialProfile+1,f,c
+  1693  000256  5019               	movf	ExponentialProfile@current,w,c
+  1694  000258  6E13               	movwf	(??_ExponentialProfile+2)& (0+255),c
+  1695  00025A  6A14               	clrf	(??_ExponentialProfile+3)& (0+255),c
+  1696  00025C  5011               	movf	??_ExponentialProfile,w,c
+  1697  00025E  2613               	addwf	??_ExponentialProfile+2,f,c
+  1698  000260  5012               	movf	??_ExponentialProfile+1,w,c
+  1699  000262  2214               	addwfc	??_ExponentialProfile+3,f,c
+  1700  000264  BE14               	btfsc	??_ExponentialProfile+3,7,c
+  1701  000266  D008               	goto	l1283
+  1702  000268  5014               	movf	??_ExponentialProfile+3,w,c
+  1703  00026A  E104               	bnz	u1030
+  1704  00026C  0EC9               	movlw	201
+  1705  00026E  5C13               	subwf	??_ExponentialProfile+2,w,c
+  1706  000270  A0D8               	btfss	status,0,c
+  1707  000272  D002               	goto	l1283
+  1708  000274                     u1030:
+  1709                           
+  1710                           ;pwm.c: 56: change = 50;
+  1711  000274  0E32               	movlw	50
+  1712  000276  D061               	goto	L5
+  1713  000278                     l1283:
+  1714  000278  5028               	movf	_MinimumDuty,w,c
+  1715  00027A  6E11               	movwf	??_ExponentialProfile& (0+255),c
+  1716  00027C  6A12               	clrf	(??_ExponentialProfile+1)& (0+255),c
+  1717  00027E  1E11               	comf	??_ExponentialProfile,f,c
+  1718  000280  1E12               	comf	??_ExponentialProfile+1,f,c
+  1719  000282  4A11               	infsnz	??_ExponentialProfile,f,c
+  1720  000284  2A12               	incf	??_ExponentialProfile+1,f,c
+  1721  000286  5019               	movf	ExponentialProfile@current,w,c
+  1722  000288  6E13               	movwf	(??_ExponentialProfile+2)& (0+255),c
+  1723  00028A  6A14               	clrf	(??_ExponentialProfile+3)& (0+255),c
+  1724  00028C  5011               	movf	??_ExponentialProfile,w,c
+  1725  00028E  2613               	addwf	??_ExponentialProfile+2,f,c
+  1726  000290  5012               	movf	??_ExponentialProfile+1,w,c
+  1727  000292  2214               	addwfc	??_ExponentialProfile+3,f,c
+  1728  000294  BE14               	btfsc	??_ExponentialProfile+3,7,c
+  1729  000296  D008               	goto	l1287
+  1730  000298  5014               	movf	??_ExponentialProfile+3,w,c
+  1731  00029A  E104               	bnz	u1040
+  1732  00029C  0E97               	movlw	151
+  1733  00029E  5C13               	subwf	??_ExponentialProfile+2,w,c
+  1734  0002A0  A0D8               	btfss	status,0,c
+  1735  0002A2  D002               	goto	l1287
+  1736  0002A4                     u1040:
+  1737                           
+  1738                           ;pwm.c: 58: change = 25;
+  1739  0002A4  0E19               	movlw	25
+  1740  0002A6  D049               	goto	L5
+  1741  0002A8                     l1287:
+  1742  0002A8  5028               	movf	_MinimumDuty,w,c
+  1743  0002AA  6E11               	movwf	??_ExponentialProfile& (0+255),c
+  1744  0002AC  6A12               	clrf	(??_ExponentialProfile+1)& (0+255),c
+  1745  0002AE  1E11               	comf	??_ExponentialProfile,f,c
+  1746  0002B0  1E12               	comf	??_ExponentialProfile+1,f,c
+  1747  0002B2  4A11               	infsnz	??_ExponentialProfile,f,c
+  1748  0002B4  2A12               	incf	??_ExponentialProfile+1,f,c
+  1749  0002B6  5019               	movf	ExponentialProfile@current,w,c
+  1750  0002B8  6E13               	movwf	(??_ExponentialProfile+2)& (0+255),c
+  1751  0002BA  6A14               	clrf	(??_ExponentialProfile+3)& (0+255),c
+  1752  0002BC  5011               	movf	??_ExponentialProfile,w,c
+  1753  0002BE  2613               	addwf	??_ExponentialProfile+2,f,c
+  1754  0002C0  5012               	movf	??_ExponentialProfile+1,w,c
+  1755  0002C2  2214               	addwfc	??_ExponentialProfile+3,f,c
+  1756  0002C4  BE14               	btfsc	??_ExponentialProfile+3,7,c
+  1757  0002C6  D008               	goto	l1291
+  1758  0002C8  5014               	movf	??_ExponentialProfile+3,w,c
+  1759  0002CA  E104               	bnz	u1050
+  1760  0002CC  0E65               	movlw	101
+  1761  0002CE  5C13               	subwf	??_ExponentialProfile+2,w,c
+  1762  0002D0  A0D8               	btfss	status,0,c
+  1763  0002D2  D002               	goto	l1291
+  1764  0002D4                     u1050:
+  1765                           
+  1766                           ;pwm.c: 60: change = 20;
+  1767  0002D4  0E14               	movlw	20
+  1768  0002D6  D031               	goto	L5
+  1769  0002D8                     l1291:
+  1770  0002D8  5028               	movf	_MinimumDuty,w,c
+  1771  0002DA  6E11               	movwf	??_ExponentialProfile& (0+255),c
+  1772  0002DC  6A12               	clrf	(??_ExponentialProfile+1)& (0+255),c
+  1773  0002DE  1E11               	comf	??_ExponentialProfile,f,c
+  1774  0002E0  1E12               	comf	??_ExponentialProfile+1,f,c
+  1775  0002E2  4A11               	infsnz	??_ExponentialProfile,f,c
+  1776  0002E4  2A12               	incf	??_ExponentialProfile+1,f,c
+  1777  0002E6  5019               	movf	ExponentialProfile@current,w,c
+  1778  0002E8  6E13               	movwf	(??_ExponentialProfile+2)& (0+255),c
+  1779  0002EA  6A14               	clrf	(??_ExponentialProfile+3)& (0+255),c
+  1780  0002EC  5011               	movf	??_ExponentialProfile,w,c
+  1781  0002EE  2613               	addwf	??_ExponentialProfile+2,f,c
+  1782  0002F0  5012               	movf	??_ExponentialProfile+1,w,c
+  1783  0002F2  2214               	addwfc	??_ExponentialProfile+3,f,c
+  1784  0002F4  BE14               	btfsc	??_ExponentialProfile+3,7,c
+  1785  0002F6  D008               	goto	l1295
+  1786  0002F8  5014               	movf	??_ExponentialProfile+3,w,c
+  1787  0002FA  E104               	bnz	u1060
+  1788  0002FC  0E4C               	movlw	76
+  1789  0002FE  5C13               	subwf	??_ExponentialProfile+2,w,c
+  1790  000300  A0D8               	btfss	status,0,c
+  1791  000302  D002               	goto	l1295
+  1792  000304                     u1060:
+  1793                           
+  1794                           ;pwm.c: 62: change = 10;
+  1795  000304  0E0A               	movlw	10
+  1796  000306  D019               	goto	L5
+  1797  000308                     l1295:
+  1798  000308  5028               	movf	_MinimumDuty,w,c
+  1799  00030A  6E11               	movwf	??_ExponentialProfile& (0+255),c
+  1800  00030C  6A12               	clrf	(??_ExponentialProfile+1)& (0+255),c
+  1801  00030E  1E11               	comf	??_ExponentialProfile,f,c
+  1802  000310  1E12               	comf	??_ExponentialProfile+1,f,c
+  1803  000312  4A11               	infsnz	??_ExponentialProfile,f,c
+  1804  000314  2A12               	incf	??_ExponentialProfile+1,f,c
+  1805  000316  5019               	movf	ExponentialProfile@current,w,c
+  1806  000318  6E13               	movwf	(??_ExponentialProfile+2)& (0+255),c
+  1807  00031A  6A14               	clrf	(??_ExponentialProfile+3)& (0+255),c
+  1808  00031C  5011               	movf	??_ExponentialProfile,w,c
+  1809  00031E  2613               	addwf	??_ExponentialProfile+2,f,c
+  1810  000320  5012               	movf	??_ExponentialProfile+1,w,c
+  1811  000322  2214               	addwfc	??_ExponentialProfile+3,f,c
+  1812  000324  BE14               	btfsc	??_ExponentialProfile+3,7,c
+  1813  000326  D008               	goto	l1299
+  1814  000328  5014               	movf	??_ExponentialProfile+3,w,c
+  1815  00032A  E104               	bnz	u1070
+  1816  00032C  0E33               	movlw	51
+  1817  00032E  5C13               	subwf	??_ExponentialProfile+2,w,c
+  1818  000330  A0D8               	btfss	status,0,c
+  1819  000332  D002               	goto	l1299
+  1820  000334                     u1070:
+  1821                           
+  1822                           ;pwm.c: 64: change = 5;
+  1823  000334  0E05               	movlw	5
+  1824  000336  D001               	goto	L5
+  1825  000338                     l1299:
+  1826                           
+  1827                           ;pwm.c: 66: change = 1;
+  1828  000338  0E01               	movlw	1
+  1829  00033A                     L5:
+  1830  00033A  6E18               	movwf	ExponentialProfile@change,c
+  1831                           
+  1832                           ;pwm.c: 67: }
+  1833                           ;pwm.c: 68: if (current-target < change) {
+  1834  00033C  5018               	movf	ExponentialProfile@change,w,c
+  1835  00033E  6E11               	movwf	??_ExponentialProfile& (0+255),c
+  1836  000340  6A12               	clrf	(??_ExponentialProfile+1)& (0+255),c
+  1837  000342  5010               	movf	ExponentialProfile@target,w,c
+  1838  000344  6E13               	movwf	(??_ExponentialProfile+2)& (0+255),c
+  1839  000346  6A14               	clrf	(??_ExponentialProfile+3)& (0+255),c
+  1840  000348  1E13               	comf	??_ExponentialProfile+2,f,c
+  1841  00034A  1E14               	comf	??_ExponentialProfile+3,f,c
+  1842  00034C  4A13               	infsnz	??_ExponentialProfile+2,f,c
+  1843  00034E  2A14               	incf	??_ExponentialProfile+3,f,c
+  1844  000350  5019               	movf	ExponentialProfile@current,w,c
+  1845  000352  6E15               	movwf	(??_ExponentialProfile+4)& (0+255),c
+  1846  000354  6A16               	clrf	(??_ExponentialProfile+5)& (0+255),c
+  1847  000356  5013               	movf	??_ExponentialProfile+2,w,c
+  1848  000358  2615               	addwf	??_ExponentialProfile+4,f,c
+  1849  00035A  5014               	movf	??_ExponentialProfile+3,w,c
+  1850  00035C  2216               	addwfc	??_ExponentialProfile+5,f,c
+  1851  00035E  5011               	movf	??_ExponentialProfile,w,c
+  1852  000360  5C15               	subwf	??_ExponentialProfile+4,w,c
+  1853  000362  5016               	movf	??_ExponentialProfile+5,w,c
+  1854  000364  0A80               	xorlw	128
+  1855  000366  6E17               	movwf	(??_ExponentialProfile+6)& (0+255),c
+  1856  000368  5012               	movf	??_ExponentialProfile+1,w,c
+  1857  00036A  0A80               	xorlw	128
+  1858  00036C  5817               	subwfb	(??_ExponentialProfile+6)& (0+255),w,c
+  1859  00036E  B0D8               	btfsc	status,0,c
+  1860  000370  D09F               	goto	l1331
+  1861                           
+  1862                           ;pwm.c: 69: change = current-target;
+  1863  000372  5010               	movf	ExponentialProfile@target,w,c
+  1864  000374  0800               	sublw	0
+  1865  000376  2419               	addwf	ExponentialProfile@current,w,c
+  1866  000378  D09A               	goto	L6
+  1867  00037A                     l1305:
+  1868                           
+  1869                           ;pwm.c: 73: if (current-MinimumDuty > 200) {
+  1870  00037A  5028               	movf	_MinimumDuty,w,c
+  1871  00037C  6E11               	movwf	??_ExponentialProfile& (0+255),c
+  1872  00037E  6A12               	clrf	(??_ExponentialProfile+1)& (0+255),c
+  1873  000380  1E11               	comf	??_ExponentialProfile,f,c
+  1874  000382  1E12               	comf	??_ExponentialProfile+1,f,c
+  1875  000384  4A11               	infsnz	??_ExponentialProfile,f,c
+  1876  000386  2A12               	incf	??_ExponentialProfile+1,f,c
+  1877  000388  5019               	movf	ExponentialProfile@current,w,c
+  1878  00038A  6E13               	movwf	(??_ExponentialProfile+2)& (0+255),c
+  1879  00038C  6A14               	clrf	(??_ExponentialProfile+3)& (0+255),c
+  1880  00038E  5011               	movf	??_ExponentialProfile,w,c
+  1881  000390  2613               	addwf	??_ExponentialProfile+2,f,c
+  1882  000392  5012               	movf	??_ExponentialProfile+1,w,c
+  1883  000394  2214               	addwfc	??_ExponentialProfile+3,f,c
+  1884  000396  BE14               	btfsc	??_ExponentialProfile+3,7,c
+  1885  000398  D00A               	goto	l1309
+  1886  00039A  5014               	movf	??_ExponentialProfile+3,w,c
+  1887  00039C  E104               	bnz	u1090
+  1888  00039E  0EC9               	movlw	201
+  1889  0003A0  5C13               	subwf	??_ExponentialProfile+2,w,c
+  1890  0003A2  A0D8               	btfss	status,0,c
+  1891  0003A4  D004               	goto	l1309
+  1892  0003A6                     u1090:
+  1893                           
+  1894                           ;pwm.c: 74: change = current-target;
+  1895  0003A6  5010               	movf	ExponentialProfile@target,w,c
+  1896  0003A8  0800               	sublw	0
+  1897  0003AA  2419               	addwf	ExponentialProfile@current,w,c
+  1898  0003AC  D061               	goto	L11
+  1899  0003AE                     l1309:
+  1900  0003AE  5028               	movf	_MinimumDuty,w,c
+  1901  0003B0  6E11               	movwf	??_ExponentialProfile& (0+255),c
+  1902  0003B2  6A12               	clrf	(??_ExponentialProfile+1)& (0+255),c
+  1903  0003B4  1E11               	comf	??_ExponentialProfile,f,c
+  1904  0003B6  1E12               	comf	??_ExponentialProfile+1,f,c
+  1905  0003B8  4A11               	infsnz	??_ExponentialProfile,f,c
+  1906  0003BA  2A12               	incf	??_ExponentialProfile+1,f,c
+  1907  0003BC  5019               	movf	ExponentialProfile@current,w,c
+  1908  0003BE  6E13               	movwf	(??_ExponentialProfile+2)& (0+255),c
+  1909  0003C0  6A14               	clrf	(??_ExponentialProfile+3)& (0+255),c
+  1910  0003C2  5011               	movf	??_ExponentialProfile,w,c
+  1911  0003C4  2613               	addwf	??_ExponentialProfile+2,f,c
+  1912  0003C6  5012               	movf	??_ExponentialProfile+1,w,c
+  1913  0003C8  2214               	addwfc	??_ExponentialProfile+3,f,c
+  1914  0003CA  BE14               	btfsc	??_ExponentialProfile+3,7,c
+  1915  0003CC  D008               	goto	l1313
+  1916  0003CE  5014               	movf	??_ExponentialProfile+3,w,c
+  1917  0003D0  E104               	bnz	u1100
+  1918  0003D2  0E97               	movlw	151
+  1919  0003D4  5C13               	subwf	??_ExponentialProfile+2,w,c
+  1920  0003D6  A0D8               	btfss	status,0,c
+  1921  0003D8  D002               	goto	l1313
+  1922  0003DA                     u1100:
+  1923                           
+  1924                           ;pwm.c: 76: change = 25;
+  1925  0003DA  0E19               	movlw	25
+  1926  0003DC  D049               	goto	L11
+  1927  0003DE                     l1313:
+  1928  0003DE  5028               	movf	_MinimumDuty,w,c
+  1929  0003E0  6E11               	movwf	??_ExponentialProfile& (0+255),c
+  1930  0003E2  6A12               	clrf	(??_ExponentialProfile+1)& (0+255),c
+  1931  0003E4  1E11               	comf	??_ExponentialProfile,f,c
+  1932  0003E6  1E12               	comf	??_ExponentialProfile+1,f,c
+  1933  0003E8  4A11               	infsnz	??_ExponentialProfile,f,c
+  1934  0003EA  2A12               	incf	??_ExponentialProfile+1,f,c
+  1935  0003EC  5019               	movf	ExponentialProfile@current,w,c
+  1936  0003EE  6E13               	movwf	(??_ExponentialProfile+2)& (0+255),c
+  1937  0003F0  6A14               	clrf	(??_ExponentialProfile+3)& (0+255),c
+  1938  0003F2  5011               	movf	??_ExponentialProfile,w,c
+  1939  0003F4  2613               	addwf	??_ExponentialProfile+2,f,c
+  1940  0003F6  5012               	movf	??_ExponentialProfile+1,w,c
+  1941  0003F8  2214               	addwfc	??_ExponentialProfile+3,f,c
+  1942  0003FA  BE14               	btfsc	??_ExponentialProfile+3,7,c
+  1943  0003FC  D008               	goto	l1317
+  1944  0003FE  5014               	movf	??_ExponentialProfile+3,w,c
+  1945  000400  E104               	bnz	u1110
+  1946  000402  0E65               	movlw	101
+  1947  000404  5C13               	subwf	??_ExponentialProfile+2,w,c
+  1948  000406  A0D8               	btfss	status,0,c
+  1949  000408  D002               	goto	l1317
+  1950  00040A                     u1110:
+  1951                           
+  1952                           ;pwm.c: 78: change = 20;
+  1953  00040A  0E14               	movlw	20
+  1954  00040C  D031               	goto	L11
+  1955  00040E                     l1317:
+  1956  00040E  5028               	movf	_MinimumDuty,w,c
+  1957  000410  6E11               	movwf	??_ExponentialProfile& (0+255),c
+  1958  000412  6A12               	clrf	(??_ExponentialProfile+1)& (0+255),c
+  1959  000414  1E11               	comf	??_ExponentialProfile,f,c
+  1960  000416  1E12               	comf	??_ExponentialProfile+1,f,c
+  1961  000418  4A11               	infsnz	??_ExponentialProfile,f,c
+  1962  00041A  2A12               	incf	??_ExponentialProfile+1,f,c
+  1963  00041C  5019               	movf	ExponentialProfile@current,w,c
+  1964  00041E  6E13               	movwf	(??_ExponentialProfile+2)& (0+255),c
+  1965  000420  6A14               	clrf	(??_ExponentialProfile+3)& (0+255),c
+  1966  000422  5011               	movf	??_ExponentialProfile,w,c
+  1967  000424  2613               	addwf	??_ExponentialProfile+2,f,c
+  1968  000426  5012               	movf	??_ExponentialProfile+1,w,c
+  1969  000428  2214               	addwfc	??_ExponentialProfile+3,f,c
+  1970  00042A  BE14               	btfsc	??_ExponentialProfile+3,7,c
+  1971  00042C  D008               	goto	l1321
+  1972  00042E  5014               	movf	??_ExponentialProfile+3,w,c
+  1973  000430  E104               	bnz	u1120
+  1974  000432  0E4C               	movlw	76
+  1975  000434  5C13               	subwf	??_ExponentialProfile+2,w,c
+  1976  000436  A0D8               	btfss	status,0,c
+  1977  000438  D002               	goto	l1321
+  1978  00043A                     u1120:
+  1979                           
+  1980                           ;pwm.c: 80: change = 10;
+  1981  00043A  0E0A               	movlw	10
+  1982  00043C  D019               	goto	L11
+  1983  00043E                     l1321:
+  1984  00043E  5028               	movf	_MinimumDuty,w,c
+  1985  000440  6E11               	movwf	??_ExponentialProfile& (0+255),c
+  1986  000442  6A12               	clrf	(??_ExponentialProfile+1)& (0+255),c
+  1987  000444  1E11               	comf	??_ExponentialProfile,f,c
+  1988  000446  1E12               	comf	??_ExponentialProfile+1,f,c
+  1989  000448  4A11               	infsnz	??_ExponentialProfile,f,c
+  1990  00044A  2A12               	incf	??_ExponentialProfile+1,f,c
+  1991  00044C  5019               	movf	ExponentialProfile@current,w,c
+  1992  00044E  6E13               	movwf	(??_ExponentialProfile+2)& (0+255),c
+  1993  000450  6A14               	clrf	(??_ExponentialProfile+3)& (0+255),c
+  1994  000452  5011               	movf	??_ExponentialProfile,w,c
+  1995  000454  2613               	addwf	??_ExponentialProfile+2,f,c
+  1996  000456  5012               	movf	??_ExponentialProfile+1,w,c
+  1997  000458  2214               	addwfc	??_ExponentialProfile+3,f,c
+  1998  00045A  BE14               	btfsc	??_ExponentialProfile+3,7,c
+  1999  00045C  D008               	goto	l1325
+  2000  00045E  5014               	movf	??_ExponentialProfile+3,w,c
+  2001  000460  E104               	bnz	u1130
+  2002  000462  0E33               	movlw	51
+  2003  000464  5C13               	subwf	??_ExponentialProfile+2,w,c
+  2004  000466  A0D8               	btfss	status,0,c
+  2005  000468  D002               	goto	l1325
+  2006  00046A                     u1130:
+  2007                           
+  2008                           ;pwm.c: 82: change = 5;
+  2009  00046A  0E05               	movlw	5
+  2010  00046C  D001               	goto	L11
+  2011  00046E                     l1325:
+  2012                           
+  2013                           ;pwm.c: 84: change = 1;
+  2014  00046E  0E01               	movlw	1
+  2015  000470                     L11:
+  2016  000470  6E18               	movwf	ExponentialProfile@change,c
+  2017                           
+  2018                           ;pwm.c: 85: }
+  2019                           ;pwm.c: 86: if (target-current < change) {
+  2020  000472  5018               	movf	ExponentialProfile@change,w,c
+  2021  000474  6E11               	movwf	??_ExponentialProfile& (0+255),c
+  2022  000476  6A12               	clrf	(??_ExponentialProfile+1)& (0+255),c
+  2023  000478  5019               	movf	ExponentialProfile@current,w,c
+  2024  00047A  6E13               	movwf	(??_ExponentialProfile+2)& (0+255),c
+  2025  00047C  6A14               	clrf	(??_ExponentialProfile+3)& (0+255),c
+  2026  00047E  1E13               	comf	??_ExponentialProfile+2,f,c
+  2027  000480  1E14               	comf	??_ExponentialProfile+3,f,c
+  2028  000482  4A13               	infsnz	??_ExponentialProfile+2,f,c
+  2029  000484  2A14               	incf	??_ExponentialProfile+3,f,c
+  2030  000486  5010               	movf	ExponentialProfile@target,w,c
+  2031  000488  6E15               	movwf	(??_ExponentialProfile+4)& (0+255),c
+  2032  00048A  6A16               	clrf	(??_ExponentialProfile+5)& (0+255),c
+  2033  00048C  5013               	movf	??_ExponentialProfile+2,w,c
+  2034  00048E  2615               	addwf	??_ExponentialProfile+4,f,c
+  2035  000490  5014               	movf	??_ExponentialProfile+3,w,c
+  2036  000492  2216               	addwfc	??_ExponentialProfile+5,f,c
+  2037  000494  5011               	movf	??_ExponentialProfile,w,c
+  2038  000496  5C15               	subwf	??_ExponentialProfile+4,w,c
+  2039  000498  5016               	movf	??_ExponentialProfile+5,w,c
+  2040  00049A  0A80               	xorlw	128
+  2041  00049C  6E17               	movwf	(??_ExponentialProfile+6)& (0+255),c
+  2042  00049E  5012               	movf	??_ExponentialProfile+1,w,c
+  2043  0004A0  0A80               	xorlw	128
+  2044  0004A2  5817               	subwfb	(??_ExponentialProfile+6)& (0+255),w,c
+  2045  0004A4  B0D8               	btfsc	status,0,c
+  2046  0004A6  D004               	goto	l1331
+  2047                           
+  2048                           ;pwm.c: 87: change = target-current;
+  2049  0004A8  5019               	movf	ExponentialProfile@current,w,c
+  2050  0004AA  0800               	sublw	0
+  2051  0004AC  2410               	addwf	ExponentialProfile@target,w,c
+  2052  0004AE                     L6:
+  2053  0004AE  6E18               	movwf	ExponentialProfile@change,c
+  2054  0004B0                     l1331:
+  2055                           
+  2056                           ;pwm.c: 88: }
+  2057                           ;pwm.c: 89: }
+  2058                           ;pwm.c: 90: return change;
+  2059  0004B0  5018               	movf	ExponentialProfile@change,w,c
+  2060  0004B2  0012               	return	
+  2061  0004B4                     __end_of_ExponentialProfile:
+  2062                           	opt stack 0
+  2063                           tblptru	equ	0xFF8
+  2064                           tblptrh	equ	0xFF7
+  2065                           tblptrl	equ	0xFF6
+  2066                           tablat	equ	0xFF5
+  2067                           intcon	equ	0xFF2
+  2068                           intcon2	equ	0xFF1
+  2069                           postinc0	equ	0xFEE
+  2070                           wreg	equ	0xFE8
+  2071                           postdec1	equ	0xFE5
+  2072                           fsr1l	equ	0xFE1
+  2073                           status	equ	0xFD8
+  2074                           
+  2075 ;; *************** function _I2C_Slave_Read *****************
+  2076 ;; Defined at:
+  2077 ;;		line 94 in file "i2c.c"
+  2078 ;; Parameters:    Size  Location     Type
+  2079 ;;		None
+  2080 ;; Auto vars:     Size  Location     Type
+  2081 ;;		None
+  2082 ;; Return value:  Size  Location     Type
+  2083 ;;                  1    wreg      void 
+  2084 ;; Registers used:
+  2085 ;;		wreg, status,2, status,0
+  2086 ;; Tracked objects:
+  2087 ;;		On entry : 0/0
+  2088 ;;		On exit  : 0/0
+  2089 ;;		Unchanged: 0/0
+  2090 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2
+  2091 ;;      Params:         0       0       0       0
+  2092 ;;      Locals:         0       0       0       0
+  2093 ;;      Temps:         15       0       0       0
+  2094 ;;      Totals:        15       0       0       0
+  2095 ;;Total ram usage:       15 bytes
+  2096 ;; Hardware stack levels used:    1
+  2097 ;; This function calls:
+  2098 ;;		Nothing
+  2099 ;; This function is called by:
+  2100 ;;		Interrupt level 2
+  2101 ;; This function uses a non-reentrant model
+  2102 ;;
+  2103                           
+  2104                           	psect	intcode
+  2105  000008                     __pintcode:
+  2106                           	opt stack 0
+  2107  000008                     _I2C_Slave_Read:
+  2108                           	opt stack 26
+  2109                           
+  2110                           ;incstack = 0
+  2111  000008  822E               	bsf	btemp,1,c	;set compiler interrupt flag (level 2)
+  2112  00000A  CFFA F002          	movff	pclath,??_I2C_Slave_Read+1
+  2113  00000E  CFFB F003          	movff	pclatu,??_I2C_Slave_Read+2
+  2114  000012  CFE9 F004          	movff	fsr0l,??_I2C_Slave_Read+3
+  2115  000016  CFEA F005          	movff	fsr0h,??_I2C_Slave_Read+4
+  2116  00001A  CFE1 F006          	movff	fsr1l,??_I2C_Slave_Read+5
+  2117  00001E  CFE2 F007          	movff	fsr1h,??_I2C_Slave_Read+6
+  2118  000022  CFD9 F008          	movff	fsr2l,??_I2C_Slave_Read+7
+  2119  000026  CFDA F009          	movff	fsr2h,??_I2C_Slave_Read+8
+  2120  00002A  CFF3 F00A          	movff	prodl,??_I2C_Slave_Read+9
+  2121  00002E  CFF4 F00B          	movff	prodh,??_I2C_Slave_Read+10
+  2122  000032  CFF6 F00C          	movff	tblptrl,??_I2C_Slave_Read+11
+  2123  000036  CFF7 F00D          	movff	tblptrh,??_I2C_Slave_Read+12
+  2124  00003A  CFF8 F00E          	movff	tblptru,??_I2C_Slave_Read+13
+  2125  00003E  CFF5 F00F          	movff	tablat,??_I2C_Slave_Read+14
+  2126                           
+  2127                           ;i2c.c: 96: if(PIR1bits.SSPIF == 1) {
+  2128  000042  A69E               	btfss	3998,3,c	;volatile
+  2129  000044  D0DA               	goto	i2l131
+  2130                           
+  2131                           ;i2c.c: 98: currentByte = SSPBUF;
+  2132  000046  CFC9 F027          	movff	4041,_currentByte	;volatile
+  2133                           
+  2134                           ;i2c.c: 100: SSPCON1bits.CKP = 0;
+  2135  00004A  98C6               	bcf	4038,4,c	;volatile
+  2136                           
+  2137                           ;i2c.c: 102: if ((SSPCON1bits.SSPOV) || (SSPCON1bits.WCOL)) {
+  2138  00004C  BCC6               	btfsc	4038,6,c	;volatile
+  2139  00004E  D002               	goto	i2l93
+  2140  000050  AEC6               	btfss	4038,7,c	;volatile
+  2141  000052  D003               	goto	i2l91
+  2142  000054                     i2l93:
+  2143                           
+  2144                           ;i2c.c: 103: SSPCON1bits.SSPOV = 0;
+  2145  000054  9CC6               	bcf	4038,6,c	;volatile
+  2146                           
+  2147                           ;i2c.c: 104: SSPCON1bits.WCOL = 0;
+  2148  000056  9EC6               	bcf	4038,7,c	;volatile
+  2149  000058  D0AC               	goto	i2l1255
+  2150  00005A                     i2l91:
+  2151  00005A  AAC7               	btfss	4039,5,c	;volatile
+  2152  00005C  B4C7               	btfsc	4039,2,c	;volatile
+  2153  00005E  D001               	goto	i2l95
+  2154  000060  D0A6               	goto	i2l1253
+  2155  000062                     i2l95:
+  2156  000062  BAC7               	btfsc	4039,5,c	;volatile
+  2157  000064  B4C7               	btfsc	4039,2,c	;volatile
+  2158  000066  D0A7               	goto	i2l97
+  2159                           
+  2160                           ;i2c.c: 113: if (state == 0) {
+  2161  000068  5026               	movf	_state,w,c
+  2162  00006A  A4D8               	btfss	status,2,c
+  2163  00006C  D081               	goto	i2l1251
+  2164                           
+  2165                           ;i2c.c: 115: state = currentByte;
+  2166  00006E  C027  F026         	movff	_currentByte,_state
+  2167                           
+  2168                           ;i2c.c: 116: } else {
+  2169  000072  D09F               	goto	i2l1255
+  2170  000074                     i2l101:
+  2171                           
+  2172                           ;i2c.c: 120: LeftPWM.target = currentByte;
+  2173  000074  C027  F023         	movff	_currentByte,_LeftPWM+2
+  2174                           
+  2175                           ;i2c.c: 121: RightPWM.target = currentByte;
+  2176  000078  C027  F020         	movff	_currentByte,_RightPWM+2
+  2177                           
+  2178                           ;i2c.c: 122: if (currentByte < MinimumDuty) {
+  2179  00007C  5028               	movf	_MinimumDuty,w,c
+  2180  00007E  5C27               	subwf	_currentByte,w,c
+  2181  000080  B0D8               	btfsc	status,0,c
+  2182  000082  D095               	goto	i2l1253
+  2183                           
+  2184                           ;i2c.c: 123: LeftPWM.target = 0;
+  2185  000084  0E00               	movlw	0
+  2186  000086  6E23               	movwf	_LeftPWM+2,c
+  2187  000088  D00F               	goto	i2l1229
+  2188  00008A                     i2l104:
+  2189                           
+  2190                           ;i2c.c: 128: LeftPWM.target = currentByte;
+  2191  00008A  C027  F023         	movff	_currentByte,_LeftPWM+2
+  2192                           
+  2193                           ;i2c.c: 129: if (currentByte < MinimumDuty) {
+  2194  00008E  5028               	movf	_MinimumDuty,w,c
+  2195  000090  5C27               	subwf	_currentByte,w,c
+  2196  000092  B0D8               	btfsc	status,0,c
+  2197  000094  D08C               	goto	i2l1253
+  2198                           
+  2199                           ;i2c.c: 130: LeftPWM.target = 0;
+  2200  000096  0E00               	movlw	0
+  2201  000098  6E23               	movwf	_LeftPWM+2,c
+  2202                           
+  2203                           ;i2c.c: 131: }
+  2204                           ;i2c.c: 132: break;
+  2205  00009A  D089               	goto	i2l1253
+  2206  00009C                     i2l106:
+  2207                           
+  2208                           ;i2c.c: 134: RightPWM.target = currentByte;
+  2209  00009C  C027  F020         	movff	_currentByte,_RightPWM+2
+  2210                           
+  2211                           ;i2c.c: 135: if (currentByte < MinimumDuty) {
+  2212  0000A0  5028               	movf	_MinimumDuty,w,c
+  2213  0000A2  5C27               	subwf	_currentByte,w,c
+  2214  0000A4  B0D8               	btfsc	status,0,c
+  2215  0000A6  D083               	goto	i2l1253
+  2216  0000A8                     i2l1229:
+  2217                           
+  2218                           ;i2c.c: 136: RightPWM.target = 0;
+  2219  0000A8  0E00               	movlw	0
+  2220  0000AA  6E20               	movwf	_RightPWM+2,c
+  2221                           
+  2222                           ;i2c.c: 137: }
+  2223                           ;i2c.c: 138: break;
+  2224  0000AC  D080               	goto	i2l1253
+  2225  0000AE                     i2l1231:
+  2226                           
+  2227                           ;i2c.c: 140: PWMEnable = (char) currentByte & 0b00000001;
+  2228  0000AE  5027               	movf	_currentByte,w,c
+  2229  0000B0  0B01               	andlw	1
+  2230  0000B2  6E2D               	movwf	_PWMEnable,c
+  2231                           
+  2232                           ;i2c.c: 141: AccelType = (char) currentByte & 0b00000110;
+  2233  0000B4  5027               	movf	_currentByte,w,c
+  2234  0000B6  0B06               	andlw	6
+  2235  0000B8  6E2C               	movwf	_AccelType,c
+  2236                           
+  2237                           ;i2c.c: 142: break;
+  2238  0000BA  D079               	goto	i2l1253
+  2239  0000BC                     i2l1233:
+  2240                           
+  2241                           ;i2c.c: 144: if ((currentByte & 0b00000010)>>1) {
+  2242  0000BC  C027  F001         	movff	_currentByte,??_I2C_Slave_Read
+  2243  0000C0  90D8               	bcf	status,0,c
+  2244  0000C2  3201               	rrcf	??_I2C_Slave_Read,f,c
+  2245  0000C4  A001               	btfss	??_I2C_Slave_Read,0,c
+  2246  0000C6  D002               	goto	i2l110
+  2247                           
+  2248                           ;i2c.c: 145: LeftPWM.targetDirection = 1;
+  2249  0000C8  8821               	bsf	_LeftPWM,4,c
+  2250                           
+  2251                           ;i2c.c: 146: } else {
+  2252  0000CA  D001               	goto	i2l1237
+  2253  0000CC                     i2l110:
+  2254                           
+  2255                           ;i2c.c: 147: LeftPWM.targetDirection = 0;
+  2256  0000CC  9821               	bcf	_LeftPWM,4,c
+  2257  0000CE                     i2l1237:
+  2258                           
+  2259                           ;i2c.c: 148: }
+  2260                           ;i2c.c: 149: if ((currentByte & 0b00000100)>>2) {
+  2261  0000CE  C027  F001         	movff	_currentByte,??_I2C_Slave_Read
+  2262  0000D2  90D8               	bcf	status,0,c
+  2263  0000D4  3201               	rrcf	??_I2C_Slave_Read,f,c
+  2264  0000D6  90D8               	bcf	status,0,c
+  2265  0000D8  3201               	rrcf	??_I2C_Slave_Read,f,c
+  2266  0000DA  A001               	btfss	??_I2C_Slave_Read,0,c
+  2267  0000DC  D002               	goto	i2l112
+  2268                           
+  2269                           ;i2c.c: 150: RightPWM.targetDirection = 1;
+  2270  0000DE  881E               	bsf	_RightPWM,4,c
+  2271                           
+  2272                           ;i2c.c: 151: } else {
+  2273  0000E0  D066               	goto	i2l1253
+  2274  0000E2                     i2l112:
+  2275                           
+  2276                           ;i2c.c: 152: RightPWM.targetDirection = 0;
+  2277  0000E2  981E               	bcf	_RightPWM,4,c
+  2278                           
+  2279                           ;i2c.c: 153: }
+  2280                           ;i2c.c: 154: break;
+  2281  0000E4  D064               	goto	i2l1253
+  2282  0000E6                     i2l1241:
+  2283                           
+  2284                           ;i2c.c: 156: PWMEnable = !(currentByte & 0b00000001);
+  2285  0000E6  B027               	btfsc	_currentByte,0,c
+  2286  0000E8  D002               	goto	i2u85_40
+  2287  0000EA  0E01               	movlw	1
+  2288  0000EC  D001               	goto	i2u86_40
+  2289  0000EE                     i2u85_40:
+  2290  0000EE  0E00               	movlw	0
+  2291  0000F0                     i2u86_40:
+  2292  0000F0  6E2D               	movwf	_PWMEnable,c
+  2293                           
+  2294                           ;i2c.c: 157: LeftPWM.enabled = !(currentByte & 0b00000010);
+  2295  0000F2  B227               	btfsc	_currentByte,1,c
+  2296  0000F4  D003               	goto	i2u87_40
+  2297  0000F6  6A01               	clrf	??_I2C_Slave_Read& (0+255),c
+  2298  0000F8  2A01               	incf	??_I2C_Slave_Read& (0+255),f,c
+  2299  0000FA  D001               	goto	i2u88_48
+  2300  0000FC                     i2u87_40:
+  2301  0000FC  6A01               	clrf	??_I2C_Slave_Read& (0+255),c
+  2302  0000FE                     i2u88_48:
+  2303  0000FE  4601               	rlncf	??_I2C_Slave_Read,f,c
+  2304  000100  5021               	movf	_LeftPWM,w,c
+  2305  000102  1801               	xorwf	??_I2C_Slave_Read,w,c
+  2306  000104  0BFD               	andlw	-3
+  2307  000106  1801               	xorwf	??_I2C_Slave_Read,w,c
+  2308  000108  6E21               	movwf	_LeftPWM,c
+  2309                           
+  2310                           ;i2c.c: 158: RightPWM.enabled = !(currentByte & 0b00000100);
+  2311  00010A  B427               	btfsc	_currentByte,2,c
+  2312  00010C  D003               	goto	i2u89_40
+  2313  00010E  6A01               	clrf	??_I2C_Slave_Read& (0+255),c
+  2314  000110  2A01               	incf	??_I2C_Slave_Read& (0+255),f,c
+  2315  000112  D001               	goto	i2u90_48
+  2316  000114                     i2u89_40:
+  2317  000114  6A01               	clrf	??_I2C_Slave_Read& (0+255),c
+  2318  000116                     i2u90_48:
+  2319  000116  4601               	rlncf	??_I2C_Slave_Read,f,c
+  2320  000118  501E               	movf	_RightPWM,w,c
+  2321  00011A  1801               	xorwf	??_I2C_Slave_Read,w,c
+  2322  00011C  0BFD               	andlw	-3
+  2323  00011E  D01B               	goto	L12
+  2324  000120                     i2l1247:
+  2325                           
+  2326                           ;i2c.c: 161: PWMPause = currentByte & 0b00000001;
+  2327  000120  5027               	movf	_currentByte,w,c
+  2328  000122  0B01               	andlw	1
+  2329  000124  6E29               	movwf	_PWMPause,c
+  2330                           
+  2331                           ;i2c.c: 162: LeftPWM.paused = !(currentByte & 0b00000010);
+  2332  000126  B227               	btfsc	_currentByte,1,c
+  2333  000128  D003               	goto	i2u91_40
+  2334  00012A  6A01               	clrf	??_I2C_Slave_Read& (0+255),c
+  2335  00012C  2A01               	incf	??_I2C_Slave_Read& (0+255),f,c
+  2336  00012E  D001               	goto	i2u92_48
+  2337  000130                     i2u91_40:
+  2338  000130  6A01               	clrf	??_I2C_Slave_Read& (0+255),c
+  2339  000132                     i2u92_48:
+  2340  000132  4601               	rlncf	??_I2C_Slave_Read,f,c
+  2341  000134  4601               	rlncf	??_I2C_Slave_Read,f,c
+  2342  000136  5021               	movf	_LeftPWM,w,c
+  2343  000138  1801               	xorwf	??_I2C_Slave_Read,w,c
+  2344  00013A  0BFB               	andlw	-5
+  2345  00013C  1801               	xorwf	??_I2C_Slave_Read,w,c
+  2346  00013E  6E21               	movwf	_LeftPWM,c
+  2347                           
+  2348                           ;i2c.c: 163: RightPWM.paused = !(currentByte & 0b00000100);
+  2349  000140  B427               	btfsc	_currentByte,2,c
+  2350  000142  D003               	goto	i2u93_40
+  2351  000144  6A01               	clrf	??_I2C_Slave_Read& (0+255),c
+  2352  000146  2A01               	incf	??_I2C_Slave_Read& (0+255),f,c
+  2353  000148  D001               	goto	i2u94_48
+  2354  00014A                     i2u93_40:
+  2355  00014A  6A01               	clrf	??_I2C_Slave_Read& (0+255),c
+  2356  00014C                     i2u94_48:
+  2357  00014C  4601               	rlncf	??_I2C_Slave_Read,f,c
+  2358  00014E  4601               	rlncf	??_I2C_Slave_Read,f,c
+  2359  000150  501E               	movf	_RightPWM,w,c
+  2360  000152  1801               	xorwf	??_I2C_Slave_Read,w,c
+  2361  000154  0BFB               	andlw	-5
+  2362  000156                     L12:
+  2363  000156  1801               	xorwf	??_I2C_Slave_Read,w,c
+  2364  000158  6E1E               	movwf	_RightPWM,c
+  2365                           
+  2366                           ;i2c.c: 164: break;
+  2367  00015A  D029               	goto	i2l1253
+  2368  00015C                     i2l116:
+  2369                           
+  2370                           ;i2c.c: 166: AccelType = currentByte;
+  2371  00015C  C027  F02C         	movff	_currentByte,_AccelType
+  2372                           
+  2373                           ;i2c.c: 167: break;
+  2374  000160  D026               	goto	i2l1253
+  2375  000162                     i2l117:
+  2376                           
+  2377                           ;i2c.c: 169: AccelRate = currentByte;
+  2378  000162  C027  F02A         	movff	_currentByte,_AccelRate
+  2379  000166  6A2B               	clrf	_AccelRate+1,c
+  2380                           
+  2381                           ;i2c.c: 170: break;
+  2382  000168  D022               	goto	i2l1253
+  2383  00016A                     i2l118:
+  2384                           
+  2385                           ;i2c.c: 172: MinimumDuty = currentByte;
+  2386  00016A  C027  F028         	movff	_currentByte,_MinimumDuty
+  2387                           
+  2388                           ;i2c.c: 174: }
+  2389                           
+  2390                           ;i2c.c: 173: break;
+  2391  00016E  D01F               	goto	i2l1253
+  2392  000170                     i2l1251:
+  2393  000170  5026               	movf	_state,w,c
+  2394                           
+  2395                           ; Switch size 1, requested type "space"
+  2396                           ; Number of cases is 10, Range of values is 1 to 10
+  2397                           ; switch strategies available:
+  2398                           ; Name         Instructions Cycles
+  2399                           ; simple_byte           31    16 (average)
+  2400                           ;	Chosen strategy is simple_byte
+  2401  000172  0A01               	xorlw	1	; case 1
+  2402  000174  B4D8               	btfsc	status,2,c
+  2403  000176  D77E               	goto	i2l101
+  2404  000178  0A03               	xorlw	3	; case 2
+  2405  00017A  B4D8               	btfsc	status,2,c
+  2406  00017C  D786               	goto	i2l104
+  2407  00017E  0A01               	xorlw	1	; case 3
+  2408  000180  B4D8               	btfsc	status,2,c
+  2409  000182  D78C               	goto	i2l106
+  2410  000184  0A07               	xorlw	7	; case 4
+  2411  000186  B4D8               	btfsc	status,2,c
+  2412  000188  D792               	goto	i2l1231
+  2413  00018A  0A01               	xorlw	1	; case 5
+  2414  00018C  B4D8               	btfsc	status,2,c
+  2415  00018E  D796               	goto	i2l1233
+  2416  000190  0A03               	xorlw	3	; case 6
+  2417  000192  B4D8               	btfsc	status,2,c
+  2418  000194  D7C5               	goto	i2l1247
+  2419  000196  0A01               	xorlw	1	; case 7
+  2420  000198  B4D8               	btfsc	status,2,c
+  2421  00019A  D7A5               	goto	i2l1241
+  2422  00019C  0A0F               	xorlw	15	; case 8
+  2423  00019E  B4D8               	btfsc	status,2,c
+  2424  0001A0  D7DD               	goto	i2l116
+  2425  0001A2  0A01               	xorlw	1	; case 9
+  2426  0001A4  B4D8               	btfsc	status,2,c
+  2427  0001A6  D7DD               	goto	i2l117
+  2428  0001A8  0A03               	xorlw	3	; case 10
+  2429  0001AA  B4D8               	btfsc	status,2,c
+  2430  0001AC  D7DE               	goto	i2l118
+  2431  0001AE                     i2l1253:
+  2432                           
+  2433                           ;i2c.c: 175: state = 0;
+  2434  0001AE  0E00               	movlw	0
+  2435  0001B0  6E26               	movwf	_state,c
+  2436  0001B2                     i2l1255:
+  2437                           
+  2438                           ;i2c.c: 176: }
+  2439                           ;i2c.c: 177: SSPCON1bits.CKP = 1;
+  2440  0001B2  88C6               	bsf	4038,4,c	;volatile
+  2441                           
+  2442                           ;i2c.c: 178: } else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
+  2443  0001B4  D021               	goto	i2l94
+  2444  0001B6                     i2l97:
+  2445  0001B6  AAC7               	btfss	4039,5,c	;volatile
+  2446  0001B8  A4C7               	btfss	4039,2,c	;volatile
+  2447  0001BA  D01E               	goto	i2l94
+  2448                           
+  2449                           ;i2c.c: 179: if (currentByte>>1 == 1) {
+  2450  0001BC  90D8               	bcf	status,0,c
+  2451  0001BE  3027               	rrcf	_currentByte,w,c
+  2452  0001C0  06E8               	decf	wreg,f,c
+  2453  0001C2  B4D8               	btfsc	status,2,c
+  2454  0001C4  D005               	goto	i2l1265
+  2455                           
+  2456                           ;i2c.c: 181: } else if (currentByte>>1 == 2) {
+  2457                           
+  2458                           ;i2c.c: 180: SSPBUF = LeftPWM.duty;
+  2459  0001C6  90D8               	bcf	status,0,c
+  2460  0001C8  3027               	rrcf	_currentByte,w,c
+  2461  0001CA  0A02               	xorlw	2
+  2462  0001CC  A4D8               	btfss	status,2,c
+  2463  0001CE  D003               	goto	i2l1267
+  2464  0001D0                     i2l1265:
+  2465                           
+  2466                           ;i2c.c: 182: SSPBUF = LeftPWM.duty;
+  2467  0001D0  C022  FFC9         	movff	_LeftPWM+1,4041	;volatile
+  2468                           
+  2469                           ;i2c.c: 183: } else if (currentByte>>1 == 3) {
+  2470  0001D4  D00E               	goto	i2l122
+  2471  0001D6                     i2l1267:
+  2472  0001D6  90D8               	bcf	status,0,c
+  2473  0001D8  3027               	rrcf	_currentByte,w,c
+  2474  0001DA  0A03               	xorlw	3
+  2475  0001DC  A4D8               	btfss	status,2,c
+  2476  0001DE  D003               	goto	i2l1271
+  2477                           
+  2478                           ;i2c.c: 184: SSPBUF = RightPWM.duty;
+  2479  0001E0  C01F  FFC9         	movff	_RightPWM+1,4041	;volatile
+  2480                           
+  2481                           ;i2c.c: 185: } else if (currentByte>>1 == 4) {
+  2482  0001E4  D006               	goto	i2l122
+  2483  0001E6                     i2l1271:
+  2484  0001E6  90D8               	bcf	status,0,c
+  2485  0001E8  3027               	rrcf	_currentByte,w,c
+  2486  0001EA  0A04               	xorlw	4
+  2487  0001EC  B4D8               	btfsc	status,2,c
+  2488                           
+  2489                           ;i2c.c: 186: SSPBUF = PWMEnable;
+  2490  0001EE  C02D  FFC9         	movff	_PWMEnable,4041	;volatile
+  2491  0001F2                     i2l122:
+  2492                           
+  2493                           ;i2c.c: 187: }
+  2494                           ;i2c.c: 189: SSPCON1bits.CKP = 1;
+  2495  0001F2  88C6               	bsf	4038,4,c	;volatile
+  2496  0001F4                     i2l128:
+  2497  0001F4  B0C7               	btfsc	4039,0,c	;volatile
+  2498  0001F6  D7FE               	goto	i2l128
+  2499  0001F8                     i2l94:
+  2500                           
+  2501                           ;i2c.c: 192: }
+  2502                           ;i2c.c: 194: PIR1bits.SSPIF = 0;
+  2503  0001F8  969E               	bcf	3998,3,c	;volatile
+  2504  0001FA                     i2l131:
+  2505  0001FA  C00F  FFF5         	movff	??_I2C_Slave_Read+14,tablat
+  2506  0001FE  C00E  FFF8         	movff	??_I2C_Slave_Read+13,tblptru
+  2507  000202  C00D  FFF7         	movff	??_I2C_Slave_Read+12,tblptrh
+  2508  000206  C00C  FFF6         	movff	??_I2C_Slave_Read+11,tblptrl
+  2509  00020A  C00B  FFF4         	movff	??_I2C_Slave_Read+10,prodh
+  2510  00020E  C00A  FFF3         	movff	??_I2C_Slave_Read+9,prodl
+  2511  000212  C009  FFDA         	movff	??_I2C_Slave_Read+8,fsr2h
+  2512  000216  C008  FFD9         	movff	??_I2C_Slave_Read+7,fsr2l
+  2513  00021A  C007  FFE2         	movff	??_I2C_Slave_Read+6,fsr1h
+  2514  00021E  C006  FFE1         	movff	??_I2C_Slave_Read+5,fsr1l
+  2515  000222  C005  FFEA         	movff	??_I2C_Slave_Read+4,fsr0h
+  2516  000226  C004  FFE9         	movff	??_I2C_Slave_Read+3,fsr0l
+  2517  00022A  C003  FFFB         	movff	??_I2C_Slave_Read+2,pclatu
+  2518  00022E  C002  FFFA         	movff	??_I2C_Slave_Read+1,pclath
+  2519  000232  922E               	bcf	btemp,1,c	;clear compiler interrupt flag (level 2)
+  2520  000234  0011               	retfie		f
+  2521  000236                     __end_of_I2C_Slave_Read:
+  2522                           	opt stack 0
+  2523  0000                     pclatu	equ	0xFFB
+  2524                           pclath	equ	0xFFA
+  2525                           tblptru	equ	0xFF8
+  2526                           tblptrh	equ	0xFF7
+  2527                           tblptrl	equ	0xFF6
+  2528                           tablat	equ	0xFF5
+  2529                           prodh	equ	0xFF4
+  2530                           prodl	equ	0xFF3
+  2531                           intcon	equ	0xFF2
+  2532                           intcon2	equ	0xFF1
+  2533                           postinc0	equ	0xFEE
+  2534                           fsr0h	equ	0xFEA
+  2535                           fsr0l	equ	0xFE9
+  2536                           wreg	equ	0xFE8
+  2537                           postdec1	equ	0xFE5
+  2538                           fsr1h	equ	0xFE2
+  2539                           fsr1l	equ	0xFE1
+  2540                           fsr2h	equ	0xFDA
+  2541                           fsr2l	equ	0xFD9
+  2542                           status	equ	0xFD8
+  2543                           pclatu	equ	0xFFB
+  2544                           pclath	equ	0xFFA
+  2545                           tblptru	equ	0xFF8
+  2546                           tblptrh	equ	0xFF7
+  2547                           tblptrl	equ	0xFF6
+  2548                           tablat	equ	0xFF5
+  2549                           prodh	equ	0xFF4
+  2550                           prodl	equ	0xFF3
+  2551                           intcon	equ	0xFF2
+  2552                           intcon2	equ	0xFF1
+  2553                           postinc0	equ	0xFEE
+  2554                           fsr0h	equ	0xFEA
+  2555                           fsr0l	equ	0xFE9
+  2556                           wreg	equ	0xFE8
+  2557                           postdec1	equ	0xFE5
+  2558                           fsr1h	equ	0xFE2
+  2559                           fsr1l	equ	0xFE1
+  2560                           fsr2h	equ	0xFDA
+  2561                           fsr2l	equ	0xFD9
+  2562                           status	equ	0xFD8
+  2563                           
+  2564                           	psect	rparam
+  2565  0000                     pclatu	equ	0xFFB
+  2566                           pclath	equ	0xFFA
+  2567                           tblptru	equ	0xFF8
+  2568                           tblptrh	equ	0xFF7
+  2569                           tblptrl	equ	0xFF6
+  2570                           tablat	equ	0xFF5
+  2571                           prodh	equ	0xFF4
+  2572                           prodl	equ	0xFF3
+  2573                           intcon	equ	0xFF2
+  2574                           intcon2	equ	0xFF1
+  2575                           postinc0	equ	0xFEE
+  2576                           fsr0h	equ	0xFEA
+  2577                           fsr0l	equ	0xFE9
+  2578                           wreg	equ	0xFE8
+  2579                           postdec1	equ	0xFE5
+  2580                           fsr1h	equ	0xFE2
+  2581                           fsr1l	equ	0xFE1
+  2582                           fsr2h	equ	0xFDA
+  2583                           fsr2l	equ	0xFD9
+  2584                           status	equ	0xFD8
+  2585                           
+  2586                           	psect	temp
+  2587  00002E                     btemp:
+  2588                           	opt stack 0
+  2589  00002E                     	ds	1
+  2590  0000                     int$flags	set	btemp
+  2591                           pclatu	equ	0xFFB
+  2592                           pclath	equ	0xFFA
+  2593                           tblptru	equ	0xFF8
+  2594                           tblptrh	equ	0xFF7
+  2595                           tblptrl	equ	0xFF6
+  2596                           tablat	equ	0xFF5
+  2597                           prodh	equ	0xFF4
+  2598                           prodl	equ	0xFF3
+  2599                           intcon	equ	0xFF2
+  2600                           intcon2	equ	0xFF1
+  2601                           postinc0	equ	0xFEE
+  2602                           fsr0h	equ	0xFEA
+  2603                           fsr0l	equ	0xFE9
+  2604                           wreg	equ	0xFE8
+  2605                           postdec1	equ	0xFE5
+  2606                           fsr1h	equ	0xFE2
+  2607                           fsr1l	equ	0xFE1
+  2608                           fsr2h	equ	0xFDA
+  2609                           fsr2l	equ	0xFD9
+  2610                           status	equ	0xFD8
+
+
+Data Sizes:
+    Strings     0
+    Constant    0
+    Data        4
+    BSS         12
+    Persistent  0
+    Stack       0
+
+Auto Spaces:
+    Space          Size  Autos    Used
+    COMRAM           94     29      45
+    BANK0           160      0       0
+    BANK1           256      0       0
+    BANK2           256      0       0
+
+Pointer List with Targets:
+
+    None.
+
+Critical Paths under _main in COMRAM
+
+    _main->_CheckPWMOutput
+    _CheckPWMOutput->_AcceleratePWM
+    _AcceleratePWM->_StopLeft
+    _AcceleratePWM->_StopRight
+    _StopRight->_ExponentialProfile
+    _StopLeft->_ExponentialProfile
+    _AccelerateRight->_ExponentialProfile
+    _AccelerateLeft->_ExponentialProfile
+
+Critical Paths under _I2C_Slave_Read in COMRAM
+
+    None.
+
+Critical Paths under _main in BANK0
+
+    None.
+
+Critical Paths under _I2C_Slave_Read in BANK0
+
+    None.
+
+Critical Paths under _main in BANK1
+
+    None.
+
+Critical Paths under _I2C_Slave_Read in BANK1
+
+    None.
+
+Critical Paths under _main in BANK2
+
+    None.
+
+Critical Paths under _I2C_Slave_Read in BANK2
+
+    None.
+
+Call Graph Tables:
+
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (0) _main                                                 0     0      0    4084
+                     _CheckPWMOutput
+                            _InitI2C
+                            _InitPWM
+ ---------------------------------------------------------------------------------
+ (1) _InitPWM                                              0     0      0       0
+ ---------------------------------------------------------------------------------
+ (1) _InitI2C                                              0     0      0       0
+ ---------------------------------------------------------------------------------
+ (1) _CheckPWMOutput                                       2     2      0    4084
+                                             27 COMRAM     2     2      0
+                      _AcceleratePWM
+ ---------------------------------------------------------------------------------
+ (2) _AcceleratePWM                                        1     1      0    4084
+                                             26 COMRAM     1     1      0
+                     _AccelerateLeft
+                    _AccelerateRight
+                           _StopLeft
+                          _StopRight
+ ---------------------------------------------------------------------------------
+ (3) _StopRight                                            1     1      0    1021
+                                             25 COMRAM     1     1      0
+                 _ExponentialProfile
+ ---------------------------------------------------------------------------------
+ (3) _StopLeft                                             1     1      0    1021
+                                             25 COMRAM     1     1      0
+                 _ExponentialProfile
+ ---------------------------------------------------------------------------------
+ (3) _AccelerateRight                                      0     0      0    1021
+                 _ExponentialProfile
+ ---------------------------------------------------------------------------------
+ (3) _AccelerateLeft                                       0     0      0    1021
+                 _ExponentialProfile
+ ---------------------------------------------------------------------------------
+ (4) _ExponentialProfile                                  10     9      1    1021
+                                             15 COMRAM    10     9      1
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 4
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (5) _I2C_Slave_Read                                      15    15      0       0
+                                              0 COMRAM    15    15      0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 5
+ ---------------------------------------------------------------------------------
+
+ Call Graph Graphs:
+
+ _main (ROOT)
+   _CheckPWMOutput
+     _AcceleratePWM
+       _AccelerateLeft
+         _ExponentialProfile
+       _AccelerateRight
+         _ExponentialProfile
+       _StopLeft
+         _ExponentialProfile
+       _StopRight
+         _ExponentialProfile
+   _InitI2C
+   _InitPWM
+
+ _I2C_Slave_Read (ROOT)
+
+ Address spaces:
+Name               Size   Autos  Total    Cost      Usage
+BIGRAM             2FF      0       0      10        0.0%
+EEDATA             100      0       0       0        0.0%
+BITBANK2           100      0       0       6        0.0%
+BANK2              100      0       0       7        0.0%
+BITBANK1           100      0       0       9        0.0%
+BANK1              100      0       0       5        0.0%
+BITBANK0            A0      0       0       3        0.0%
+BANK0               A0      0       0       4        0.0%
+BITCOMRAM           5E      0       0       0        0.0%
+COMRAM              5E     1D      2D       1       47.9%
+BITSFR_1             0      0       0     200        0.0%
+SFR_1                0      0       0     200        0.0%
+BITSFR               0      0       0     200        0.0%
+SFR                  0      0       0     200        0.0%
+STACK                0      0       0       2        0.0%
+NULL                 0      0       0       0        0.0%
+ABS                  0      0      2D       8        0.0%
+DATA                 0      0      2D      11        0.0%
+CODE                 0      0       0       0        0.0%
+
+
+Microchip Technology PIC18 Macro Assembler V1.42 build -159332390 
+Symbol Table                                                                                   Sun Jun  4 15:11:48 2017
+
+                 _SSPMSKbits 000F6F                  _SSPSTATbits 000FC7                 __CFG_CP0$OFF 000000  
+               __CFG_CP1$OFF 000000                          l224 0740                          l242 06B4  
+                        l267 0520                          l278 0528                 __CFG_CPB$OFF 000000  
+               __CFG_CPD$OFF 000000                 __CFG_BORV$19 000000                          wreg 000FE8  
+               __CFG_LVP$OFF 000000                         l1321 043E                         l1313 03DE  
+                       l1305 037A                         l1331 04B0                         l1411 0774  
+                       l1403 0752                         l1325 046E                         l1317 040E  
+                       l1309 03AE                         l1501 0530                         l1407 075E  
+                       l1431 06BA                         l1351 0656                         l1343 063E  
+                       l1417 078A                         l1425 069E                         l1345 0644  
+                       l1291 02D8                         l1283 0278                         l1443 06E8  
+                       l1435 06C6                         l1355 066C                         l1371 05A8  
+                       l1507 054A                         l1349 0650                         l1381 05D0  
+                       l1517 08CE                         l1295 0308                         l1287 02A8  
+                       l1439 06D2                         l1359 0672                         l1375 05B4  
+                       l1463 07DC                         l1455 07B0                         l1393 072A  
+                       l1449 06FE                         l1377 05BA                         l1369 05A2  
+                       l1385 05D6                         l1481 04D4                         l1299 0338  
+                       l1467 07FE                         l1459 07D2                         l1493 0504  
+                       l1399 0746                         l1487 04EE                         u1100 03DA  
+                       u1110 040A                         u1030 0274                         u1120 043A  
+                       u1040 02A4                         u1130 046A                         u1050 02D4  
+                       u1210 062C                         u1060 0304                         u1205 0620  
+                       u1070 0334                         u1310 0590                         u1207 0622  
+                       u1160 05FA                         u1305 0584                         u1090 03A6  
+                       u1170 0606                         u1162 05FC                         u1307 0586  
+                       u1228 062E                         u1172 0608                         u1260 055E  
+                       u1270 056A                         u1262 0560                         _LATC 000F8B  
+                       u1328 0592                         u1272 056C                         u1520 07B8  
+                       u1530 07C4                         u1522 07BA                         u1195 0616  
+                       u1532 07C6                         u1197 0618                         u1295 057A  
+                       u1560 07E4                         u1297 057C                         u1570 07F0  
+                       u1562 07E6                         u1572 07F2                         i2l91 005A  
+                       i2l93 0054                         i2l94 01F8                         i2l95 0062  
+                       i2l97 01B6                _AcceleratePWM 07A0                         _TMR0 000FD6  
+                       _main 08AE                         fsr0h 000FEA                         fsr1h 000FE2  
+                       fsr2h 000FDA                         fsr0l 000FE9                         fsr1l 000FE1  
+                       fsr2l 000FD9                         btemp 002E                         prodh 000FF4  
+                       prodl 000FF3                         start 0236                __CFG_IESO$OFF 000000  
+              __CFG_FOSC$IRC 000000                 ___param_bank 000000              __end_of_InitI2C 08AE  
+         _ExponentialProfile 023A              __end_of_InitPWM 084A                        ?_main 0001  
+        ?_ExponentialProfile 0010                        i2l101 0074                        i2l110 00CC  
+                      i2l112 00E2                        i2l104 008A                        i2l122 01F2  
+                      i2l106 009C                        i2l131 01FA                        i2l116 015C  
+                      i2l117 0162                        i2l118 016A                        i2l128 01F4  
+             __CFG_BBSIZ$OFF 000000               _AccelerateLeft 0714                __CFG_WRT0$OFF 000000  
+              __CFG_WRT1$OFF 000000               __CFG_EBTR0$OFF 000000               __CFG_FCMEN$OFF 000000  
+             __CFG_EBTR1$OFF 000000                __CFG_WRTB$OFF 000000                __CFG_WRTC$OFF 000000  
+              __CFG_WRTD$OFF 000000               __CFG_EBTRB$OFF 000000               ?_AcceleratePWM 0001  
+                      _state 0026                        pclath 000FFA                        tablat 000FF5  
+       ??_ExponentialProfile 0011                        status 000FD8               __CFG_HFOFST$ON 000000  
+             __CFG_MCLRE$OFF 000000              __initialization 084A                 __end_of_main 08D4  
+   ExponentialProfile@change 0018               __CFG_PCLKEN$ON 000000     ExponentialProfile@target 0010  
+     __end_of_AccelerateLeft 07A0                       ??_main 001E                __activetblptr 000002  
+             __CFG_PLLEN$OFF 000000             __end_of_StopLeft 0688                       i2l1231 00AE  
+                     i2l1241 00E6                       i2l1233 00BC                       i2l1251 0170  
+                     i2l1237 00CE                       i2l1229 00A8                       i2l1253 01AE  
+                     i2l1271 01E6                       i2l1247 0120                       i2l1255 01B2  
+                     i2l1265 01D0                       i2l1267 01D6               __CFG_WDTEN$OFF 000000  
+                     _SSPADD 000FC8                       _SSPBUF 000FC9                    ??_InitI2C 0010  
+            _AccelerateRight 0688                    ??_InitPWM 0010               __CFG_XINST$OFF 000000  
+             __CFG_STVREN$ON 000000                       clear_0 0870              ?_AccelerateLeft 0001  
+               __pdataCOMRAM 002A                       tblptrh 000FF7                       tblptrl 000FF6  
+                     tblptru 000FF8              ??_AcceleratePWM 001B           __size_of_StopRight 009C  
+                 __accesstop 0060      __end_of__initialization 0876                ___rparam_used 000001  
+             __pcstackCOMRAM 0001      __size_of_I2C_Slave_Read 022E      __end_of_AccelerateRight 0714  
+                _MinimumDuty 0028                    ?_StopLeft 0001            __end_of_StopRight 05EC  
+    __size_of_CheckPWMOutput 009C                      i2u91_40 0130                      i2u90_48 0116  
+                    i2u93_40 014A                      i2u92_48 0132                      i2u85_40 00EE  
+                    i2u86_40 00F0                      i2u94_48 014C                      i2u87_40 00FC  
+                    i2u89_40 0114                      i2u88_48 00FE              __CFG_USBDIV$OFF 000000  
+                    _LeftPWM 0021                      _InitI2C 0884                      _InitPWM 080C  
+            __CFG_PWRTEN$OFF 000000                      __Hparam 0000                      __Lparam 0000  
+                 ??_StopLeft 001A                      __pcinit 084A                      __ramtop 0300  
+                    __ptext0 08AE                      __ptext1 080C                      __ptext2 0884  
+                    __ptext3 04B4                      __ptext4 07A0                      __ptext5 0550  
+                    __ptext6 05EC                      __ptext7 0688                      __ptext8 0714  
+                    __ptext9 023A                    _T0CONbits 000FD5             ?_AccelerateRight 0001  
+       end_of_initialization 0876                __Lmediumconst 0000  __size_of_ExponentialProfile 027A  
+             _I2C_Slave_Read 0008                      postdec1 000FE5             ??_AccelerateLeft 001A  
+                    postinc0 000FEE                    _TRISAbits 000F92                    _TRISBbits 000F93  
+                  _TRISCbits 000F94                    _AccelRate 002A                    _PWMEnable 002D  
+                  _AccelType 002C       __end_of_I2C_Slave_Read 0236                __pidataCOMRAM 08D4  
+             _CheckPWMOutput 04B4          start_initialization 084A        __end_of_AcceleratePWM 080C  
+            ?_I2C_Slave_Read 0001       __end_of_CheckPWMOutput 0550            __size_of_StopLeft 009C  
+                  _StopRight 0550                  __pbssCOMRAM 001E                     ?_InitI2C 0001  
+                   ?_InitPWM 0001                    __pintcode 0008              ?_CheckPWMOutput 0001  
+                 ?_StopRight 0001                     _LATAbits 000F89                     _LATCbits 000F8B  
+                   _PIE1bits 000F9D                     _PIR1bits 000F9E             __CFG_WDTPS$32768 000000  
+                   _PWMPause 0029                     _WPUBbits 000F78                  _INTCON2bits 000FF1  
+                  copy_data0 085E   __end_of_ExponentialProfile 04B4             __size_of_InitI2C 002A  
+                   _RightPWM 001E     __size_of_AccelerateRight 008C             __size_of_InitPWM 003E  
+                   __Hrparam 0000                     __Lrparam 0000           __CFG_BOREN$SBORDIS 000000  
+                   _StopLeft 05EC                  _currentByte 0027                  ??_StopRight 001A  
+           ??_I2C_Slave_Read 0001                __size_of_main 0026                     int$flags 002E  
+  ExponentialProfile@current 0019                   _INTCONbits 000FF2      __size_of_AccelerateLeft 008C  
+                   intlevel2 0000                   _OSCCONbits 000FD3             ??_CheckPWMOutput 001C  
+       __CFG_CPUDIV$NOCLKDIV 000000            ??_AccelerateRight 001A       __size_of_AcceleratePWM 006C  
+                _SSPCON1bits 000FC6                  _SSPCON2bits 000FC5                   _AccelCount 0024  

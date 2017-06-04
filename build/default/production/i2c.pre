@@ -1,60 +1,5 @@
 
-# 1 "main.c"
-
-
-# 17
-#pragma config CPUDIV = NOCLKDIV
-#pragma config USBDIV = OFF
-
-
-#pragma config FOSC = IRC
-#pragma config PLLEN = OFF
-#pragma config PCLKEN = ON
-#pragma config FCMEN = OFF
-#pragma config IESO = OFF
-
-
-#pragma config PWRTEN = OFF
-#pragma config BOREN = SBORDIS
-#pragma config BORV = 19
-
-
-#pragma config WDTEN = OFF
-#pragma config WDTPS = 32768
-
-
-#pragma config HFOFST = ON
-#pragma config MCLRE = OFF
-
-
-#pragma config STVREN = ON
-#pragma config LVP = OFF
-#pragma config BBSIZ = OFF
-#pragma config XINST = OFF
-
-
-#pragma config CP0 = OFF
-#pragma config CP1 = OFF
-
-
-#pragma config CPB = OFF
-#pragma config CPD = OFF
-
-
-#pragma config WRT0 = OFF
-#pragma config WRT1 = OFF
-
-
-#pragma config WRTC = OFF
-#pragma config WRTB = OFF
-#pragma config WRTD = OFF
-
-
-#pragma config EBTR0 = OFF
-#pragma config EBTR1 = OFF
-
-
-#pragma config EBTRB = OFF
+# 1 "i2c.c"
 
 # 26 "/Applications/microchip/xc8/v1.42/include/htc.h"
 extern const char __xc8_OPTIM_SPEED;
@@ -4341,29 +4286,155 @@ unsigned char target;
 struct PWM LeftPWM;
 struct PWM RightPWM;
 
-# 76 "main.c"
-void main(void) {
+# 8 "i2c.c"
+void InitI2C(void) {
 
-OSCCONbits.IRCF = 0b111;
-
-
-TRISBbits.RB7 = 0;
-TRISCbits.RC0 = 0;
-TRISCbits.RC1 = 0;
-TRISCbits.RC2 = 0;
-TRISCbits.RC3 = 0;
-TRISCbits.RC4 = 0;
-TRISCbits.RC5 = 0;
-LATC = 0x00;
-
-
-InitI2C();
-InitPWM();
+TRISBbits.RB4 = 1;
+TRISBbits.RB6 = 1;
 
 
 
-while(1) {
-CheckPWMOutput();
+INTCON2bits.NOT_RABPU = 0;
+
+WPUBbits.WPUB4 = 1;
+WPUBbits.WPUB6 = 1;
+
+
+SSPSTATbits.SMP = 1;
+
+
+SSPCON1bits.SSPM = 0b0110;
+
+SSPCON2bits.SEN = 1;
+
+
+
+SSPMSKbits.MSK = 0b01000110;
+
+
+
+
+SSPADD = 0x23<<1;
+
+
+PIR1bits.SSPIF = 0;
+
+PIE1bits.SSPIE = 1;
+
+
+INTCONbits.GIE = 1;
+
+INTCONbits.PEIE = 1;
+
+
+SSPCON1bits.SSPEN = 1;
 }
-return;
+
+# 80
+unsigned char currentByte = 0;
+unsigned char state = 0;
+
+# 94
+void interrupt I2C_Slave_Read(void)
+{
+if(PIR1bits.SSPIF == 1) {
+
+currentByte = SSPBUF;
+
+SSPCON1bits.CKP = 0;
+
+if ((SSPCON1bits.SSPOV) || (SSPCON1bits.WCOL)) {
+SSPCON1bits.SSPOV = 0;
+SSPCON1bits.WCOL = 0;
+
+SSPCON1bits.CKP = 1;
+} else if(!SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
+
+state = 0;
+
+SSPCON1bits.CKP = 1;
+} else if (SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
+if (state == 0) {
+
+state = currentByte;
+} else {
+
+switch (state) {
+case 1:
+LeftPWM.target = currentByte;
+RightPWM.target = currentByte;
+if (currentByte < MinimumDuty) {
+LeftPWM.target = 0;
+RightPWM.target = 0;
+}
+break;
+case 2:
+LeftPWM.target = currentByte;
+if (currentByte < MinimumDuty) {
+LeftPWM.target = 0;
+}
+break;
+case 3:
+RightPWM.target = currentByte;
+if (currentByte < MinimumDuty) {
+RightPWM.target = 0;
+}
+break;
+case 4:
+PWMEnable = (char) currentByte & 0b00000001;
+AccelType = (char) currentByte & 0b00000110;
+break;
+case 5:
+if ((currentByte & 0b00000010)>>1) {
+LeftPWM.targetDirection = 1;
+} else {
+LeftPWM.targetDirection = 0;
+}
+if ((currentByte & 0b00000100)>>2) {
+RightPWM.targetDirection = 1;
+} else {
+RightPWM.targetDirection = 0;
+}
+break;
+case 7:
+PWMEnable = !(currentByte & 0b00000001);
+LeftPWM.enabled = !(currentByte & 0b00000010);
+RightPWM.enabled = !(currentByte & 0b00000100);
+break;
+case 6:
+PWMPause = currentByte & 0b00000001;
+LeftPWM.paused = !(currentByte & 0b00000010);
+RightPWM.paused = !(currentByte & 0b00000100);
+break;
+case 8:
+AccelType = currentByte;
+break;
+case 9:
+AccelRate = currentByte;
+break;
+case 10:
+MinimumDuty = currentByte;
+break;
+}
+state = 0;
+}
+SSPCON1bits.CKP = 1;
+} else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
+if (currentByte>>1 == 1) {
+SSPBUF = LeftPWM.duty;
+} else if (currentByte>>1 == 2) {
+SSPBUF = LeftPWM.duty;
+} else if (currentByte>>1 == 3) {
+SSPBUF = RightPWM.duty;
+} else if (currentByte>>1 == 4) {
+SSPBUF = PWMEnable;
+}
+
+SSPCON1bits.CKP = 1;
+
+while(SSPSTATbits.BF);
+}
+
+PIR1bits.SSPIF = 0;
+}
 }
