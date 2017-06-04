@@ -6,12 +6,7 @@
 #include "parameters.h"
 
 void InitI2C(void) {
-    //Make SDA and SCL pins inputs, this is needed to make it work.
-    TRISBbits.RB4 = 1;
-    TRISBbits.RB6 = 1;
-    
     //Enable internal pull-ups
-    //For some reason I have been needing external pull-ups anyway.
     INTCON2bits.NOT_RABPU = 0;
     //Turn on pull-ups for RB4 and RB6
     WPUBbits.WPUB4 = 1;
@@ -27,7 +22,7 @@ void InitI2C(void) {
     
     //Set the bitmask for the address so that the controller responds to 
     //multiple addresses.
-    SSPMSKbits.MSK = 0b01000110;
+    //SSPMSKbits.MSK = 0b01000110;
     
     //This is the i2c address of the controller. It should be between 0x00 and 0x7F
     //The 7 bit address is 0x23, but it needs to be shifted to the left by one 
@@ -80,6 +75,8 @@ void InitI2C(void) {
 unsigned char currentByte = 0;
 unsigned char state = 0;
 
+int i;
+
 /*
  * This is the ISR (Interrupt Service Routine) that is called whenever an 
  * interrupt is triggered. With the pic18 we are using there are multiple 
@@ -117,50 +114,65 @@ void interrupt I2C_Slave_Read(void)
                 //If we have a non-zero state than we set the correct values
                 switch (state) {
                     case SPEED_ADDRESS:
-                        LeftPWM.target = currentByte;
-                        RightPWM.target = currentByte;
-                        if (currentByte < MinimumDuty) {
-                            LeftPWM.target = 0;
-                            RightPWM.target = 0;
+                        for (i = 0; i < 4; i++) {
+                            Motors[i].target = currentByte;
+                            if (currentByte < MinimumDuty) {
+                                Motors[i].target = 0;
+                            }
                         }
                         break;
-                    case LEFT_ADDRESS:
-                        LeftPWM.target = currentByte;
+                    case MOTOR_0_SPEED_ADDRESS:
+                        Motors[0].target = currentByte;
                         if (currentByte < MinimumDuty) {
-                            LeftPWM.target = 0;
+                            Motors[0].target = 0;
                         }
                         break;
-                    case RIGHT_ADDRESS:
-                        RightPWM.target = currentByte;
+                    case MOTOR_1_SPEED_ADDRESS:
+                        Motors[1].target = currentByte;
                         if (currentByte < MinimumDuty) {
-                            RightPWM.target = 0;
+                            Motors[1].target = 0;
                         }
                         break;
-                    case SETTINGS_ADDRESS:
-                        PWMEnable = (char) currentByte & PWM_ENABLE;
-                        AccelType = (char) currentByte & ACCEL_TYPE;
+                    case MOTOR_2_SPEED_ADDRESS:
+                        Motors[2].target = currentByte;
+                        if (currentByte < MinimumDuty) {
+                            Motors[2].target = 0;
+                        }
+                        break;
+                    case MOTOR_3_SPEED_ADDRESS:
+                        Motors[3].target = currentByte;
+                        if (currentByte < MinimumDuty) {
+                            Motors[3].target = 0;
+                        }
                         break;
                     case DIRECTION_ADDRESS:
-                        if ((currentByte & LEFT_MASK)>>1) {
-                            LeftPWM.targetDirection = 1;
-                        } else {
-                            LeftPWM.targetDirection = 0;
-                        }
-                        if ((currentByte & RIGHT_MASK)>>2) {
-                            RightPWM.targetDirection = 1;
-                        } else {
-                            RightPWM.targetDirection = 0;
+                        for (i = 0; i < 4; i++) {
+                            if ((currentByte>>(i+1)) & 0b00000001) {
+                                Motors[i].targetDirection = 1;
+                            } else {
+                                Motors[i].targetDirection = 0;
+                            }
                         }
                         break;
                     case ENABLE_ADDRESS:
-                        PWMEnable = !(currentByte & GLOBAL_MASK);
-                        LeftPWM.enabled = !(currentByte & LEFT_MASK);
-                        RightPWM.enabled = !(currentByte & RIGHT_MASK);
+                        PWMEnable = (currentByte & GLOBAL_MASK);
+                        for (i = 0; i < 4; i++) {
+                            if ((currentByte>>(i+1)) & 0b00000001) {
+                                Motors[i].enabled = 1;
+                            } else {
+                                Motors[i].enabled = 0;
+                            }
+                        }
                         break;
                     case PAUSE_ADDRESS:
                         PWMPause = currentByte & GLOBAL_MASK;
-                        LeftPWM.paused = !(currentByte & LEFT_MASK);
-                        RightPWM.paused = !(currentByte & RIGHT_MASK);
+                        for (i = 0; i < 4; i++) {
+                            if ((currentByte>>(i+1)) & 0b00000001) {
+                                Motors[i].paused = 1;
+                            } else {
+                                Motors[i].paused = 0;
+                            }
+                        }
                         break;
                     case ACCEL_ADDRESS:
                         AccelType = currentByte;
@@ -176,6 +188,7 @@ void interrupt I2C_Slave_Read(void)
             }
             SSPCON1bits.CKP = 1;
         } else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
+            /*
             if (currentByte>>1 == SPEED_ADDRESS) {
                 SSPBUF = LeftPWM.duty;
             } else if (currentByte>>1 == LEFT_ADDRESS) {
@@ -185,6 +198,7 @@ void interrupt I2C_Slave_Read(void)
             } else if (currentByte>>1 == SETTINGS_ADDRESS) {
                 SSPBUF = PWMEnable;
             }
+            */  
             //release the clock
             SSPCON1bits.CKP = 1;
             //wait until the buffer is cleared

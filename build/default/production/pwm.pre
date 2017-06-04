@@ -4256,7 +4256,7 @@ extern __nonreentrant void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __nonreentrant void _delay3(unsigned char);
 
-# 57 "parameters.h"
+# 62 "parameters.h"
 unsigned char PWMEnable = 1;
 
 
@@ -4273,20 +4273,24 @@ void InitI2C(void);
 void InitPWM(void);
 void CheckPWMOutput(void);
 
-struct PWM {
+struct Motor {
 unsigned char state:1;
 unsigned char enabled:1;
 unsigned char paused:1;
 unsigned char direction:1;
 unsigned char targetDirection:1;
+unsigned char motorType:1;
+unsigned char PWMPin;
+unsigned char dirPin;
+unsigned char cdirPin;
 unsigned char duty;
 unsigned char target;
+unsigned char servoCount;
 };
 
-struct PWM LeftPWM;
-struct PWM RightPWM;
+struct Motor Motors[4];
 
-# 10 "pwm.c"
+# 12 "pwm.c"
 void InitPWM(void) {
 
 T0CONbits.T0PS = 0b011;
@@ -4300,31 +4304,79 @@ T0CONbits.T08BIT = 1;
 T0CONbits.TMR0ON = 1;
 
 
-
-TRISAbits.RA4 = 0;
-TRISAbits.RA5 = 0;
-
-LATAbits.LATA4 = 0;
-LATAbits.LATA5 = 0;
-
-LeftPWM.state = 0;
-LeftPWM.paused = 0;
-LeftPWM.enabled = 1;
-LeftPWM.direction = 1;
-LeftPWM.targetDirection = 1;
-LeftPWM.duty = 0;
-LeftPWM.target = 0;
-
-RightPWM.state = 0;
-RightPWM.paused = 0;
-RightPWM.enabled = 1;
-RightPWM.direction = 1;
-RightPWM.targetDirection = 1;
-RightPWM.duty = 0;
-RightPWM.target = 0;
+int n;
+for (n = 0; n < 4; n++) {
+Motors[n].state = (unsigned char)0;
+Motors[n].paused = (unsigned char)0;
+Motors[n].enabled = (unsigned char)1;
+Motors[n].direction = (unsigned char)1;
+Motors[n].targetDirection = (unsigned char)1;
+Motors[n].duty = (unsigned char)0;
+Motors[n].target = (unsigned char)0;
+Motors[n].motorType = (unsigned char)0;
 }
 
-# 51
+
+Motors[0].PWMPin = 0;
+Motors[0].dirPin = 1;
+Motors[0].cdirPin = 2;
+
+Motors[1].PWMPin = 3;
+Motors[1].dirPin = 4;
+Motors[1].cdirPin = 5;
+
+Motors[2].PWMPin = 6;
+Motors[2].dirPin = 7;
+Motors[2].cdirPin = 9;
+
+Motors[3].PWMPin = 10;
+Motors[3].dirPin = 11;
+Motors[3].cdirPin = 8;
+}
+
+# 58
+void SetPin(char pin, char value) {
+switch (pin) {
+case 0:
+LATCbits.LC0 = value;
+break;
+case 1:
+LATCbits.LC1 = value;
+break;
+case 2:
+LATCbits.LC2 = value;
+break;
+case 3:
+LATCbits.LC3 = value;
+break;
+case 4:
+LATCbits.LC4 = value;
+break;
+case 5:
+LATCbits.LC5 = value;
+break;
+case 6:
+LATCbits.LC6 = value;
+break;
+case 7:
+LATCbits.LC7 = value;
+break;
+case 8:
+LATBbits.LB5 = value;
+break;
+case 9:
+LATBbits.LB7 = value;
+break;
+case 10:
+LATAbits.LA4 = value;
+break;
+case 11:
+LATAbits.LA5 = value;
+break;
+}
+}
+
+# 103
 char ExponentialProfile(unsigned char current, unsigned char target) {
 unsigned char change = 0;
 if (current > target) {
@@ -4367,31 +4419,30 @@ change = target-current;
 return change;
 }
 
-# 98
-void StopLeft(void) {
+# 151
+void StopMotor(int index) {
+if (Motors[index].duty == 0 && Motors[index].direction != Motors[index].targetDirection) {
+Motors[index].duty = Motors[index].targetDirection;
 
-
-if (LeftPWM.duty == 0 && LeftPWM.direction != LeftPWM.targetDirection) {
-LeftPWM.direction = LeftPWM.targetDirection;
-LATCbits.LATC4 = LeftPWM.direction;
-LATCbits.LATC5 = !LeftPWM.direction;
+SetPin(Motors[index].dirPin, Motors[index].direction);
+SetPin(Motors[index].cdirPin, !Motors[index].direction);
 } else {
 switch (AccelType) {
 case 0:
-LeftPWM.duty = 0;
+Motors[index].duty = 0;
 break;
 case 1:
-if (LeftPWM.duty > MinimumDuty) {
-LeftPWM.duty -= 1;
+if (Motors[index].duty > MinimumDuty) {
+Motors[index].duty -= 1;
 } else {
-LeftPWM.duty = 0;
+Motors[index].duty = 0;
 }
 break;
 case 2:
-if (MinimumDuty < LeftPWM.duty) {
-LeftPWM.duty -= ExponentialProfile(LeftPWM.duty, MinimumDuty);
+if (MinimumDuty < Motors[index].duty) {
+Motors[index].duty -= ExponentialProfile(Motors[index].duty, MinimumDuty);
 } else {
-LeftPWM.duty = 0;
+Motors[index].duty = 0;
 }
 break;
 default:
@@ -4400,60 +4451,28 @@ break;
 }
 }
 
-void StopRight(void) {
-
-
-if (RightPWM.duty == 0 && RightPWM.direction != RightPWM.targetDirection) {
-RightPWM.direction = RightPWM.targetDirection;
-LATCbits.LATC3 = RightPWM.direction;
-LATCbits.LATC2 = !RightPWM.direction;
-} else {
-switch (AccelType) {
-case 0:
-RightPWM.duty = 0;
-break;
-case 1:
-if (RightPWM.duty > MinimumDuty) {
-RightPWM.duty -= 1;
-} else {
-RightPWM.duty = 0;
-}
-break;
-case 2:
-if (MinimumDuty < RightPWM.duty) {
-RightPWM.duty -= ExponentialProfile(RightPWM.duty, MinimumDuty);
-} else {
-RightPWM.duty = 0;
-}
-break;
-default:
-break;
-}
-}
-}
-
-void AccelerateLeft(void) {
-if (LeftPWM.duty < MinimumDuty && LeftPWM.target >= MinimumDuty) {
-LeftPWM.duty = MinimumDuty;
-} else if (LeftPWM.duty <= MinimumDuty && LeftPWM.target < MinimumDuty) {
-LeftPWM.duty = 0;
+void AccelerateMotor(int index) {
+if (Motors[index].duty < MinimumDuty && Motors[index].target >= MinimumDuty) {
+Motors[index].duty = MinimumDuty;
+} else if (Motors[index].duty <= MinimumDuty && Motors[index].target < MinimumDuty) {
+Motors[index].duty = 0;
 }
 switch (AccelType) {
 case 0:
-LeftPWM.duty = LeftPWM.target;
+Motors[index].duty = Motors[index].target;
 break;
 case 1:
-if (LeftPWM.duty > LeftPWM.target) {
-LeftPWM.duty -= 1;
-} else if (LeftPWM.duty < LeftPWM.target) {
-LeftPWM.duty += 1;
+if (Motors[index].duty > Motors[index].target) {
+Motors[index].duty -= 1;
+} else if (Motors[index].duty < Motors[index].target) {
+Motors[index].duty += 1;
 }
 break;
 case 2:
-if (LeftPWM.duty > LeftPWM.target) {
-LeftPWM.duty -= ExponentialProfile(LeftPWM.duty, LeftPWM.target);
-} else if (LeftPWM.duty < LeftPWM.target) {
-LeftPWM.duty += ExponentialProfile(LeftPWM.duty, LeftPWM.target);
+if (Motors[index].duty > Motors[index].target) {
+Motors[index].duty -= ExponentialProfile(Motors[index].duty, Motors[index].target);
+} else if (Motors[index].duty < Motors[index].target) {
+Motors[index].duty += ExponentialProfile(Motors[index].duty, Motors[index].target);
 }
 break;
 default:
@@ -4461,111 +4480,70 @@ break;
 }
 }
 
-void AccelerateRight(void) {
-if (RightPWM.duty < MinimumDuty && RightPWM.target >= MinimumDuty) {
-RightPWM.duty = MinimumDuty;
-} else if (RightPWM.duty <= MinimumDuty && RightPWM.target < MinimumDuty) {
-RightPWM.duty = 0;
-}
-switch (AccelType) {
-case 0:
-RightPWM.duty = RightPWM.target;
-break;
-case 1:
-if (RightPWM.duty > RightPWM.target) {
-RightPWM.duty -= 1;
-} else if (RightPWM.duty < RightPWM.target) {
-RightPWM.duty += 1;
-}
-break;
-case 2:
-if (RightPWM.duty > RightPWM.target) {
-RightPWM.duty -= ExponentialProfile(RightPWM.duty, RightPWM.target);
-} else if (RightPWM.duty < RightPWM.target) {
-RightPWM.duty += ExponentialProfile(RightPWM.duty, RightPWM.target);
-}
-break;
-default:
-break;
-}
-}
-
-# 227
+# 218
 void AcceleratePWM(void) {
-if (PWMPause) {
-StopLeft();
-StopRight();
+int i;
+for (i = 0; i < 4; i++) {
+if (PWMPause || Motors[i].paused) {
+StopMotor(i);
 } else {
 
 
 
-if (LeftPWM.direction != LeftPWM.targetDirection) {
-StopLeft();
-} else if (LeftPWM.duty != LeftPWM.target) {
-AccelerateLeft();
+if (Motors[i].direction != Motors[i].targetDirection) {
+StopMotor(i);
+} else if (Motors[i].duty != Motors[i].target) {
+AccelerateMotor(i);
 }
-
-if (RightPWM.direction != RightPWM.targetDirection) {
-StopRight();
-} else if (RightPWM.duty != RightPWM.target) {
-AccelerateRight();
 }
 }
 }
 
-# 267
+# 254
 void CheckPWMOutput(void) {
+int i;
+for (i = 0; i < 4; i++) {
+if (PWMEnable && Motors[i].enabled) {
+if (Motors[i].motorType) {
+if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount < 19) {
+Motors[i].servoCount++;
+Motors[i].state = 1;
+} else if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount == 20) {
+Motors[i].state = 1;
+SetPin(Motors[i].PWMPin,1);
+} else if (TMR0 >= Motors[i].duty && Motors[i].state == 1 && Motors[i].servoCount < 19) {
+Motors[i].state = 0;
+} else if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount == 20) {
+Motors[i].state = 0;
+Motors[i].servoCount = 0;
+SetPin(Motors[i].PWMPin,0);
+}
+} else {
 
-if (PWMEnable) {
-if (LeftPWM.enabled) {
+if (TMR0 < Motors[i].duty && Motors[i].state == 0) {
 
-if (TMR0 < LeftPWM.duty && LeftPWM.state == 0) {
+Motors[i].state = 1;
 
-LeftPWM.state = 1;
+SetPin(Motors[i].PWMPin,1);
+} else if (TMR0 >= Motors[i].duty && Motors[i].state == 1) {
 
-LATAbits.LATA4 = 1;
+Motors[i].state = 0;
 
-LATCbits.LATC1 = 1;
-} else if (TMR0 >= LeftPWM.duty && LeftPWM.state == 1) {
+SetPin(Motors[i].PWMPin,0);
+}
+}
+} else if (Motors[i].state) {
 
 
-LeftPWM.state = 0;
-
-LATAbits.LATA4 = 0;
-
-LATCbits.LATC1 = 0;
+Motors[i].state = 0;
+SetPin(Motors[i].PWMPin,0);
 }
 }
 
-
-if (TMR0 < RightPWM.duty && RightPWM.state == 0) {
-RightPWM.state = 1;
-
-LATAbits.LATA5 = 1;
-
-LATCbits.LATC0 = 1;
-} else if (TMR0 >= RightPWM.duty && RightPWM.state == 1) {
-RightPWM.state = 0;
-
-LATAbits.LATA5 = 0;
-
-LATCbits.LATC0 = 0;
-}
-} else if (RightPWM.state || LeftPWM.state) {
-
-
-LATAbits.LATA4 = 0;
-LATAbits.LATA5 = 0;
-RightPWM.state = 0;
-LeftPWM.state = 0;
-}
-
-# 317
 if (AccelCount >= AccelRate) {
 AcceleratePWM();
 AccelCount = 0;
 } else {
 AccelCount++;
 }
-
 }

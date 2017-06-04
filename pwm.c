@@ -6,6 +6,8 @@
 
 /*
  * This sets up Timer0 to be used by the pwm modules.
+ * It also initialises the Motors array that holds the structs for the state of
+ * each motor
  */
 void InitPWM(void) {
     //Use a 1:16 prescaler value
@@ -19,29 +21,79 @@ void InitPWM(void) {
     //Turn on Timer0
     T0CONbits.TMR0ON = 1;
     
-    //We are using RA4 and RA5 as the pwm output pins
-    //Configure them as outputs
-    TRISAbits.RA4 = 0;
-    TRISAbits.RA5 = 0;
-    //Initialize the pins as off
-    LATAbits.LATA4 = 0;
-    LATAbits.LATA5 = 0;
+    //Initialise all the motor structs
+    int n;
+    for (n = 0; n < 4; n++) {
+        Motors[n].state = (unsigned char)0;
+        Motors[n].paused = (unsigned char)0;
+        Motors[n].enabled = (unsigned char)1;
+        Motors[n].direction = (unsigned char)1;
+        Motors[n].targetDirection = (unsigned char)1;
+        Motors[n].duty = (unsigned char)0;
+        Motors[n].target = (unsigned char)0;
+        Motors[n].motorType = (unsigned char)0;
+    }
     
-    LeftPWM.state = 0;
-    LeftPWM.paused = 0;
-    LeftPWM.enabled = 1;
-    LeftPWM.direction = 1;
-    LeftPWM.targetDirection = 1;
-    LeftPWM.duty = 0;
-    LeftPWM.target = 0;
+    //Set which pins each motor uses, look at SetPin for definitions
+    Motors[0].PWMPin = 0;
+    Motors[0].dirPin = 1;
+    Motors[0].cdirPin = 2;
     
-    RightPWM.state = 0;
-    RightPWM.paused = 0;
-    RightPWM.enabled = 1;
-    RightPWM.direction = 1;
-    RightPWM.targetDirection = 1;
-    RightPWM.duty = 0;
-    RightPWM.target = 0;
+    Motors[1].PWMPin = 3;
+    Motors[1].dirPin = 4;
+    Motors[1].cdirPin = 5;
+    
+    Motors[2].PWMPin = 6;
+    Motors[2].dirPin = 7;
+    Motors[2].cdirPin = 9;
+    
+    Motors[3].PWMPin = 10;
+    Motors[3].dirPin = 11;
+    Motors[3].cdirPin = 8;
+}
+
+/*
+ * This helper function lets you name a pin and set it as high or low
+ */
+void SetPin(char pin, char value) {
+    switch (pin) {
+        case 0:
+            LATCbits.LC0 = value;
+            break;
+        case 1:
+            LATCbits.LC1 = value;
+            break;
+        case 2:
+            LATCbits.LC2 = value;
+            break;
+        case 3:
+            LATCbits.LC3 = value;
+            break;
+        case 4:
+            LATCbits.LC4 = value;
+            break;
+        case 5:
+            LATCbits.LC5 = value;
+            break;
+        case 6:
+            LATCbits.LC6 = value;
+            break;
+        case 7:
+            LATCbits.LC7 = value;
+            break;
+        case 8:
+            LATBbits.LB5 = value;
+            break;
+        case 9:
+            LATBbits.LB7 = value;
+            break;
+        case 10:
+            LATAbits.LA4 = value;
+            break;
+        case 11:
+            LATAbits.LA5 = value;
+            break;
+    }
 }
 
 /*
@@ -91,34 +143,34 @@ char ExponentialProfile(unsigned char current, unsigned char target) {
 }
 
 /*
- * This function makes the left PWM go to zero, once it is at zero set the 
+ * This function makes the PWM go to zero, once it is at zero set the 
  * direction to targetDirection. If it is supposed to change direction this will
  * do it, if not than this just keeps things the same.
  */
-void StopLeft(void) {
-    //If the duty is already 0 than update direction, otherwise slow down
-    //according to the selected acceleration profile.
-    if (LeftPWM.duty == 0 && LeftPWM.direction != LeftPWM.targetDirection) {
-        LeftPWM.direction = LeftPWM.targetDirection;
-        LATCbits.LATC4 = LeftPWM.direction;
-        LATCbits.LATC5 = !LeftPWM.direction;
+
+void StopMotor(int index) {
+    if (Motors[index].duty == 0 && Motors[index].direction != Motors[index].targetDirection) {
+        Motors[index].duty = Motors[index].targetDirection;
+        
+        SetPin(Motors[index].dirPin, Motors[index].direction);
+        SetPin(Motors[index].cdirPin, !Motors[index].direction);
     } else {
         switch (AccelType) {
             case ACCEL_INSTANT:
-                LeftPWM.duty = 0;
+                Motors[index].duty = 0;
                 break;
             case ACCEL_LINEAR:
-                if (LeftPWM.duty > MinimumDuty) {
-                    LeftPWM.duty -= 1;
+                if (Motors[index].duty > MinimumDuty) {
+                    Motors[index].duty -= 1;
                 } else {
-                    LeftPWM.duty = 0;
+                    Motors[index].duty = 0;
                 }
                 break;
             case ACCEL_EXPONENT:
-                if (MinimumDuty < LeftPWM.duty) {
-                    LeftPWM.duty -= ExponentialProfile(LeftPWM.duty, MinimumDuty);
+                if (MinimumDuty < Motors[index].duty) {
+                    Motors[index].duty -= ExponentialProfile(Motors[index].duty, MinimumDuty);
                 } else {
-                    LeftPWM.duty = 0;
+                    Motors[index].duty = 0;
                 }
                 break;
             default:
@@ -127,94 +179,33 @@ void StopLeft(void) {
     }
 }
 
-void StopRight(void) {
-    //If the duty is already 0 than update direction, otherwise slow down
-    //according to the selected acceleration profile.
-    if (RightPWM.duty == 0 && RightPWM.direction != RightPWM.targetDirection) {
-        RightPWM.direction = RightPWM.targetDirection;
-        LATCbits.LATC3 = RightPWM.direction;
-        LATCbits.LATC2 = !RightPWM.direction;
-    } else {
-        switch (AccelType) {
-            case ACCEL_INSTANT:
-                RightPWM.duty = 0;
-                break;
-            case ACCEL_LINEAR:
-                if (RightPWM.duty > MinimumDuty) {
-                    RightPWM.duty -= 1;
-                } else {
-                    RightPWM.duty = 0;
-                }
-                break;
-            case ACCEL_EXPONENT:
-                if (MinimumDuty < RightPWM.duty) {
-                    RightPWM.duty -= ExponentialProfile(RightPWM.duty, MinimumDuty);
-                } else {
-                    RightPWM.duty = 0;
-                }
-                break;
-            default:
-                break;
-        }
-    }
-}
-
-void AccelerateLeft(void) {
-    if (LeftPWM.duty < MinimumDuty && LeftPWM.target >= MinimumDuty) {
-        LeftPWM.duty = MinimumDuty;
-    } else if (LeftPWM.duty <= MinimumDuty && LeftPWM.target  < MinimumDuty) {
-        LeftPWM.duty = 0;
+void AccelerateMotor(int index) {
+    if (Motors[index].duty < MinimumDuty && Motors[index].target >= MinimumDuty) {
+        Motors[index].duty = MinimumDuty;
+    } else if (Motors[index].duty <= MinimumDuty && Motors[index].target  < MinimumDuty) {
+        Motors[index].duty = 0;
     }
     switch (AccelType) {
         case ACCEL_INSTANT:
-            LeftPWM.duty = LeftPWM.target;
+            Motors[index].duty = Motors[index].target;
             break;
         case ACCEL_LINEAR:
-            if (LeftPWM.duty > LeftPWM.target) {
-                LeftPWM.duty -= 1;
-            } else if (LeftPWM.duty < LeftPWM.target) {
-                LeftPWM.duty += 1;
+            if (Motors[index].duty > Motors[index].target) {
+                Motors[index].duty -= 1;
+            } else if (Motors[index].duty < Motors[index].target) {
+                Motors[index].duty += 1;
             }
             break;
         case ACCEL_EXPONENT:
-            if (LeftPWM.duty > LeftPWM.target) {
-                LeftPWM.duty -= ExponentialProfile(LeftPWM.duty, LeftPWM.target);
-            } else if (LeftPWM.duty < LeftPWM.target) {
-                LeftPWM.duty += ExponentialProfile(LeftPWM.duty, LeftPWM.target);
+            if (Motors[index].duty > Motors[index].target) {
+                Motors[index].duty -= ExponentialProfile(Motors[index].duty, Motors[index].target);
+            } else if (Motors[index].duty < Motors[index].target) {
+                Motors[index].duty += ExponentialProfile(Motors[index].duty, Motors[index].target);
             }
             break;
         default:
             break;
     }
-}
-
-void AccelerateRight(void) {
-    if (RightPWM.duty < MinimumDuty && RightPWM.target >= MinimumDuty) {
-        RightPWM.duty = MinimumDuty;
-    } else if (RightPWM.duty <= MinimumDuty && RightPWM.target  < MinimumDuty) {
-        RightPWM.duty = 0;
-    }
-    switch (AccelType) {
-        case ACCEL_INSTANT:
-            RightPWM.duty = RightPWM.target;
-            break;
-        case ACCEL_LINEAR:
-            if (RightPWM.duty > RightPWM.target) {
-                RightPWM.duty -= 1;
-            } else if (RightPWM.duty < RightPWM.target) {
-                RightPWM.duty += 1;
-            }
-            break;
-        case ACCEL_EXPONENT:
-            if (RightPWM.duty > RightPWM.target) {
-                RightPWM.duty -= ExponentialProfile(RightPWM.duty, RightPWM.target);
-            } else if (RightPWM.duty < RightPWM.target) {
-                RightPWM.duty += ExponentialProfile(RightPWM.duty, RightPWM.target);
-            }
-            break;
-        default:
-            break;
-    }    
 }
 
 /*
@@ -225,23 +216,19 @@ void AccelerateRight(void) {
  * pwm slows down and stops the same as if the speed were set to 0;
  */
 void AcceleratePWM(void) {
-    if (PWMPause) {
-        StopLeft();
-        StopRight();
-    } else {
-        //If the direction isn't equal to the targetDirection than reduce duty 
-        //according to the current acceleration, otherwise if the duty isn't at the
-        //target accelerate
-        if (LeftPWM.direction != LeftPWM.targetDirection) {
-            StopLeft();
-        } else if (LeftPWM.duty != LeftPWM.target) {
-            AccelerateLeft();
-        }
-
-        if (RightPWM.direction != RightPWM.targetDirection) {
-            StopRight();
-        } else if (RightPWM.duty != RightPWM.target) {
-            AccelerateRight();
+    int i;
+    for (i = 0; i < 4; i++) {
+        if (PWMPause || Motors[i].paused) {
+            StopMotor(i);
+        } else {
+            //If the direction isn't equal to the targetDirection than reduce 
+            //duty according to the current acceleration, otherwise if the duty 
+            //isn't at the target accelerate
+            if (Motors[i].direction != Motors[i].targetDirection) {
+                StopMotor(i);
+            } else if (Motors[i].duty != Motors[i].target) {
+                AccelerateMotor(i);
+            }
         }
     }
 }
@@ -265,60 +252,49 @@ void AcceleratePWM(void) {
  * against that lets us know the value without having to read the pin. 
  */
 void CheckPWMOutput(void) {
-    //Check to make sure that the PWM in enabled
-    if (PWMEnable) {
-        if (LeftPWM.enabled) {
-            //Check if the right state should be changed
-            if (TMR0 < LeftPWM.duty && LeftPWM.state == 0) {
-                //Set the state as high
-                LeftPWM.state = 1;
-                //Set the pin as high
-                LATAbits.LATA4 = 1;
-                
-                LATCbits.LATC1 = 1;
-            } else if (TMR0 >= LeftPWM.duty && LeftPWM.state == 1) {
-            //} else if (TMR0 > ((TIMER_0_PERIOD*leftDuty)/256) && leftState == 1) {
-                //Set the state as low
-                LeftPWM.state = 0;
-                //Set the pin as low
-                LATAbits.LATA4 = 0;
-                
-                LATCbits.LATC1 = 0;
+    int i;
+    for (i = 0; i < 4; i++) {
+        if (PWMEnable && Motors[i].enabled) {
+            if (Motors[i].motorType) {
+                if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount < 19) {
+                    Motors[i].servoCount++;
+                    Motors[i].state = 1;
+                } else if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount == 20) {
+                    Motors[i].state = 1;
+                    SetPin(Motors[i].PWMPin,1);
+                } else if (TMR0 >= Motors[i].duty && Motors[i].state == 1 && Motors[i].servoCount < 19) {
+                    Motors[i].state = 0;
+                } else if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount == 20) {
+                    Motors[i].state = 0;
+                    Motors[i].servoCount = 0;
+                    SetPin(Motors[i].PWMPin,0);
+                }
+            } else {
+                //Check if the right state should be changed
+                if (TMR0 < Motors[i].duty && Motors[i].state == 0) {
+                    //Set the state as high
+                    Motors[i].state = 1;
+                    //Set the pin as high
+                    SetPin(Motors[i].PWMPin,1);
+                } else if (TMR0 >= Motors[i].duty && Motors[i].state == 1) {
+                    //Set the state as low
+                    Motors[i].state = 0;
+                    //Set the pin as low
+                    SetPin(Motors[i].PWMPin,0);
+                }
             }
+        } else if (Motors[i].state) {
+            //If it isn't enabled check the left and right state, turn off the PWM
+            //on both if either is on.
+            Motors[i].state = 0;
+            SetPin(Motors[i].PWMPin,0);
         }
-        
-        //Check if the left state should be changed
-        if (TMR0 < RightPWM.duty && RightPWM.state == 0) {
-            RightPWM.state = 1;
-            //Set the pin as high
-            LATAbits.LATA5 = 1;
-            
-            LATCbits.LATC0 = 1;
-        } else if (TMR0 >= RightPWM.duty && RightPWM.state == 1) {
-            RightPWM.state = 0;
-            //Set the pin as low
-            LATAbits.LATA5 = 0;
-            
-            LATCbits.LATC0 = 0;
-        }
-    } else if (RightPWM.state || LeftPWM.state) {
-        //If it isn't enabled check the left and right state, turn off the PWM
-        //on both if either is on.
-        LATAbits.LATA4 = 0;
-        LATAbits.LATA5 = 0;
-        RightPWM.state = 0;
-        LeftPWM.state = 0;
     }
-    //After the timer runs out reset it, and check if any values need to be 
-    //updated for the PWMs. This means that the updates happen at known 
-    //intervals so we can do the acceleration properly.
-    //if (TMR0 >= 2048) {
-    //    TMR0 = 0x00;
-        if (AccelCount >= AccelRate) {
-            AcceleratePWM();
-            AccelCount = 0;
-        } else {
-            AccelCount++;
-        }
-    //}
+    //Keep a count to see when we should update the pwm acceleration.
+    if (AccelCount >= AccelRate) {
+        AcceleratePWM();
+        AccelCount = 0;
+    } else {
+        AccelCount++;
+    }
 }

@@ -2,7 +2,7 @@
 # 1 "main.c"
 
 
-# 17
+# 44
 #pragma config CPUDIV = NOCLKDIV
 #pragma config USBDIV = OFF
 
@@ -4311,7 +4311,7 @@ extern __nonreentrant void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __nonreentrant void _delay3(unsigned char);
 
-# 57 "parameters.h"
+# 62 "parameters.h"
 unsigned char PWMEnable = 1;
 
 
@@ -4328,35 +4328,39 @@ void InitI2C(void);
 void InitPWM(void);
 void CheckPWMOutput(void);
 
-struct PWM {
+struct Motor {
 unsigned char state:1;
 unsigned char enabled:1;
 unsigned char paused:1;
 unsigned char direction:1;
 unsigned char targetDirection:1;
+unsigned char motorType:1;
+unsigned char PWMPin;
+unsigned char dirPin;
+unsigned char cdirPin;
 unsigned char duty;
 unsigned char target;
+unsigned char servoCount;
 };
 
-struct PWM LeftPWM;
-struct PWM RightPWM;
+struct Motor Motors[4];
 
-# 76 "main.c"
+# 106 "main.c"
+void InitPorts(void) {
+
+TRISA = 0x00;
+
+TRISB = 0b01010000;
+
+TRISC = 0x00;
+}
+
 void main(void) {
 
 OSCCONbits.IRCF = 0b111;
 
 
-TRISBbits.RB7 = 0;
-TRISCbits.RC0 = 0;
-TRISCbits.RC1 = 0;
-TRISCbits.RC2 = 0;
-TRISCbits.RC3 = 0;
-TRISCbits.RC4 = 0;
-TRISCbits.RC5 = 0;
-LATC = 0x00;
-
-
+InitPorts();
 InitI2C();
 InitPWM();
 

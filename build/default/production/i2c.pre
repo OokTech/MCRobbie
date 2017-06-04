@@ -4256,7 +4256,7 @@ extern __nonreentrant void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __nonreentrant void _delay3(unsigned char);
 
-# 57 "parameters.h"
+# 62 "parameters.h"
 unsigned char PWMEnable = 1;
 
 
@@ -4273,26 +4273,25 @@ void InitI2C(void);
 void InitPWM(void);
 void CheckPWMOutput(void);
 
-struct PWM {
+struct Motor {
 unsigned char state:1;
 unsigned char enabled:1;
 unsigned char paused:1;
 unsigned char direction:1;
 unsigned char targetDirection:1;
+unsigned char motorType:1;
+unsigned char PWMPin;
+unsigned char dirPin;
+unsigned char cdirPin;
 unsigned char duty;
 unsigned char target;
+unsigned char servoCount;
 };
 
-struct PWM LeftPWM;
-struct PWM RightPWM;
+struct Motor Motors[4];
 
 # 8 "i2c.c"
 void InitI2C(void) {
-
-TRISBbits.RB4 = 1;
-TRISBbits.RB6 = 1;
-
-
 
 INTCON2bits.NOT_RABPU = 0;
 
@@ -4307,13 +4306,7 @@ SSPCON1bits.SSPM = 0b0110;
 
 SSPCON2bits.SEN = 1;
 
-
-
-SSPMSKbits.MSK = 0b01000110;
-
-
-
-
+# 30
 SSPADD = 0x23<<1;
 
 
@@ -4330,11 +4323,13 @@ INTCONbits.PEIE = 1;
 SSPCON1bits.SSPEN = 1;
 }
 
-# 80
+# 75
 unsigned char currentByte = 0;
 unsigned char state = 0;
 
-# 94
+int i;
+
+# 91
 void interrupt I2C_Slave_Read(void)
 {
 if(PIR1bits.SSPIF == 1) {
@@ -4361,58 +4356,73 @@ state = currentByte;
 
 switch (state) {
 case 1:
-LeftPWM.target = currentByte;
-RightPWM.target = currentByte;
+for (i = 0; i < 4; i++) {
+Motors[i].target = currentByte;
 if (currentByte < MinimumDuty) {
-LeftPWM.target = 0;
-RightPWM.target = 0;
+Motors[i].target = 0;
+}
 }
 break;
 case 2:
-LeftPWM.target = currentByte;
+Motors[0].target = currentByte;
 if (currentByte < MinimumDuty) {
-LeftPWM.target = 0;
+Motors[0].target = 0;
 }
 break;
 case 3:
-RightPWM.target = currentByte;
+Motors[1].target = currentByte;
 if (currentByte < MinimumDuty) {
-RightPWM.target = 0;
+Motors[1].target = 0;
 }
 break;
 case 4:
-PWMEnable = (char) currentByte & 0b00000001;
-AccelType = (char) currentByte & 0b00000110;
+Motors[2].target = currentByte;
+if (currentByte < MinimumDuty) {
+Motors[2].target = 0;
+}
 break;
 case 5:
-if ((currentByte & 0b00000010)>>1) {
-LeftPWM.targetDirection = 1;
-} else {
-LeftPWM.targetDirection = 0;
-}
-if ((currentByte & 0b00000100)>>2) {
-RightPWM.targetDirection = 1;
-} else {
-RightPWM.targetDirection = 0;
+Motors[3].target = currentByte;
+if (currentByte < MinimumDuty) {
+Motors[3].target = 0;
 }
 break;
 case 7:
-PWMEnable = !(currentByte & 0b00000001);
-LeftPWM.enabled = !(currentByte & 0b00000010);
-RightPWM.enabled = !(currentByte & 0b00000100);
-break;
-case 6:
-PWMPause = currentByte & 0b00000001;
-LeftPWM.paused = !(currentByte & 0b00000010);
-RightPWM.paused = !(currentByte & 0b00000100);
-break;
-case 8:
-AccelType = currentByte;
+for (i = 0; i < 4; i++) {
+if ((currentByte>>(i+1)) & 0b00000001) {
+Motors[i].targetDirection = 1;
+} else {
+Motors[i].targetDirection = 0;
+}
+}
 break;
 case 9:
-AccelRate = currentByte;
+PWMEnable = (currentByte & 0b00000001);
+for (i = 0; i < 4; i++) {
+if ((currentByte>>(i+1)) & 0b00000001) {
+Motors[i].enabled = 1;
+} else {
+Motors[i].enabled = 0;
+}
+}
+break;
+case 8:
+PWMPause = currentByte & 0b00000001;
+for (i = 0; i < 4; i++) {
+if ((currentByte>>(i+1)) & 0b00000001) {
+Motors[i].paused = 1;
+} else {
+Motors[i].paused = 0;
+}
+}
 break;
 case 10:
+AccelType = currentByte;
+break;
+case 11:
+AccelRate = currentByte;
+break;
+case 12:
 MinimumDuty = currentByte;
 break;
 }
@@ -4420,16 +4430,8 @@ state = 0;
 }
 SSPCON1bits.CKP = 1;
 } else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
-if (currentByte>>1 == 1) {
-SSPBUF = LeftPWM.duty;
-} else if (currentByte>>1 == 2) {
-SSPBUF = LeftPWM.duty;
-} else if (currentByte>>1 == 3) {
-SSPBUF = RightPWM.duty;
-} else if (currentByte>>1 == 4) {
-SSPBUF = PWMEnable;
-}
 
+# 203
 SSPCON1bits.CKP = 1;
 
 while(SSPSTATbits.BF);

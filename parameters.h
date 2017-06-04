@@ -29,25 +29,30 @@
 
 #define I2C_ADDRESS 0x23
 
+#define DC_MOTOR 0
+#define SERVO_MOTOR 1
+
 //Addresses for the different parts
 #define SPEED_ADDRESS 1
-#define LEFT_ADDRESS 2
-#define RIGHT_ADDRESS 3
-#define SETTINGS_ADDRESS 4
-#define DIRECTION_ADDRESS 5
-#define PAUSE_ADDRESS 6
-#define ENABLE_ADDRESS 7
-#define ACCEL_ADDRESS 8
-#define ACCEL_RATE_ADDRESS 9
-#define MINIMUM_DUTY_ADDRESS 10
+#define MOTOR_0_SPEED_ADDRESS 2
+#define MOTOR_1_SPEED_ADDRESS 3
+#define MOTOR_2_SPEED_ADDRESS 4
+#define MOTOR_3_SPEED_ADDRESS 5
+#define SETTINGS_ADDRESS 6
+#define DIRECTION_ADDRESS 7
+#define PAUSE_ADDRESS 8
+#define ENABLE_ADDRESS 9
+#define ACCEL_ADDRESS 10
+#define ACCEL_RATE_ADDRESS 11
+#define MINIMUM_DUTY_ADDRESS 12
 
 
 //bitmasks for different parts of the settings bytes
-#define PWM_ENABLE 0b00000001
-#define ACCEL_TYPE 0b00000110
 #define GLOBAL_MASK 0b00000001
-#define LEFT_MASK 0b00000010
-#define RIGHT_MASK 0b00000100
+#define MOTOR_0_MASK 0b00000010
+#define MOTOR_1_MASK 0b00000100
+#define MOTOR_2_MASK 0b00001000
+#define MOTOR_3_MASK 0b00010000
 
 #define ACCEL_INSTANT 0
 #define ACCEL_LINEAR 1
@@ -70,18 +75,22 @@ void InitI2C(void);
 void InitPWM(void);
 void CheckPWMOutput(void);
 
-struct PWM {
+struct Motor {
     unsigned char state:1;
     unsigned char enabled:1;
     unsigned char paused:1;
     unsigned char direction:1;
     unsigned char targetDirection:1;
+    unsigned char motorType:1;
+    unsigned char PWMPin;
+    unsigned char dirPin;
+    unsigned char cdirPin;
     unsigned char duty;
     unsigned char target;
+    unsigned char servoCount;
 };
 
-struct PWM LeftPWM;
-struct PWM RightPWM;
+struct Motor Motors[4];
 
 #endif	/* MOTOR_CONTROLLER_H */
 

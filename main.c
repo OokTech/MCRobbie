@@ -6,6 +6,33 @@
  * This is going to be used as an i2c interface between a raspberry pi and motor
  * drivers.
  * 
+ * 
+ * This can control up to 4 separate motors using a shared pwm period.
+ * To allow for 2 or 3 wire controllers each motor has 3 pins associated with it
+ * a pwm pin, a dir pin and a cdir pin. Only the pwm and dir pins are used for
+ * 2 wire controllers.
+ * 
+ * The 4 sets of pins available are:
+ * 
+ * Motor 1:
+ * PWM: RC0
+ * DIR: RC1
+ * CDIR: RC2
+ * 
+ * Motor 2:
+ * PWM: RC3
+ * DIR: RC4
+ * CDIR: RC5
+ * 
+ * Motor 3:
+ * PWM: RC6
+ * DIR: RB7
+ * CDIR: RC7
+ * 
+ * Motor 4:
+ * PWM: RA4
+ * DIR: RA5
+ * CDIR: RB5
  */
 
 
@@ -73,21 +100,24 @@
 #include <xc.h>
 #include "parameters.h"
 
+/*
+ * This sets up the ports used by the motors and by the i2c
+ */
+void InitPorts(void) {
+    //Set all port A pins to outputs
+    TRISA = 0x00;
+    //Set all port B pins to outputs aside from 4 and 6, which are needed by I2C
+    TRISB = 0b01010000;
+    //Set all port C pins to outputs
+    TRISC = 0x00;
+}
+
 void main(void) {
     //This sets the internal oscillator to 16MHz
     OSCCONbits.IRCF = 0b111;
     
-    //These are for debugging, we can remove this later.
-    TRISBbits.RB7 = 0;
-    TRISCbits.RC0 = 0;
-    TRISCbits.RC1 = 0;
-    TRISCbits.RC2 = 0;
-    TRISCbits.RC3 = 0;
-    TRISCbits.RC4 = 0;
-    TRISCbits.RC5 = 0;
-    LATC = 0x00;
-    
     //These set up the components
+    InitPorts();
     InitI2C();
     InitPWM();
     
