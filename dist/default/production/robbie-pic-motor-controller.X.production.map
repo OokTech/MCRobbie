@@ -5,7 +5,7 @@ Linker command line:
 -W-3 --edf=/Applications/microchip/xc8/v1.42/dat/en_msgs.txt -cs \
   -h+dist/default/production/robbie-pic-motor-controller.X.production.sym \
   --cmf=dist/default/production/robbie-pic-motor-controller.X.production.cmf \
-  -z -Q18F14K50 -o/tmp/xcOwXSb6a \
+  -z -Q18F14K50 -o/tmp/xcDiI9Cd4 \
   -Mdist/default/production/robbie-pic-motor-controller.X.production.map \
   -E1 -ver=XC8 -ASTACK=073h-02ffh -pstack=STACK -ACODE=00h-03FFFh \
   -ACONST=00h-03FFFh -ASMALLCONST=0300h-03FFhx61 -AMEDIUMCONST=0300h-03FFFh \
@@ -21,7 +21,7 @@ Linker command line:
   -pfarbss=FARRAM,fardata=FARRAM,nvFARRAM=FARRAM \
   -pintsave_regs=BIGRAM,bigbss=BIGRAM,bigdata=BIGRAM -pbss=RAM \
   -pidata=CODE,irdata=CODE,ibigdata=CODE,ifardata=CODE -prparam=COMRAM \
-  /tmp/xc6mmj3eq.obj \
+  /tmp/xcaKczrhc.obj \
   dist/default/production/robbie-pic-motor-controller.X.production.obj 
 
 Object code version is 3.11
@@ -34,54 +34,54 @@ Call graph: (short form)
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-/tmp/xc6mmj3eq.obj
-                init                                398      398        4        4       0
+/tmp/xcaKczrhc.obj
+                init                                3A2      3A2        4        4       0
                 reset_vec                             0        0        4        0       0
                 idloc                            200000   200000        8   200000       0
                 config                           300000   300000        E   300000       0
 dist/default/production/robbie-pic-motor-controller.X.production.obj
-                intcode                               8        8      390        4       0
+                intcode                               8        8      39A        4       0
                 temp                                 49       49        1        1       1
-                text12                             18BC     18BC       26        4       0
-                text10                              E10      E10      37A        4       0
-                text9                              1896     1896       26        4       0
-                text8                               9B4      9B4      45C        4       0
-                text7                              177C     177C       E0        4       0
-                text6                              118A     118A      31E        4       0
-                text5                              1638     1638      144        4       0
-                text4                               39C      39C      618        4       0
-                text3                              18E2     18E2       22        4       0
-                text2                              14A8     14A8      190        4       0
-                text1                              191C     191C        E        4       0
-                text0                              1904     1904       18        4       0
-                cstackCOMRAM                         25       25       20        1       1
+                text12                             1984     1984       26        4       0
+                text10                              E1A      E1A      37A        4       0
+                text9                              195E     195E       26        4       0
+                text8                               9BE      9BE      45C        4       0
+                text7                              1846     1846       E0        4       0
+                text6                              1194     1194      344        4       0
+                text5                              1702     1702      144        4       0
+                text4                               3A6      3A6      618        4       0
+                text3                              19AA     19AA       22        4       0
+                text2                              14D8     14D8      22A        4       0
+                text1                              19E4     19E4        E        4       0
+                text0                              19CC     19CC       18        4       0
+                cstackCOMRAM                         26       26       20        1       1
                 cstackBANK0                          60       60       13       60       1
-                dataCOMRAM                           45       45        4        1       1
-                bssCOMRAM                             1        1       24        1       1
-                cinit                              185C     185C       3A        4       0
-                idataCOMRAM                        192A     192A        4        4       0
+                dataCOMRAM                           46       46        3        1       1
+                bssCOMRAM                             1        1       25        1       1
+                cinit                              1926     1926       38        4       0
+                idataCOMRAM                        19F2     19F2        3        4       0
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   STACK          
 
         CLASS   CODE           
-                intcode                               8        8      390         0
-                init                                398      398        4         0
+                intcode                               8        8      39A         0
+                init                                3A2      3A2        4         0
                 reset_vec                             0        0        4         0
-                text12                             18BC     18BC       26         0
-                text10                              E10      E10      37A         0
-                text9                              1896     1896       26         0
-                text8                               9B4      9B4      45C         0
-                text7                              177C     177C       E0         0
-                text6                              118A     118A      31E         0
-                text5                              1638     1638      144         0
-                text4                               39C      39C      618         0
-                text3                              18E2     18E2       22         0
-                text2                              14A8     14A8      190         0
-                text1                              191C     191C        E         0
-                text0                              1904     1904       18         0
-                cinit                              185C     185C       3A         0
-                idataCOMRAM                        192A     192A        4         0
+                text12                             1984     1984       26         0
+                text10                              E1A      E1A      37A         0
+                text9                              195E     195E       26         0
+                text8                               9BE      9BE      45C         0
+                text7                              1846     1846       E0         0
+                text6                              1194     1194      344         0
+                text5                              1702     1702      144         0
+                text4                               3A6      3A6      618         0
+                text3                              19AA     19AA       22         0
+                text2                              14D8     14D8      22A         0
+                text1                              19E4     19E4        E         0
+                text0                              19CC     19CC       18         0
+                cinit                              1926     1926       38         0
+                idataCOMRAM                        19F2     19F2        3         0
 
         CLASS   CONST          
 
@@ -91,9 +91,9 @@ TOTAL           Name                               Link     Load   Length     Sp
 
         CLASS   COMRAM         
                 temp                                 49       49        1         1
-                cstackCOMRAM                         25       25       20         1
-                dataCOMRAM                           45       45        4         1
-                bssCOMRAM                             1        1       24         1
+                cstackCOMRAM                         26       26       20         1
+                dataCOMRAM                           46       46        3         1
+                bssCOMRAM                             1        1       25         1
 
         CLASS   ABS1           
 
@@ -126,7 +126,7 @@ SEGMENTS        Name                           Load    Length   Top    Selector 
 
                 reset_vec                      000000  000004  000004         0       0  CODE    
                 bssCOMRAM                      000001  000049  00004A         1       1  COMRAM  
-                intcode                        000008  001926  00192E         4       0  CODE    
+                intcode                        000008  0019ED  0019F5         4       0  CODE    
                 cstackBANK0                    000060  000013  000073        60       1  BANK0   
                 idloc                          200000  000008  200008    200000       0  IDLOC   
                 config                         300000  00000E  30000E    300000       0  CONFIG  
@@ -141,44 +141,45 @@ UNUSED ADDRESS RANGES
         BIGRAM           00004A-00005F               16
                          000073-0002FF              28D
         CODE             000004-000007                4
-                         00192E-003FFF             26D2
+                         0019F5-003FFF             260B
         COMRAM           00004A-00005F               16
         CONST            000004-000007                4
-                         00192E-003FFF             26D2
+                         0019F5-003FFF             260B
         EEDATA           F00000-F000FF              100
-        MEDIUMCONST      00192E-003FFF             26D2
+        MEDIUMCONST      0019F5-003FFF             260B
         RAM              000073-0002FF              100
         SFR              000F53-000FFF                D
-        SMALLCONST       00192E-003FFF              100
+        SMALLCONST       0019F5-003FFF              100
         STACK            000073-0002FF              28D
 
                                   Symbol Table
 
-?___wmul                     cstackCOMRAM 00003B
-?i2___wmul                   cstackCOMRAM 000025
+?___wmul                     cstackCOMRAM 00003C
+?i2___wmul                   cstackCOMRAM 000026
 AccelerateMotor@index        cstackBANK0  000067
 AcceleratePWM@i              cstackBANK0  00006D
 CheckPWMOutput@i             cstackBANK0  000071
-ExponentialProfile@change    cstackCOMRAM 000042
-ExponentialProfile@current   cstackCOMRAM 000043
-ExponentialProfile@target    cstackCOMRAM 000041
-InitPWM@n                    cstackCOMRAM 000041
-SetPin@pin                   cstackCOMRAM 000042
-SetPin@value                 cstackCOMRAM 000041
+ExponentialProfile@change    cstackCOMRAM 000043
+ExponentialProfile@current   cstackCOMRAM 000044
+ExponentialProfile@target    cstackCOMRAM 000042
+InitPWM@i                    cstackBANK0  000060
+InitPWM@n                    cstackBANK0  000062
+SetPin@pin                   cstackCOMRAM 000043
+SetPin@value                 cstackCOMRAM 000042
 StopMotor@index              cstackBANK0  000067
 _AccelCount                  bssCOMRAM    00001F
-_AccelRate                   dataCOMRAM   000045
-_AccelType                   dataCOMRAM   000047
-_AccelerateMotor             text8        0009B4
-_AcceleratePWM               text5        001638
-_CheckPWMOutput              text4        00039C
-_ExponentialProfile          text10       000E10
+_AccelRate                   dataCOMRAM   000046
+_AccelType                   bssCOMRAM    000024
+_AccelerateMotor             text8        0009BE
+_AcceleratePWM               text5        001702
+_CheckPWMOutput              text4        0003A6
+_ExponentialProfile          text10       000E1A
 _I2C_Slave_Read              intcode      000008
 _INTCON2bits                 (abs)        000FF1
 _INTCONbits                  (abs)        000FF2
-_InitI2C                     text3        0018E2
-_InitPWM                     text2        0014A8
-_InitPorts                   text1        00191C
+_InitI2C                     text3        0019AA
+_InitPWM                     text2        0014D8
+_InitPorts                   text1        0019E4
 _LATAbits                    (abs)        000F89
 _LATBbits                    (abs)        000F8A
 _LATCbits                    (abs)        000F8B
@@ -188,14 +189,14 @@ _OSCCONbits                  (abs)        000FD3
 _PIE1bits                    (abs)        000F9D
 _PIR1bits                    (abs)        000F9E
 _PWMEnable                   dataCOMRAM   000048
-_PWMPause                    bssCOMRAM    000024
+_PWMPause                    bssCOMRAM    000025
 _SSPADD                      (abs)        000FC8
 _SSPBUF                      (abs)        000FC9
 _SSPCON1bits                 (abs)        000FC6
 _SSPCON2bits                 (abs)        000FC5
 _SSPSTATbits                 (abs)        000FC7
-_SetPin                      text7        00177C
-_StopMotor                   text6        00118A
+_SetPin                      text7        001846
+_StopMotor                   text6        001194
 _T0CONbits                   (abs)        000FD5
 _TMR0                        (abs)        000FD6
 _TRISA                       (abs)        000F92
@@ -259,10 +260,10 @@ __Hidata                     idata        000000
 __HidataCOMRAM               idataCOMRAM  000000
 __Hidloc                     idloc        200008
 __Hifardata                  ifardata     000000
-__Hinit                      init         00039C
-__Hintcode                   intcode      000398
+__Hinit                      init         0003A6
+__Hintcode                   intcode      0003A2
 __Hintcode_body              intcode_body 000000
-__Hintcodelo                 intcodelo    000398
+__Hintcodelo                 intcodelo    0003A2
 __Hintentry                  intentry     000000
 __Hintret                    intret       000000
 __Hintsave_regs              intsave_regs 000000
@@ -272,7 +273,7 @@ __HnvFARRAM                  nvFARRAM     000000
 __Hnvbit                     nvbit        000000
 __Hnvrram                    nvrram       000000
 __Hparam                     rparam       000000
-__Hpowerup                   powerup      000398
+__Hpowerup                   powerup      0003A2
 __Hram                       ram          000000
 __Hramtop                    ramtop       000300
 __Hrbit                      rbit         000000
@@ -328,10 +329,10 @@ __Lidata                     idata        000000
 __LidataCOMRAM               idataCOMRAM  000000
 __Lidloc                     idloc        200000
 __Lifardata                  ifardata     000000
-__Linit                      init         000398
+__Linit                      init         0003A2
 __Lintcode                   intcode      000008
 __Lintcode_body              intcode_body 000000
-__Lintcodelo                 intcodelo    000398
+__Lintcodelo                 intcodelo    0003A2
 __Lintentry                  intentry     000000
 __Lintret                    intret       000000
 __Lintsave_regs              intsave_regs 000000
@@ -341,7 +342,7 @@ __LnvFARRAM                  nvFARRAM     000000
 __Lnvbit                     nvbit        000000
 __Lnvrram                    nvrram       000000
 __Lparam                     rparam       000000
-__Lpowerup                   powerup      000398
+__Lpowerup                   powerup      0003A2
 __Lram                       ram          000000
 __Lramtop                    ramtop       000300
 __Lrbit                      rbit         000000
@@ -378,47 +379,47 @@ ___intlo_sp                  stack        000000
 ___param_bank                (abs)        000000
 ___rparam_used               (abs)        000001
 ___sp                        stack        000000
-___wmul                      text9        001896
-___wmul@multiplicand         cstackCOMRAM 00003D
-___wmul@multiplier           cstackCOMRAM 00003B
-___wmul@product              cstackCOMRAM 00003F
+___wmul                      text9        00195E
+___wmul@multiplicand         cstackCOMRAM 00003E
+___wmul@multiplier           cstackCOMRAM 00003C
+___wmul@product              cstackCOMRAM 000040
 __accesstop                  (abs)        000060
 __activetblptr               (abs)        000002
-__end_of_AccelerateMotor     text8        000E10
-__end_of_AcceleratePWM       text5        00177C
-__end_of_CheckPWMOutput      text4        0009B4
-__end_of_ExponentialProfile  text10       00118A
-__end_of_I2C_Slave_Read      intcode      000398
-__end_of_InitI2C             text3        001904
-__end_of_InitPWM             text2        001638
-__end_of_InitPorts           text1        00192A
-__end_of_SetPin              text7        00185C
-__end_of_StopMotor           text6        0014A8
-__end_of___wmul              text9        0018BC
-__end_of__initialization     cinit        001888
-__end_of_main                text0        00191C
-__end_ofi2___wmul            text12       0018E2
-__initialization             cinit        00185C
+__end_of_AccelerateMotor     text8        000E1A
+__end_of_AcceleratePWM       text5        001846
+__end_of_CheckPWMOutput      text4        0009BE
+__end_of_ExponentialProfile  text10       001194
+__end_of_I2C_Slave_Read      intcode      0003A2
+__end_of_InitI2C             text3        0019CC
+__end_of_InitPWM             text2        001702
+__end_of_InitPorts           text1        0019F2
+__end_of_SetPin              text7        001926
+__end_of_StopMotor           text6        0014D8
+__end_of___wmul              text9        001984
+__end_of__initialization     cinit        001950
+__end_of_main                text0        0019E4
+__end_ofi2___wmul            text12       0019AA
+__initialization             cinit        001926
 __mediumconst                mediumconst  000000
 __pbssCOMRAM                 bssCOMRAM    000001
-__pcinit                     cinit        00185C
+__pcinit                     cinit        001926
 __pcstackBANK0               cstackBANK0  000060
-__pcstackCOMRAM              cstackCOMRAM 000025
-__pdataCOMRAM                dataCOMRAM   000045
-__pidataCOMRAM               idataCOMRAM  00192A
+__pcstackCOMRAM              cstackCOMRAM 000026
+__pdataCOMRAM                dataCOMRAM   000046
+__pidataCOMRAM               idataCOMRAM  0019F2
 __pintcode                   intcode      000008
-__ptext0                     text0        001904
-__ptext1                     text1        00191C
-__ptext10                    text10       000E10
-__ptext12                    text12       0018BC
-__ptext2                     text2        0014A8
-__ptext3                     text3        0018E2
-__ptext4                     text4        00039C
-__ptext5                     text5        001638
-__ptext6                     text6        00118A
-__ptext7                     text7        00177C
-__ptext8                     text8        0009B4
-__ptext9                     text9        001896
+__ptext0                     text0        0019CC
+__ptext1                     text1        0019E4
+__ptext10                    text10       000E1A
+__ptext12                    text12       001984
+__ptext2                     text2        0014D8
+__ptext3                     text3        0019AA
+__ptext4                     text4        0003A6
+__ptext5                     text5        001702
+__ptext6                     text6        001194
+__ptext7                     text7        001846
+__ptext8                     text8        0009BE
+__ptext9                     text9        00195E
 __ramtop                     ramtop       000300
 __size_of_AccelerateMotor    (abs)        000000
 __size_of_AcceleratePWM      (abs)        000000
@@ -436,14 +437,14 @@ __size_ofi2___wmul           (abs)        000000
 __smallconst                 smallconst   000000
 _currentByte                 bssCOMRAM    000022
 _i                           bssCOMRAM    00001D
-_main                        text0        001904
+_main                        text0        0019CC
 _state                       bssCOMRAM    000021
 btemp                        temp         000049
-end_of_initialization        cinit        001888
-i2___wmul                    text12       0018BC
-i2___wmul@multiplicand       cstackCOMRAM 000027
-i2___wmul@multiplier         cstackCOMRAM 000025
-i2___wmul@product            cstackCOMRAM 000029
+end_of_initialization        cinit        001950
+i2___wmul                    text12       001984
+i2___wmul@multiplicand       cstackCOMRAM 000028
+i2___wmul@multiplier         cstackCOMRAM 000026
+i2___wmul@product            cstackCOMRAM 00002A
 int$flags                    temp         000049
 intlevel0                    text         000000
 intlevel1                    text         000000
@@ -451,8 +452,8 @@ intlevel2                    text         000000
 intlevel3                    text         000000
 stackhi                      (abs)        0002FF
 stacklo                      (abs)        000073
-start                        init         000398
-start_initialization         cinit        00185C
+start                        init         0003A2
+start_initialization         cinit        001926
 
 
 FUNCTION INFORMATION:
@@ -521,11 +522,12 @@ Total ram usage:        0 bytes
 
  *************** function _InitPWM *****************
  Defined at:
-		line 12 in file "pwm.c"
+		line 56 in file "pwm.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
-  n               2   28[COMRAM] int 
+  n               2    2[BANK0 ] int 
+  i               2    0[BANK0 ] int 
  Return value:  Size  Location     Type
                   1    wreg      void 
  Registers used:
@@ -536,13 +538,14 @@ Total ram usage:        0 bytes
 		Unchanged: 
  Data sizes:     COMRAM   BANK0   BANK1   BANK2
       Params:         0       0       0       0
-      Locals:         2       0       0       0
+      Locals:         0       4       0       0
       Temps:          0       0       0       0
-      Totals:         2       0       0       0
-Total ram usage:        2 bytes
+      Totals:         0       4       0       0
+Total ram usage:        4 bytes
  Hardware stack levels used:    1
  Hardware stack levels required when called:    3
  This function calls:
+		_SetPin
 		___wmul
  This function is called by:
 		_main
@@ -581,7 +584,7 @@ Total ram usage:        0 bytes
 
  *************** function _CheckPWMOutput *****************
  Defined at:
-		line 254 in file "pwm.c"
+		line 261 in file "pwm.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -613,7 +616,7 @@ Total ram usage:        4 bytes
 
  *************** function _AcceleratePWM *****************
  Defined at:
-		line 218 in file "pwm.c"
+		line 225 in file "pwm.c"
  Parameters:    Size  Location     Type
 		None
  Auto vars:     Size  Location     Type
@@ -645,7 +648,7 @@ Total ram usage:        4 bytes
 
  *************** function _StopMotor *****************
  Defined at:
-		line 151 in file "pwm.c"
+		line 158 in file "pwm.c"
  Parameters:    Size  Location     Type
   index           2    7[BANK0 ] int 
  Auto vars:     Size  Location     Type
@@ -677,7 +680,7 @@ Total ram usage:        3 bytes
 
  *************** function _SetPin *****************
  Defined at:
-		line 58 in file "pwm.c"
+		line 10 in file "pwm.c"
  Parameters:    Size  Location     Type
   pin             1    wreg     unsigned char 
   value           1   28[COMRAM] unsigned char 
@@ -702,6 +705,7 @@ Total ram usage:        2 bytes
  This function calls:
 		Nothing
  This function is called by:
+		_InitPWM
 		_StopMotor
 		_CheckPWMOutput
  This function uses a non-reentrant model
@@ -709,7 +713,7 @@ Total ram usage:        2 bytes
 
  *************** function _AccelerateMotor *****************
  Defined at:
-		line 182 in file "pwm.c"
+		line 189 in file "pwm.c"
  Parameters:    Size  Location     Type
   index           2    7[BANK0 ] int 
  Auto vars:     Size  Location     Type
@@ -775,7 +779,7 @@ Total ram usage:        6 bytes
 
  *************** function _ExponentialProfile *****************
  Defined at:
-		line 103 in file "pwm.c"
+		line 110 in file "pwm.c"
  Parameters:    Size  Location     Type
   current         1    wreg     unsigned char 
   target          1   28[COMRAM] unsigned char 
@@ -871,36 +875,36 @@ MODULE INFORMATION
 
 Module		Function		Class		Link	Load	Size
 /Applications/microchip/xc8/v1.42/sources/common/Umul16.c
-		___wmul        		CODE           	1896	0000	39
+		___wmul        		CODE           	195E	0000	39
 
 /Applications/microchip/xc8/v1.42/sources/common/Umul16.c estimated size: 39
 
 i2c.c
-		_I2C_Slave_Read		CODE           	0008	0000	913
-		_InitI2C       		CODE           	18E2	0000	35
+		_I2C_Slave_Read		CODE           	0008	0000	923
+		_InitI2C       		CODE           	19AA	0000	35
 
-i2c.c estimated size: 948
+i2c.c estimated size: 958
 
 pwm.c
-		_StopMotor     		CODE           	118A	0000	799
-		_AccelerateMotor		CODE           	09B4	0000	1117
-		_InitPWM       		CODE           	14A8	0000	401
-		_ExponentialProfile		CODE           	0E10	0000	891
-		_AcceleratePWM 		CODE           	1638	0000	325
-		_SetPin        		CODE           	177C	0000	225
-		_CheckPWMOutput		CODE           	039C	0000	1561
+		_StopMotor     		CODE           	1194	0000	837
+		_AccelerateMotor		CODE           	09BE	0000	1117
+		_InitPWM       		CODE           	14D8	0000	555
+		_ExponentialProfile		CODE           	0E1A	0000	891
+		_AcceleratePWM 		CODE           	1702	0000	325
+		_SetPin        		CODE           	1846	0000	225
+		_CheckPWMOutput		CODE           	03A6	0000	1561
 
-pwm.c estimated size: 5319
+pwm.c estimated size: 5511
 
 shared
-		i2___wmul      		CODE           	18BC	0000	39
-		__initialization		CODE           	185C	0000	45
+		i2___wmul      		CODE           	1984	0000	39
+		__initialization		CODE           	1926	0000	43
 
-shared estimated size: 84
+shared estimated size: 82
 
 main.c
-		_InitPorts     		CODE           	191C	0000	15
-		_main          		CODE           	1904	0000	25
+		_InitPorts     		CODE           	19E4	0000	15
+		_main          		CODE           	19CC	0000	25
 
 main.c estimated size: 40
 

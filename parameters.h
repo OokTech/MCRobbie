@@ -65,8 +65,8 @@ unsigned char PWMEnable = 1;
 unsigned char PWMPause = 0;
 
 //This is used to set the different types of acceleration
-unsigned char AccelType = ACCEL_EXPONENT;
-unsigned int AccelRate = 1000;
+unsigned char AccelType = ACCEL_INSTANT;
+unsigned int AccelRate = 150;
 unsigned int AccelCount = 0;
 
 unsigned char MinimumDuty = 0;

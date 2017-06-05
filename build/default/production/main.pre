@@ -4318,8 +4318,8 @@ unsigned char PWMEnable = 1;
 unsigned char PWMPause = 0;
 
 
-unsigned char AccelType = 2;
-unsigned int AccelRate = 1000;
+unsigned char AccelType = 0;
+unsigned int AccelRate = 150;
 unsigned int AccelCount = 0;
 
 unsigned char MinimumDuty = 0;

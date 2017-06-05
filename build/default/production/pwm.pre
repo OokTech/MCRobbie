@@ -4263,8 +4263,8 @@ unsigned char PWMEnable = 1;
 unsigned char PWMPause = 0;
 
 
-unsigned char AccelType = 2;
-unsigned int AccelRate = 1000;
+unsigned char AccelType = 0;
+unsigned int AccelRate = 150;
 unsigned int AccelCount = 0;
 
 unsigned char MinimumDuty = 0;
@@ -4290,51 +4290,7 @@ unsigned char servoCount;
 
 struct Motor Motors[4];
 
-# 12 "pwm.c"
-void InitPWM(void) {
-
-T0CONbits.T0PS = 0b011;
-
-T0CONbits.PSA = 0;
-
-T0CONbits.T0CS = 0;
-
-T0CONbits.T08BIT = 1;
-
-T0CONbits.TMR0ON = 1;
-
-
-int n;
-for (n = 0; n < 4; n++) {
-Motors[n].state = (unsigned char)0;
-Motors[n].paused = (unsigned char)0;
-Motors[n].enabled = (unsigned char)1;
-Motors[n].direction = (unsigned char)1;
-Motors[n].targetDirection = (unsigned char)1;
-Motors[n].duty = (unsigned char)0;
-Motors[n].target = (unsigned char)0;
-Motors[n].motorType = (unsigned char)0;
-}
-
-
-Motors[0].PWMPin = 0;
-Motors[0].dirPin = 1;
-Motors[0].cdirPin = 2;
-
-Motors[1].PWMPin = 3;
-Motors[1].dirPin = 4;
-Motors[1].cdirPin = 5;
-
-Motors[2].PWMPin = 6;
-Motors[2].dirPin = 7;
-Motors[2].cdirPin = 9;
-
-Motors[3].PWMPin = 10;
-Motors[3].dirPin = 11;
-Motors[3].cdirPin = 8;
-}
-
-# 58
+# 10 "pwm.c"
 void SetPin(char pin, char value) {
 switch (pin) {
 case 0:
@@ -4376,7 +4332,58 @@ break;
 }
 }
 
-# 103
+# 56
+void InitPWM(void) {
+
+T0CONbits.T0PS = 0b011;
+
+T0CONbits.PSA = 0;
+
+T0CONbits.T0CS = 0;
+
+T0CONbits.T08BIT = 1;
+
+T0CONbits.TMR0ON = 1;
+
+
+int n;
+for (n = 0; n < 4; n++) {
+Motors[n].state = (unsigned char)0;
+Motors[n].paused = (unsigned char)0;
+Motors[n].enabled = (unsigned char)1;
+Motors[n].direction = (unsigned char)1;
+Motors[n].targetDirection = (unsigned char)1;
+Motors[n].duty = (unsigned char)0;
+Motors[n].target = (unsigned char)0;
+Motors[n].motorType = (unsigned char)0;
+}
+
+
+Motors[0].PWMPin = 0;
+Motors[0].dirPin = 1;
+Motors[0].cdirPin = 2;
+
+Motors[1].PWMPin = 3;
+Motors[1].dirPin = 4;
+Motors[1].cdirPin = 5;
+
+Motors[2].PWMPin = 6;
+Motors[2].dirPin = 7;
+Motors[2].cdirPin = 9;
+
+Motors[3].PWMPin = 10;
+Motors[3].dirPin = 11;
+Motors[3].cdirPin = 8;
+
+
+int i;
+for (i = 0; i < 4; i++) {
+SetPin(Motors[i].dirPin,1);
+SetPin(Motors[i].cdirPin,0);
+}
+}
+
+# 110
 char ExponentialProfile(unsigned char current, unsigned char target) {
 unsigned char change = 0;
 if (current > target) {
@@ -4419,14 +4426,14 @@ change = target-current;
 return change;
 }
 
-# 151
+# 158
 void StopMotor(int index) {
 if (Motors[index].duty == 0 && Motors[index].direction != Motors[index].targetDirection) {
-Motors[index].duty = Motors[index].targetDirection;
+Motors[index].direction = Motors[index].targetDirection;
 
 SetPin(Motors[index].dirPin, Motors[index].direction);
 SetPin(Motors[index].cdirPin, !Motors[index].direction);
-} else {
+} else if (Motors[index].duty > 0) {
 switch (AccelType) {
 case 0:
 Motors[index].duty = 0;
@@ -4439,7 +4446,7 @@ Motors[index].duty = 0;
 }
 break;
 case 2:
-if (MinimumDuty < Motors[index].duty) {
+if (Motors[index].duty > MinimumDuty) {
 Motors[index].duty -= ExponentialProfile(Motors[index].duty, MinimumDuty);
 } else {
 Motors[index].duty = 0;
@@ -4480,7 +4487,7 @@ break;
 }
 }
 
-# 218
+# 225
 void AcceleratePWM(void) {
 int i;
 for (i = 0; i < 4; i++) {
@@ -4499,7 +4506,7 @@ AccelerateMotor(i);
 }
 }
 
-# 254
+# 261
 void CheckPWMOutput(void) {
 int i;
 for (i = 0; i < 4; i++) {

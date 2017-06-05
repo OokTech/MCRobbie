@@ -5,6 +5,50 @@
 #include "parameters.h"
 
 /*
+ * This helper function lets you name a pin and set it as high or low
+ */
+void SetPin(char pin, char value) {
+    switch (pin) {
+        case 0:
+            LATCbits.LC0 = value;
+            break;
+        case 1:
+            LATCbits.LC1 = value;
+            break;
+        case 2:
+            LATCbits.LC2 = value;
+            break;
+        case 3:
+            LATCbits.LC3 = value;
+            break;
+        case 4:
+            LATCbits.LC4 = value;
+            break;
+        case 5:
+            LATCbits.LC5 = value;
+            break;
+        case 6:
+            LATCbits.LC6 = value;
+            break;
+        case 7:
+            LATCbits.LC7 = value;
+            break;
+        case 8:
+            LATBbits.LB5 = value;
+            break;
+        case 9:
+            LATBbits.LB7 = value;
+            break;
+        case 10:
+            LATAbits.LA4 = value;
+            break;
+        case 11:
+            LATAbits.LA5 = value;
+            break;
+    }
+}
+
+/*
  * This sets up Timer0 to be used by the pwm modules.
  * It also initialises the Motors array that holds the structs for the state of
  * each motor
@@ -50,49 +94,12 @@ void InitPWM(void) {
     Motors[3].PWMPin = 10;
     Motors[3].dirPin = 11;
     Motors[3].cdirPin = 8;
-}
-
-/*
- * This helper function lets you name a pin and set it as high or low
- */
-void SetPin(char pin, char value) {
-    switch (pin) {
-        case 0:
-            LATCbits.LC0 = value;
-            break;
-        case 1:
-            LATCbits.LC1 = value;
-            break;
-        case 2:
-            LATCbits.LC2 = value;
-            break;
-        case 3:
-            LATCbits.LC3 = value;
-            break;
-        case 4:
-            LATCbits.LC4 = value;
-            break;
-        case 5:
-            LATCbits.LC5 = value;
-            break;
-        case 6:
-            LATCbits.LC6 = value;
-            break;
-        case 7:
-            LATCbits.LC7 = value;
-            break;
-        case 8:
-            LATBbits.LB5 = value;
-            break;
-        case 9:
-            LATBbits.LB7 = value;
-            break;
-        case 10:
-            LATAbits.LA4 = value;
-            break;
-        case 11:
-            LATAbits.LA5 = value;
-            break;
+    
+    //Set initial direction on the pins
+    int i;
+    for (i = 0; i < 4; i++) {
+        SetPin(Motors[i].dirPin,1);
+        SetPin(Motors[i].cdirPin,0);
     }
 }
 
@@ -150,11 +157,11 @@ char ExponentialProfile(unsigned char current, unsigned char target) {
 
 void StopMotor(int index) {
     if (Motors[index].duty == 0 && Motors[index].direction != Motors[index].targetDirection) {
-        Motors[index].duty = Motors[index].targetDirection;
+        Motors[index].direction = Motors[index].targetDirection;
         
         SetPin(Motors[index].dirPin, Motors[index].direction);
         SetPin(Motors[index].cdirPin, !Motors[index].direction);
-    } else {
+    } else if (Motors[index].duty > 0) {
         switch (AccelType) {
             case ACCEL_INSTANT:
                 Motors[index].duty = 0;
@@ -167,7 +174,7 @@ void StopMotor(int index) {
                 }
                 break;
             case ACCEL_EXPONENT:
-                if (MinimumDuty < Motors[index].duty) {
+                if (Motors[index].duty > MinimumDuty) {
                     Motors[index].duty -= ExponentialProfile(Motors[index].duty, MinimumDuty);
                 } else {
                     Motors[index].duty = 0;

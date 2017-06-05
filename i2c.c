@@ -102,7 +102,7 @@ void interrupt I2C_Slave_Read(void)
             //release the clock
             SSPCON1bits.CKP = 1;
         } else if(!SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
-            //Save the address so we know what to do with the data that follows
+            //Set the state to 0 so we know to get the next byte as the state
             state = 0;
             //release the clock
             SSPCON1bits.CKP = 1;
@@ -115,34 +115,39 @@ void interrupt I2C_Slave_Read(void)
                 switch (state) {
                     case SPEED_ADDRESS:
                         for (i = 0; i < 4; i++) {
-                            Motors[i].target = currentByte;
                             if (currentByte < MinimumDuty) {
                                 Motors[i].target = 0;
+                            } else {
+                                Motors[i].target = currentByte;
                             }
                         }
                         break;
                     case MOTOR_0_SPEED_ADDRESS:
-                        Motors[0].target = currentByte;
                         if (currentByte < MinimumDuty) {
                             Motors[0].target = 0;
+                        } else {
+                            Motors[0].target = currentByte;
                         }
                         break;
                     case MOTOR_1_SPEED_ADDRESS:
-                        Motors[1].target = currentByte;
                         if (currentByte < MinimumDuty) {
                             Motors[1].target = 0;
+                        } else {
+                            Motors[1].target = currentByte;
                         }
                         break;
                     case MOTOR_2_SPEED_ADDRESS:
-                        Motors[2].target = currentByte;
                         if (currentByte < MinimumDuty) {
                             Motors[2].target = 0;
+                        } else {
+                            Motors[2].target = currentByte;
                         }
                         break;
                     case MOTOR_3_SPEED_ADDRESS:
-                        Motors[3].target = currentByte;
                         if (currentByte < MinimumDuty) {
                             Motors[3].target = 0;
+                        } else {
+                            Motors[3].target = currentByte;
                         }
                         break;
                     case DIRECTION_ADDRESS:

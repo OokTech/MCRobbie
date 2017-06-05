@@ -4263,8 +4263,8 @@ unsigned char PWMEnable = 1;
 unsigned char PWMPause = 0;
 
 
-unsigned char AccelType = 2;
-unsigned int AccelRate = 1000;
+unsigned char AccelType = 0;
+unsigned int AccelRate = 150;
 unsigned int AccelCount = 0;
 
 unsigned char MinimumDuty = 0;
@@ -4357,34 +4357,39 @@ state = currentByte;
 switch (state) {
 case 1:
 for (i = 0; i < 4; i++) {
-Motors[i].target = currentByte;
 if (currentByte < MinimumDuty) {
 Motors[i].target = 0;
+} else {
+Motors[i].target = currentByte;
 }
 }
 break;
 case 2:
-Motors[0].target = currentByte;
 if (currentByte < MinimumDuty) {
 Motors[0].target = 0;
+} else {
+Motors[0].target = currentByte;
 }
 break;
 case 3:
-Motors[1].target = currentByte;
 if (currentByte < MinimumDuty) {
 Motors[1].target = 0;
+} else {
+Motors[1].target = currentByte;
 }
 break;
 case 4:
-Motors[2].target = currentByte;
 if (currentByte < MinimumDuty) {
 Motors[2].target = 0;
+} else {
+Motors[2].target = currentByte;
 }
 break;
 case 5:
-Motors[3].target = currentByte;
 if (currentByte < MinimumDuty) {
 Motors[3].target = 0;
+} else {
+Motors[3].target = currentByte;
 }
 break;
 case 7:
@@ -4431,7 +4436,7 @@ state = 0;
 SSPCON1bits.CKP = 1;
 } else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
 
-# 203
+# 208
 SSPCON1bits.CKP = 1;
 
 while(SSPSTATbits.BF);
