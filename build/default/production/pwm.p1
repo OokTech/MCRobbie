@@ -3403,15 +3403,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pwm.c: 84: Motors[0].cdirPin = 2;
 "84
 [e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 2 `i `uc ]
-[; ;pwm.c: 86: Motors[1].PWMPin = 3;
+[; ;pwm.c: 86: Motors[1].PWMPin = 5;
 "86
-[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 3 `i `uc ]
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 5 `i `uc ]
 [; ;pwm.c: 87: Motors[1].dirPin = 4;
 "87
 [e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 4 `i `uc ]
-[; ;pwm.c: 88: Motors[1].cdirPin = 5;
+[; ;pwm.c: 88: Motors[1].cdirPin = 3;
 "88
-[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 5 `i `uc ]
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 3 `i `uc ]
 [; ;pwm.c: 90: Motors[2].PWMPin = 6;
 "90
 [e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 6 `i `uc ]
@@ -3421,12 +3421,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pwm.c: 92: Motors[2].cdirPin = 9;
 "92
 [e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 9 `i `uc ]
-[; ;pwm.c: 94: Motors[3].PWMPin = 10;
+[; ;pwm.c: 94: Motors[3].PWMPin = 11;
 "94
-[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 10 `i `uc ]
-[; ;pwm.c: 95: Motors[3].dirPin = 11;
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 11 `i `uc ]
+[; ;pwm.c: 95: Motors[3].dirPin = 10;
 "95
-[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 11 `i `uc ]
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 10 `i `uc ]
 [; ;pwm.c: 96: Motors[3].cdirPin = 8;
 "96
 [e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 8 `i `uc ]

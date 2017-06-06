@@ -32,7 +32,7 @@ temp COMRAM 1 49 49 1 1
 intcode CODE 0 8 8 39A 1
 dataCOMRAM COMRAM 1 46 46 3 1
 bssCOMRAM COMRAM 1 1 1 25 1
-$/tmp/xcaKczrhc.obj
+$/tmp/xcGB7ISrp.obj
 idloc IDLOC 0 200000 200000 8 1
 init CODE 0 3A2 3A2 4 1
 reset_vec CODE 0 0 0 4 1
@@ -372,34 +372,34 @@ E04 text8 CODE >195:/Users/inmysocks/Documents/GitLab/robbie-pic-motor-controlle
 19DA text0 CODE >122:/Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/main.c
 19DE text0 CODE >127:/Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/main.c
 19E2 text0 CODE >126:/Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/main.c
-1926 cinit CODE >1152:/tmp/xcS5fgrP5
-1926 cinit CODE >1154:/tmp/xcS5fgrP5
-1926 cinit CODE >1157:/tmp/xcS5fgrP5
-1926 cinit CODE >1205:/tmp/xcS5fgrP5
-1928 cinit CODE >1206:/tmp/xcS5fgrP5
-192A cinit CODE >1207:/tmp/xcS5fgrP5
-192C cinit CODE >1208:/tmp/xcS5fgrP5
-192E cinit CODE >1209:/tmp/xcS5fgrP5
-1930 cinit CODE >1210:/tmp/xcS5fgrP5
-1932 cinit CODE >1211:/tmp/xcS5fgrP5
-1934 cinit CODE >1212:/tmp/xcS5fgrP5
-1938 cinit CODE >1213:/tmp/xcS5fgrP5
-193A cinit CODE >1214:/tmp/xcS5fgrP5
-193E cinit CODE >1215:/tmp/xcS5fgrP5
-1940 cinit CODE >1216:/tmp/xcS5fgrP5
-1944 cinit CODE >1220:/tmp/xcS5fgrP5
-1948 cinit CODE >1221:/tmp/xcS5fgrP5
-194A cinit CODE >1222:/tmp/xcS5fgrP5
-194A cinit CODE >1223:/tmp/xcS5fgrP5
-194C cinit CODE >1224:/tmp/xcS5fgrP5
-194E cinit CODE >1225:/tmp/xcS5fgrP5
-1950 cinit CODE >1231:/tmp/xcS5fgrP5
-1950 cinit CODE >1233:/tmp/xcS5fgrP5
-1952 cinit CODE >1234:/tmp/xcS5fgrP5
-1954 cinit CODE >1236:/tmp/xcS5fgrP5
-1956 cinit CODE >1237:/tmp/xcS5fgrP5
-1958 cinit CODE >1238:/tmp/xcS5fgrP5
-195A cinit CODE >1239:/tmp/xcS5fgrP5
+1926 cinit CODE >1152:/tmp/xciRvtkxt
+1926 cinit CODE >1154:/tmp/xciRvtkxt
+1926 cinit CODE >1157:/tmp/xciRvtkxt
+1926 cinit CODE >1205:/tmp/xciRvtkxt
+1928 cinit CODE >1206:/tmp/xciRvtkxt
+192A cinit CODE >1207:/tmp/xciRvtkxt
+192C cinit CODE >1208:/tmp/xciRvtkxt
+192E cinit CODE >1209:/tmp/xciRvtkxt
+1930 cinit CODE >1210:/tmp/xciRvtkxt
+1932 cinit CODE >1211:/tmp/xciRvtkxt
+1934 cinit CODE >1212:/tmp/xciRvtkxt
+1938 cinit CODE >1213:/tmp/xciRvtkxt
+193A cinit CODE >1214:/tmp/xciRvtkxt
+193E cinit CODE >1215:/tmp/xciRvtkxt
+1940 cinit CODE >1216:/tmp/xciRvtkxt
+1944 cinit CODE >1220:/tmp/xciRvtkxt
+1948 cinit CODE >1221:/tmp/xciRvtkxt
+194A cinit CODE >1222:/tmp/xciRvtkxt
+194A cinit CODE >1223:/tmp/xciRvtkxt
+194C cinit CODE >1224:/tmp/xciRvtkxt
+194E cinit CODE >1225:/tmp/xciRvtkxt
+1950 cinit CODE >1231:/tmp/xciRvtkxt
+1950 cinit CODE >1233:/tmp/xciRvtkxt
+1952 cinit CODE >1234:/tmp/xciRvtkxt
+1954 cinit CODE >1236:/tmp/xciRvtkxt
+1956 cinit CODE >1237:/tmp/xciRvtkxt
+1958 cinit CODE >1238:/tmp/xciRvtkxt
+195A cinit CODE >1239:/tmp/xciRvtkxt
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -420,7 +420,7 @@ __Hspace_1 73 0 ABS 0 - dist/default/production/robbie-pic-motor-controller.X.pr
 __Hspace_2 0 0 ABS 0 - dist/default/production/robbie-pic-motor-controller.X.production.obj
 __CFG_IESO$OFF 0 0 ABS 0 - dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Hibigdata 0 0 CODE 0 ibigdata dist/default/production/robbie-pic-motor-controller.X.production.obj
-__mediumconst 0 0 MEDIUMCONST 0 mediumconst /tmp/xcaKczrhc.obj
+__mediumconst 0 0 MEDIUMCONST 0 mediumconst /tmp/xcGB7ISrp.obj
 __size_of_AcceleratePWM 0 0 ABS 0 - dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Heeprom_data 0 0 EEDATA 0 eeprom_data dist/default/production/robbie-pic-motor-controller.X.production.obj
 __end_of_InitPorts 19F2 0 CODE 0 text1 dist/default/production/robbie-pic-motor-controller.X.production.obj
@@ -428,11 +428,11 @@ AcceleratePWM@i 6D 0 BANK0 1 cstackBANK0 dist/default/production/robbie-pic-moto
 __size_of_InitPorts 0 0 ABS 0 - dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Lsmallconst 0 0 SMALLCONST 0 smallconst dist/default/production/robbie-pic-motor-controller.X.production.obj
 _TMR0 FD6 0 ABS 0 - dist/default/production/robbie-pic-motor-controller.X.production.obj
-___sp 0 0 STACK 2 stack /tmp/xcaKczrhc.obj
+___sp 0 0 STACK 2 stack /tmp/xcGB7ISrp.obj
 _main 19CC 0 CODE 0 text0 dist/default/production/robbie-pic-motor-controller.X.production.obj
 btemp 49 0 COMRAM 1 temp dist/default/production/robbie-pic-motor-controller.X.production.obj
 CheckPWMOutput@i 71 0 BANK0 1 cstackBANK0 dist/default/production/robbie-pic-motor-controller.X.production.obj
-start 3A2 0 CODE 0 init /tmp/xcaKczrhc.obj
+start 3A2 0 CODE 0 init /tmp/xcGB7ISrp.obj
 __size_of_main 0 0 ABS 0 - dist/default/production/robbie-pic-motor-controller.X.production.obj
 __CFG_WDTEN$OFF 0 0 ABS 0 - dist/default/production/robbie-pic-motor-controller.X.production.obj
 __HbssCOMRAM 0 0 ABS 0 bssCOMRAM dist/default/production/robbie-pic-motor-controller.X.production.obj
@@ -445,11 +445,11 @@ __end_of_AcceleratePWM 1846 0 CODE 0 text5 dist/default/production/robbie-pic-mo
 _CheckPWMOutput 3A6 0 CODE 0 text4 dist/default/production/robbie-pic-motor-controller.X.production.obj
 _T0CONbits FD5 0 ABS 0 - dist/default/production/robbie-pic-motor-controller.X.production.obj
 __HdataCOMRAM 0 0 ABS 0 dataCOMRAM dist/default/production/robbie-pic-motor-controller.X.production.obj
-__accesstop 60 0 ABS 0 - /tmp/xcaKczrhc.obj
-intlevel0 0 0 CODE 0 text /tmp/xcaKczrhc.obj
-intlevel1 0 0 CODE 0 text /tmp/xcaKczrhc.obj
-intlevel2 0 0 CODE 0 text /tmp/xcaKczrhc.obj
-intlevel3 0 0 CODE 0 text /tmp/xcaKczrhc.obj
+__accesstop 60 0 ABS 0 - /tmp/xcGB7ISrp.obj
+intlevel0 0 0 CODE 0 text /tmp/xcGB7ISrp.obj
+intlevel1 0 0 CODE 0 text /tmp/xcGB7ISrp.obj
+intlevel2 0 0 CODE 0 text /tmp/xcGB7ISrp.obj
+intlevel3 0 0 CODE 0 text /tmp/xcGB7ISrp.obj
 __LbssCOMRAM 0 0 ABS 0 bssCOMRAM dist/default/production/robbie-pic-motor-controller.X.production.obj
 _InitI2C 19AA 0 CODE 0 text3 dist/default/production/robbie-pic-motor-controller.X.production.obj
 _InitPWM 14D8 0 CODE 0 text2 dist/default/production/robbie-pic-motor-controller.X.production.obj
@@ -466,8 +466,8 @@ ___wmul@multiplicand 3E 0 COMRAM 1 cstackCOMRAM dist/default/production/robbie-p
 i2___wmul@multiplier 26 0 COMRAM 1 cstackCOMRAM dist/default/production/robbie-pic-motor-controller.X.production.obj
 StopMotor@index 67 0 BANK0 1 cstackBANK0 dist/default/production/robbie-pic-motor-controller.X.production.obj
 ExponentialProfile@current 44 0 COMRAM 1 cstackCOMRAM dist/default/production/robbie-pic-motor-controller.X.production.obj
-___inthi_sp 0 0 STACK 2 stack /tmp/xcaKczrhc.obj
-___intlo_sp 0 0 STACK 2 stack /tmp/xcaKczrhc.obj
+___inthi_sp 0 0 STACK 2 stack /tmp/xcGB7ISrp.obj
+___intlo_sp 0 0 STACK 2 stack /tmp/xcGB7ISrp.obj
 __size_ofi2___wmul 0 0 ABS 0 - dist/default/production/robbie-pic-motor-controller.X.production.obj
 __LdataCOMRAM 0 0 ABS 0 dataCOMRAM dist/default/production/robbie-pic-motor-controller.X.production.obj
 _PWMEnable 48 0 COMRAM 1 dataCOMRAM dist/default/production/robbie-pic-motor-controller.X.production.obj
@@ -529,7 +529,7 @@ AccelerateMotor@index 67 0 BANK0 1 cstackBANK0 dist/default/production/robbie-pi
 _currentByte 22 0 COMRAM 1 bssCOMRAM dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Hbigbss 0 0 BIGRAM 1 bigbss dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Hbigram 0 0 ABS 0 bigram dist/default/production/robbie-pic-motor-controller.X.production.obj
-__smallconst 0 0 SMALLCONST 0 smallconst /tmp/xcaKczrhc.obj
+__smallconst 0 0 SMALLCONST 0 smallconst /tmp/xcGB7ISrp.obj
 __Hcomram 0 0 ABS 0 comram dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Hconfig 30000E 0 CONFIG 0 config dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Lbank0 0 0 ABS 0 bank0 dist/default/production/robbie-pic-motor-controller.X.production.obj
@@ -618,8 +618,8 @@ __Lfarbss 0 0 FARRAM 0 farbss dist/default/production/robbie-pic-motor-controlle
 SetPin@value 42 0 COMRAM 1 cstackCOMRAM dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Lfardata 0 0 FARRAM 0 fardata dist/default/production/robbie-pic-motor-controller.X.production.obj
 __size_of_CheckPWMOutput 0 0 ABS 0 - dist/default/production/robbie-pic-motor-controller.X.production.obj
-stackhi 2FF 0 ABS 0 - /tmp/xcaKczrhc.obj
-stacklo 73 0 ABS 0 - /tmp/xcaKczrhc.obj
+stackhi 2FF 0 ABS 0 - /tmp/xcGB7ISrp.obj
+stacklo 73 0 ABS 0 - /tmp/xcGB7ISrp.obj
 __Lintcode 8 0 CODE 0 intcode dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Lintret 0 0 ABS 0 intret dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Lirdata 0 0 CODE 0 irdata dist/default/production/robbie-pic-motor-controller.X.production.obj
@@ -659,7 +659,7 @@ __end_of_InitPWM 1702 0 CODE 0 text2 dist/default/production/robbie-pic-motor-co
 __Lstruct 0 0 COMRAM 1 struct dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Ltext10 0 0 ABS 0 text10 dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Ltext12 0 0 ABS 0 text12 dist/default/production/robbie-pic-motor-controller.X.production.obj
-__ramtop 300 0 RAM 0 ramtop /tmp/xcaKczrhc.obj
+__ramtop 300 0 RAM 0 ramtop /tmp/xcGB7ISrp.obj
 __Lpowerup 3A2 0 CODE 0 powerup dist/default/production/robbie-pic-motor-controller.X.production.obj
 __Leeprom_data 0 0 EEDATA 0 eeprom_data dist/default/production/robbie-pic-motor-controller.X.production.obj
 _ExponentialProfile E1A 0 CODE 0 text10 dist/default/production/robbie-pic-motor-controller.X.production.obj

@@ -1,7 +1,7 @@
 
 
 Microchip Technology PIC18 LITE Macro Assembler V1.42 build -159332390 
-                                                                                               Mon Jun  5 12:03:41 2017
+                                                                                               Mon Jun  5 16:47:03 2017
 
 Microchip Technology Omniscient Code Generator v1.42 (Free mode) build 201704130522
      1                           	processor	18F14K50
@@ -704,16 +704,16 @@ Microchip Technology Omniscient Code Generator v1.42 (Free mode) build 201704130
    690  00164C  0E02               	movlw	2
    691  00164E  6E04               	movwf	_Motors+3,c
    692                           
-   693                           ;pwm.c: 86: Motors[1].PWMPin = 3;
-   694  001650  0E03               	movlw	3
+   693                           ;pwm.c: 86: Motors[1].PWMPin = 5;
+   694  001650  0E05               	movlw	5
    695  001652  6E09               	movwf	_Motors+8,c
    696                           
    697                           ;pwm.c: 87: Motors[1].dirPin = 4;
    698  001654  0E04               	movlw	4
    699  001656  6E0A               	movwf	_Motors+9,c
    700                           
-   701                           ;pwm.c: 88: Motors[1].cdirPin = 5;
-   702  001658  0E05               	movlw	5
+   701                           ;pwm.c: 88: Motors[1].cdirPin = 3;
+   702  001658  0E03               	movlw	3
    703  00165A  6E0B               	movwf	_Motors+10,c
    704                           
    705                           ;pwm.c: 90: Motors[2].PWMPin = 6;
@@ -728,12 +728,12 @@ Microchip Technology Omniscient Code Generator v1.42 (Free mode) build 201704130
    714  001664  0E09               	movlw	9
    715  001666  6E12               	movwf	_Motors+17,c
    716                           
-   717                           ;pwm.c: 94: Motors[3].PWMPin = 10;
-   718  001668  0E0A               	movlw	10
+   717                           ;pwm.c: 94: Motors[3].PWMPin = 11;
+   718  001668  0E0B               	movlw	11
    719  00166A  6E17               	movwf	_Motors+22,c
    720                           
-   721                           ;pwm.c: 95: Motors[3].dirPin = 11;
-   722  00166C  0E0B               	movlw	11
+   721                           ;pwm.c: 95: Motors[3].dirPin = 10;
+   722  00166C  0E0A               	movlw	10
    723  00166E  6E18               	movwf	_Motors+23,c
    724                           
    725                           ;pwm.c: 96: Motors[3].cdirPin = 8;
@@ -5057,7 +5057,7 @@ CODE                 0      0       0       0        0.0%
 
 
 Microchip Technology PIC18 Macro Assembler V1.42 build -159332390 
-Symbol Table                                                                                   Mon Jun  5 12:03:41 2017
+Symbol Table                                                                                   Mon Jun  5 16:47:03 2017
 
                           _i 001D                  _SSPSTATbits 000FC7          ___wmul@multiplicand 003E  
                __CFG_CP0$OFF 000000                 __CFG_CP1$OFF 000000                          l170 1862  

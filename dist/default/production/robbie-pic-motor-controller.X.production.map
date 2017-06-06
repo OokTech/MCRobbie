@@ -5,7 +5,7 @@ Linker command line:
 -W-3 --edf=/Applications/microchip/xc8/v1.42/dat/en_msgs.txt -cs \
   -h+dist/default/production/robbie-pic-motor-controller.X.production.sym \
   --cmf=dist/default/production/robbie-pic-motor-controller.X.production.cmf \
-  -z -Q18F14K50 -o/tmp/xcDiI9Cd4 \
+  -z -Q18F14K50 -o/tmp/xcmRtb0UF \
   -Mdist/default/production/robbie-pic-motor-controller.X.production.map \
   -E1 -ver=XC8 -ASTACK=073h-02ffh -pstack=STACK -ACODE=00h-03FFFh \
   -ACONST=00h-03FFFh -ASMALLCONST=0300h-03FFhx61 -AMEDIUMCONST=0300h-03FFFh \
@@ -21,7 +21,7 @@ Linker command line:
   -pfarbss=FARRAM,fardata=FARRAM,nvFARRAM=FARRAM \
   -pintsave_regs=BIGRAM,bigbss=BIGRAM,bigdata=BIGRAM -pbss=RAM \
   -pidata=CODE,irdata=CODE,ibigdata=CODE,ifardata=CODE -prparam=COMRAM \
-  /tmp/xcaKczrhc.obj \
+  /tmp/xcGB7ISrp.obj \
   dist/default/production/robbie-pic-motor-controller.X.production.obj 
 
 Object code version is 3.11
@@ -34,7 +34,7 @@ Call graph: (short form)
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-/tmp/xcaKczrhc.obj
+/tmp/xcGB7ISrp.obj
                 init                                3A2      3A2        4        4       0
                 reset_vec                             0        0        4        0       0
                 idloc                            200000   200000        8   200000       0

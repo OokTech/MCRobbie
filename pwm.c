@@ -83,16 +83,16 @@ void InitPWM(void) {
     Motors[0].dirPin = 1;
     Motors[0].cdirPin = 2;
     
-    Motors[1].PWMPin = 3;
+    Motors[1].PWMPin = 5;
     Motors[1].dirPin = 4;
-    Motors[1].cdirPin = 5;
+    Motors[1].cdirPin = 3;
     
     Motors[2].PWMPin = 6;
     Motors[2].dirPin = 7;
     Motors[2].cdirPin = 9;
     
-    Motors[3].PWMPin = 10;
-    Motors[3].dirPin = 11;
+    Motors[3].PWMPin = 11;
+    Motors[3].dirPin = 10;
     Motors[3].cdirPin = 8;
     
     //Set initial direction on the pins
