@@ -5,7 +5,7 @@
 #include "parameters.h"
 
 /*
- * This helper function lets you name a pin and set it as high or low
+ * This helper function lets you name a pin and set it as high (1) or low (0)
  */
 void SetPin(char pin, char value) {
     switch (pin) {
@@ -79,6 +79,8 @@ void InitPWM(void) {
     }
     
     //Set which pins each motor uses, look at SetPin for definitions
+    //The pins are picked so that the output on the physical chip makes sense
+    //and is consistent across each output.
     Motors[0].PWMPin = 0;
     Motors[0].dirPin = 1;
     Motors[0].cdirPin = 2;
@@ -98,14 +100,19 @@ void InitPWM(void) {
     //Set initial direction on the pins
     int i;
     for (i = 0; i < 4; i++) {
-        SetPin(Motors[i].dirPin,1);
-        SetPin(Motors[i].cdirPin,0);
+        SetPin(Motors[i].dirPin,HIGH);
+        SetPin(Motors[i].cdirPin,LOW);
     }
 }
 
 /*
- * This function takes the current value as input and returns the rate of change
- * at that point for the exponential growth and decay.
+ * This function takes the current value and the minimum duty cycle as inputs 
+ * and returns the rate of change at that point for the exponential growth or 
+ * decay.
+ * It isn't a very accurate curve, it should be updated. And maybe more segments
+ * added.
+ * It has different checks for growing and decaying because the check itself
+ * is only based on the current value.
  */
 char ExponentialProfile(unsigned char current, unsigned char target) {
     unsigned char change = 0;
@@ -124,6 +131,8 @@ char ExponentialProfile(unsigned char current, unsigned char target) {
         } else {
             change = 1;
         }
+        //make sure that the change doesn't bring the speed lower than the 
+        //target
         if (current-target < change) {
             change = current-target;
         }
@@ -142,6 +151,7 @@ char ExponentialProfile(unsigned char current, unsigned char target) {
         } else {
             change = 1;
         }
+        //Make sure that the change doesn't overshoot the target value
         if (target-current < change) {
             change = target-current;
         }
@@ -156,12 +166,18 @@ char ExponentialProfile(unsigned char current, unsigned char target) {
  */
 
 void StopMotor(int index) {
+    //If the motor has stopped and it is not set to the targetDirection, set the
+    //motor to the target direction
     if (Motors[index].duty == 0 && Motors[index].direction != Motors[index].targetDirection) {
+        //Set the direction flag
         Motors[index].direction = Motors[index].targetDirection;
-        
+        //Actually change the pin values.
         SetPin(Motors[index].dirPin, Motors[index].direction);
         SetPin(Motors[index].cdirPin, !Motors[index].direction);
     } else if (Motors[index].duty > 0) {
+        //Slow the motor down using the desired acceleration profile
+        //See AccelerateMotor function for descriptions of the acceleration 
+        //types
         switch (AccelType) {
             case ACCEL_INSTANT:
                 Motors[index].duty = 0;
@@ -186,6 +202,9 @@ void StopMotor(int index) {
     }
 }
 
+/*
+ * This changes the speed of a motor.
+ */
 void AccelerateMotor(int index) {
     if (Motors[index].duty < MinimumDuty && Motors[index].target >= MinimumDuty) {
         Motors[index].duty = MinimumDuty;

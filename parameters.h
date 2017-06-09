@@ -1,6 +1,6 @@
 /* 
- * File:   
- * Author: 
+ * File: 
+ * Author: inmysocks
  * Comments:
  * Revision history: 
  */
@@ -13,7 +13,7 @@
 #include <xc.h> // include processor files - each processor file is guarded.  
 
 /*
- * By default the clock is running an 1MHz
+ * By default the clock is running at, we set it to 16MHz in main.c
  * 
  * PWM_PERIOD is the period for the PWM in us, it should be about 2000us
  * since we are using a 1MHz clock we can use this as our target value for the 
@@ -28,6 +28,9 @@
 #define TIMER_0_PERIOD (PWM_PERIOD*__XTAL_FREQUENCY/TIMER_0_PRESCALER) //cycles
 
 #define I2C_ADDRESS 0x23
+
+#define HIGH 1
+#define LOW 0
 
 #define DC_MOTOR 0
 #define SERVO_MOTOR 1
@@ -46,7 +49,6 @@
 #define ACCEL_RATE_ADDRESS 11
 #define MINIMUM_DUTY_ADDRESS 12
 
-
 //bitmasks for different parts of the settings bytes
 #define GLOBAL_MASK 0b00000001
 #define MOTOR_0_MASK 0b00000010
@@ -54,27 +56,35 @@
 #define MOTOR_2_MASK 0b00001000
 #define MOTOR_3_MASK 0b00010000
 
+//Different acceleration types
 #define ACCEL_INSTANT 0
 #define ACCEL_LINEAR 1
 #define ACCEL_EXPONENT 2
 
-//Enable boolean for PWM outputs
+//Enable boolean for PWM outputs, if this is set to 0 than all motors will stop
+//immediately, ignoring acceleration.
 unsigned char PWMEnable = 1;
+
 //This is the pause state, when this is 1 the motors will slow to stopped and 
 //will not speed up regardless of what the speed is set to.
 unsigned char PWMPause = 0;
 
-//This is used to set the different types of acceleration
+//This is used to set the different types of acceleration.
 unsigned char AccelType = ACCEL_INSTANT;
+//This value controls the rate of acceleration.
 unsigned int AccelRate = 150;
+//This is used as a counter for the acceleration.
 unsigned int AccelCount = 0;
-
+//This keeps track of the minimum duty cycle needed to make a motor move.
 unsigned char MinimumDuty = 0;
 
+//Function prototypes
 void InitI2C(void);
 void InitPWM(void);
 void CheckPWMOutput(void);
 
+//This defines the struct that is used to hold information about each one of the
+//motors
 struct Motor {
     unsigned char state:1;
     unsigned char enabled:1;
@@ -90,6 +100,7 @@ struct Motor {
     unsigned char servoCount;
 };
 
+//This is the actual array of Motor structs
 struct Motor Motors[4];
 
 #endif	/* MOTOR_CONTROLLER_H */

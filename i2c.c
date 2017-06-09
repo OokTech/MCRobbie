@@ -2,7 +2,6 @@
  * This file has the parts that make the i2c stuff work
  */
 
-//#include <xc.h>
 #include "parameters.h"
 
 void InitI2C(void) {
@@ -66,7 +65,7 @@ void InitI2C(void) {
  * chip than we will use it. Only the upper 7 bits have any effect
  * 
  * Set the address of this controller using SSPADD
- * We will use 0x23 for the moment. the highest 7 bits are the ones used.
+ * The I2C address is 0x23. The highest 7 bits of SSPADD are the ones used.
  * 
  * 
  */
@@ -97,8 +96,10 @@ void interrupt I2C_Slave_Read(void)
         SSPCON1bits.CKP = 0;
         //Handle errors by throwing everything away
         if ((SSPCON1bits.SSPOV) || (SSPCON1bits.WCOL)) {
-            SSPCON1bits.SSPOV = 0; // Clear the overflow flag
-            SSPCON1bits.WCOL = 0;  // Clear the collision bit
+            // Clear the overflow flag
+            SSPCON1bits.SSPOV = 0;
+            // Clear the collision bit
+            SSPCON1bits.WCOL = 0;
             //release the clock
             SSPCON1bits.CKP = 1;
         } else if(!SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
