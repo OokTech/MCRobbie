@@ -41,25 +41,58 @@
 #define MOTOR_1_SPEED_ADDRESS 3
 #define MOTOR_2_SPEED_ADDRESS 4
 #define MOTOR_3_SPEED_ADDRESS 5
-#define SETTINGS_ADDRESS 6
+#define MOTOR_TYPE_ADDRESS 6
 #define DIRECTION_ADDRESS 7
 #define PAUSE_ADDRESS 8
 #define ENABLE_ADDRESS 9
 #define ACCEL_ADDRESS 10
 #define ACCEL_RATE_ADDRESS 11
 #define MINIMUM_DUTY_ADDRESS 12
+#define MOTOR0_TYPE_ADDRESS 13
+#define MOTOR1_TYPE_ADDRESS 14
+#define MOTOR2_TYPE_ADDRESS 15
+#define MOTOR3_TYPE_ADDRESS 16
+#define MOTOR0_ENABLE_ADDRESS 17
+#define MOTOR1_ENABLE_ADDRESS 18
+#define MOTOR2_ENABLE_ADDRESS 19
+#define MOTOR3_ENABLE_ADDRESS 20
+#define MOTOR0_PAUSE_ADDRESS 21
+#define MOTOR1_PAUSE_ADDRESS 22
+#define MOTOR2_PAUSE_ADDRESS 23
+#define MOTOR3_PAUSE_ADDRESS 24
+#define MOTOR0_DIRECTION_ADDRESS 25
+#define MOTOR1_DIRECTION_ADDRESS 26
+#define MOTOR2_DIRECTION_ADDRESS 27
+#define MOTOR3_DIRECTION_ADDRESS 28
+#define MOTOR0_ACCEL_TYPE_ADDRESS 29
+#define MOTOR1_ACCEL_TYPE_ADDRESS 30
+#define MOTOR2_ACCEL_TYPE_ADDRESS 31
+#define MOTOR3_ACCEL_TYPE_ADDRESS 32
+#define MOTOR0_ACCEL_RATE_ADDRESS 33
+#define MOTOR1_ACCEL_RATE_ADDRESS 34
+#define MOTOR2_ACCEL_RATE_ADDRESS 35
+#define MOTOR3_ACCEL_RATE_ADDRESS 36
+#define MOTOR0_MINIMUM_DUTY_ADDRESS 37
+#define MOTOR1_MINIMUM_DUTY_ADDRESS 38
+#define MOTOR2_MINIMUM_DUTY_ADDRESS 39
+#define MOTOR3_MINIMUM_DUTY_ADDRESS 40
 
 //bitmasks for different parts of the settings bytes
-#define GLOBAL_MASK 0b00000001
-#define MOTOR_0_MASK 0b00000010
-#define MOTOR_1_MASK 0b00000100
-#define MOTOR_2_MASK 0b00001000
-#define MOTOR_3_MASK 0b00010000
+#define GLOBAL_MASK 0b00000011
+#define MOTOR_0_MASK 0b00000011
+#define MOTOR_1_MASK 0b00001100
+#define MOTOR_2_MASK 0b00110000
+#define MOTOR_3_MASK 0b11000000
 
 //Different acceleration types
 #define ACCEL_INSTANT 0
 #define ACCEL_LINEAR 1
 #define ACCEL_EXPONENT 2
+
+//Motor type definitions, there are two unused options for later when we add
+//linear actuators and stepper motors
+#define MOTOR_TYPE_DC 0
+#define MOTOR_TYPE_SERVO 1
 
 //Enable boolean for PWM outputs, if this is set to 0 than all motors will stop
 //immediately, ignoring acceleration.
@@ -91,13 +124,17 @@ struct Motor {
     unsigned char paused:1;
     unsigned char direction:1;
     unsigned char targetDirection:1;
-    unsigned char motorType:1;
+    unsigned char motorType;
     unsigned char PWMPin;
     unsigned char dirPin;
     unsigned char cdirPin;
     unsigned char duty;
     unsigned char target;
     unsigned char servoCount;
+    unsigned char accelType;
+    unsigned char accelRate;
+    unsigned char minimumDuty;
+    unsigned char accelCount;
 };
 
 //This is the actual array of Motor structs

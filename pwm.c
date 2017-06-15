@@ -66,7 +66,7 @@ void InitPWM(void) {
     T0CONbits.TMR0ON = 1;
     
     //Initialise all the motor structs
-    int n;
+    unsigned int n;
     for (n = 0; n < 4; n++) {
         Motors[n].state = (unsigned char)0;
         Motors[n].paused = (unsigned char)0;
@@ -98,7 +98,7 @@ void InitPWM(void) {
     Motors[3].cdirPin = 8;
     
     //Set initial direction on the pins
-    int i;
+    unsigned int i;
     for (i = 0; i < 4; i++) {
         SetPin(Motors[i].dirPin,HIGH);
         SetPin(Motors[i].cdirPin,LOW);
@@ -114,19 +114,19 @@ void InitPWM(void) {
  * It has different checks for growing and decaying because the check itself
  * is only based on the current value.
  */
-char ExponentialProfile(unsigned char current, unsigned char target) {
+char ExponentialProfile(unsigned char current, unsigned char target, unsigned int index) {
     unsigned char change = 0;
     if (current > target) {
         //decay
-        if (current-MinimumDuty > 200) {
+        if (current-Motors[index].minimumDuty > 200) {
             change = 50;
-        } else if (current-MinimumDuty > 150) {
+        } else if (current-Motors[index].minimumDuty > 150) {
             change = 25;
-        } else if (current-MinimumDuty > 100) {
+        } else if (current-Motors[index].minimumDuty > 100) {
             change = 20;
-        } else if (current-MinimumDuty > 75) {
+        } else if (current-Motors[index].minimumDuty > 75) {
             change = 10;
-        } else if (current-MinimumDuty > 50) {
+        } else if (current-Motors[index].minimumDuty > 50) {
             change = 5;
         } else {
             change = 1;
@@ -134,26 +134,26 @@ char ExponentialProfile(unsigned char current, unsigned char target) {
         //make sure that the change doesn't bring the speed lower than the 
         //target
         if (current-target < change) {
-            change = current-target;
+            change = (unsigned) current-target;
         }
     } else {
         //growth
-        if (current-MinimumDuty > 200) {
-            change = current-target;
-        } else if (current-MinimumDuty > 150) {
+        if (current-Motors[index].minimumDuty > 200) {
+            change = (unsigned) current-target;
+        } else if (current-Motors[index].minimumDuty > 150) {
             change = 25;
-        } else if (current-MinimumDuty > 100) {
+        } else if (current-Motors[index].minimumDuty > 100) {
             change = 20;
-        } else if (current-MinimumDuty > 75) {
+        } else if (current-Motors[index].minimumDuty > 75) {
             change = 10;
-        } else if (current-MinimumDuty > 50) {
+        } else if (current-Motors[index].minimumDuty > 50) {
             change = 5;
         } else {
             change = 1;
         }
         //Make sure that the change doesn't overshoot the target value
         if (target-current < change) {
-            change = target-current;
+            change = (unsigned) target-current;
         }
     }
     return change;
@@ -165,7 +165,7 @@ char ExponentialProfile(unsigned char current, unsigned char target) {
  * do it, if not than this just keeps things the same.
  */
 
-void StopMotor(int index) {
+void StopMotor(unsigned int index) {
     //If the motor has stopped and it is not set to the targetDirection, set the
     //motor to the target direction
     if (Motors[index].duty == 0 && Motors[index].direction != Motors[index].targetDirection) {
@@ -173,7 +173,7 @@ void StopMotor(int index) {
         Motors[index].direction = Motors[index].targetDirection;
         //Actually change the pin values.
         SetPin(Motors[index].dirPin, Motors[index].direction);
-        SetPin(Motors[index].cdirPin, !Motors[index].direction);
+        SetPin(Motors[index].cdirPin, (unsigned) !Motors[index].direction);
     } else if (Motors[index].duty > 0) {
         //Slow the motor down using the desired acceleration profile
         //See AccelerateMotor function for descriptions of the acceleration 
@@ -183,15 +183,15 @@ void StopMotor(int index) {
                 Motors[index].duty = 0;
                 break;
             case ACCEL_LINEAR:
-                if (Motors[index].duty > MinimumDuty) {
+                if (Motors[index].duty > Motors[index].minimumDuty) {
                     Motors[index].duty -= 1;
                 } else {
                     Motors[index].duty = 0;
                 }
                 break;
             case ACCEL_EXPONENT:
-                if (Motors[index].duty > MinimumDuty) {
-                    Motors[index].duty -= ExponentialProfile(Motors[index].duty, MinimumDuty);
+                if (Motors[index].duty > Motors[index].minimumDuty) {
+                    Motors[index].duty -= ExponentialProfile(Motors[index].duty, Motors[index].minimumDuty, index);
                 } else {
                     Motors[index].duty = 0;
                 }
@@ -205,13 +205,13 @@ void StopMotor(int index) {
 /*
  * This changes the speed of a motor.
  */
-void AccelerateMotor(int index) {
-    if (Motors[index].duty < MinimumDuty && Motors[index].target >= MinimumDuty) {
-        Motors[index].duty = MinimumDuty;
-    } else if (Motors[index].duty <= MinimumDuty && Motors[index].target  < MinimumDuty) {
+void AccelerateMotor(unsigned int index) {
+    if (Motors[index].duty < Motors[index].minimumDuty && Motors[index].target >= Motors[index].minimumDuty) {
+        Motors[index].duty = Motors[index].minimumDuty;
+    } else if (Motors[index].duty <= Motors[index].minimumDuty && Motors[index].target  < Motors[index].minimumDuty) {
         Motors[index].duty = 0;
     }
-    switch (AccelType) {
+    switch (Motors[index].accelType) {
         case ACCEL_INSTANT:
             Motors[index].duty = Motors[index].target;
             break;
@@ -224,9 +224,9 @@ void AccelerateMotor(int index) {
             break;
         case ACCEL_EXPONENT:
             if (Motors[index].duty > Motors[index].target) {
-                Motors[index].duty -= ExponentialProfile(Motors[index].duty, Motors[index].target);
+                Motors[index].duty -= ExponentialProfile(Motors[index].duty, Motors[index].target, index);
             } else if (Motors[index].duty < Motors[index].target) {
-                Motors[index].duty += ExponentialProfile(Motors[index].duty, Motors[index].target);
+                Motors[index].duty += ExponentialProfile(Motors[index].duty, Motors[index].target, index);
             }
             break;
         default:
@@ -241,20 +241,17 @@ void AccelerateMotor(int index) {
  * This is also where soft pauses are implemented. If PWMPause is set than the
  * pwm slows down and stops the same as if the speed were set to 0;
  */
-void AcceleratePWM(void) {
-    int i;
-    for (i = 0; i < 4; i++) {
-        if (PWMPause || Motors[i].paused) {
-            StopMotor(i);
-        } else {
-            //If the direction isn't equal to the targetDirection than reduce 
-            //duty according to the current acceleration, otherwise if the duty 
-            //isn't at the target accelerate
-            if (Motors[i].direction != Motors[i].targetDirection) {
-                StopMotor(i);
-            } else if (Motors[i].duty != Motors[i].target) {
-                AccelerateMotor(i);
-            }
+void AcceleratePWM(unsigned int index) {
+    if (PWMPause || Motors[index].paused) {
+        StopMotor(index);
+    } else {
+        //If the direction isn't equal to the targetDirection than reduce 
+        //duty according to the current acceleration, otherwise if the duty 
+        //isn't at the target accelerate
+        if (Motors[index].direction != Motors[index].targetDirection) {
+            StopMotor(index);
+        } else if (Motors[index].duty != Motors[index].target) {
+            AccelerateMotor(index);
         }
     }
 }
@@ -278,7 +275,7 @@ void AcceleratePWM(void) {
  * against that lets us know the value without having to read the pin. 
  */
 void CheckPWMOutput(void) {
-    int i;
+    unsigned int i;
     for (i = 0; i < 4; i++) {
         if (PWMEnable && Motors[i].enabled) {
             if (Motors[i].motorType) {
@@ -315,7 +312,15 @@ void CheckPWMOutput(void) {
             Motors[i].state = 0;
             SetPin(Motors[i].PWMPin,0);
         }
+        //Keep a count to see when we should update the pwm acceleration.
+        if (Motors[i].accelCount >= Motors[i].accelRate) {
+            AcceleratePWM(i);
+            Motors[i].accelCount = 0;
+        } else {
+            Motors[i].accelCount++;
+        }
     }
+    /*
     //Keep a count to see when we should update the pwm acceleration.
     if (AccelCount >= AccelRate) {
         AcceleratePWM();
@@ -323,4 +328,5 @@ void CheckPWMOutput(void) {
     } else {
         AccelCount++;
     }
+    */
 }

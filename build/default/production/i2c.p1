@@ -1,7 +1,7 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"78 parameters.h
-[s S321 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
-[n S321 Motor state enabled paused direction targetDirection motorType PWMPin dirPin cdirPin duty target servoCount ]
+"121 parameters.h
+[s S321 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
+[n S321 Motor state enabled paused direction targetDirection motorType PWMPin dirPin cdirPin duty target servoCount accelType accelRate minimumDuty accelCount ]
 "7044 /Applications/microchip/xc8/v1.42/include/pic18f14k50.h
 [s S311 :7 `uc 1 :1 `uc 1 ]
 [n S311 . . NOT_RABPU ]
@@ -3204,564 +3204,1285 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic18.h: 164: extern __nonreentrant void _delay(unsigned long);
 [; ;pic18.h: 166: extern __nonreentrant void _delaywdt(unsigned long);
 [; ;pic18.h: 168: extern __nonreentrant void _delay3(unsigned char);
-"62 parameters.h
+"99 parameters.h
 [v _PWMEnable `uc ~T0 @X0 1 e ]
 [i _PWMEnable
 -> -> 1 `i `uc
 ]
-[; ;parameters.h: 62: unsigned char PWMEnable = 1;
-"65
+[; ;parameters.h: 99: unsigned char PWMEnable = 1;
+"103
 [v _PWMPause `uc ~T0 @X0 1 e ]
 [i _PWMPause
 -> -> 0 `i `uc
 ]
-[; ;parameters.h: 65: unsigned char PWMPause = 0;
-"68
+[; ;parameters.h: 103: unsigned char PWMPause = 0;
+"106
 [v _AccelType `uc ~T0 @X0 1 e ]
 [i _AccelType
 -> -> 0 `i `uc
 ]
-[; ;parameters.h: 68: unsigned char AccelType = 0;
-"69
+[; ;parameters.h: 106: unsigned char AccelType = 0;
+"108
 [v _AccelRate `ui ~T0 @X0 1 e ]
 [i _AccelRate
 -> -> 150 `i `ui
 ]
-[; ;parameters.h: 69: unsigned int AccelRate = 150;
-"70
+[; ;parameters.h: 108: unsigned int AccelRate = 150;
+"110
 [v _AccelCount `ui ~T0 @X0 1 e ]
 [i _AccelCount
 -> -> 0 `i `ui
 ]
-[; ;parameters.h: 70: unsigned int AccelCount = 0;
-"72
+[; ;parameters.h: 110: unsigned int AccelCount = 0;
+"112
 [v _MinimumDuty `uc ~T0 @X0 1 e ]
 [i _MinimumDuty
 -> -> 0 `i `uc
 ]
-[; ;parameters.h: 72: unsigned char MinimumDuty = 0;
-[; ;parameters.h: 74: void InitI2C(void);
-[; ;parameters.h: 75: void InitPWM(void);
-[; ;parameters.h: 76: void CheckPWMOutput(void);
-[; ;parameters.h: 78: struct Motor {
-[; ;parameters.h: 79: unsigned char state:1;
-[; ;parameters.h: 80: unsigned char enabled:1;
-[; ;parameters.h: 81: unsigned char paused:1;
-[; ;parameters.h: 82: unsigned char direction:1;
-[; ;parameters.h: 83: unsigned char targetDirection:1;
-[; ;parameters.h: 84: unsigned char motorType:1;
-[; ;parameters.h: 85: unsigned char PWMPin;
-[; ;parameters.h: 86: unsigned char dirPin;
-[; ;parameters.h: 87: unsigned char cdirPin;
-[; ;parameters.h: 88: unsigned char duty;
-[; ;parameters.h: 89: unsigned char target;
-[; ;parameters.h: 90: unsigned char servoCount;
-[; ;parameters.h: 91: };
-"93
+[; ;parameters.h: 112: unsigned char MinimumDuty = 0;
+[; ;parameters.h: 115: void InitI2C(void);
+[; ;parameters.h: 116: void InitPWM(void);
+[; ;parameters.h: 117: void CheckPWMOutput(void);
+[; ;parameters.h: 121: struct Motor {
+[; ;parameters.h: 122: unsigned char state:1;
+[; ;parameters.h: 123: unsigned char enabled:1;
+[; ;parameters.h: 124: unsigned char paused:1;
+[; ;parameters.h: 125: unsigned char direction:1;
+[; ;parameters.h: 126: unsigned char targetDirection:1;
+[; ;parameters.h: 127: unsigned char motorType;
+[; ;parameters.h: 128: unsigned char PWMPin;
+[; ;parameters.h: 129: unsigned char dirPin;
+[; ;parameters.h: 130: unsigned char cdirPin;
+[; ;parameters.h: 131: unsigned char duty;
+[; ;parameters.h: 132: unsigned char target;
+[; ;parameters.h: 133: unsigned char servoCount;
+[; ;parameters.h: 134: unsigned char accelType;
+[; ;parameters.h: 135: unsigned char accelRate;
+[; ;parameters.h: 136: unsigned char minimumDuty;
+[; ;parameters.h: 137: unsigned char accelCount;
+[; ;parameters.h: 138: };
+"141
 [v _Motors `S321 ~T0 @X0 -> 4 `i e ]
-[; ;parameters.h: 93: struct Motor Motors[4];
-"8 i2c.c
+[; ;parameters.h: 141: struct Motor Motors[4];
+"7 i2c.c
 [v _InitI2C `(v ~T0 @X0 1 ef ]
 {
-[; ;i2c.c: 8: void InitI2C(void) {
+[; ;i2c.c: 7: void InitI2C(void) {
 [e :U _InitI2C ]
 [f ]
-[; ;i2c.c: 10: INTCON2bits.NOT_RABPU = 0;
-"10
+[; ;i2c.c: 9: INTCON2bits.NOT_RABPU = 0;
+"9
 [e = . . _INTCON2bits 0 1 -> -> 0 `i `uc ]
-[; ;i2c.c: 12: WPUBbits.WPUB4 = 1;
-"12
+[; ;i2c.c: 11: WPUBbits.WPUB4 = 1;
+"11
 [e = . . _WPUBbits 0 1 -> -> 1 `i `uc ]
-[; ;i2c.c: 13: WPUBbits.WPUB6 = 1;
-"13
+[; ;i2c.c: 12: WPUBbits.WPUB6 = 1;
+"12
 [e = . . _WPUBbits 0 3 -> -> 1 `i `uc ]
-[; ;i2c.c: 16: SSPSTATbits.SMP = 1;
-"16
+[; ;i2c.c: 15: SSPSTATbits.SMP = 1;
+"15
 [e = . . _SSPSTATbits 2 7 -> -> 1 `i `uc ]
-[; ;i2c.c: 19: SSPCON1bits.SSPM = 0b0110;
-"19
+[; ;i2c.c: 18: SSPCON1bits.SSPM = 0b0110;
+"18
 [e = . . _SSPCON1bits 0 0 -> -> 6 `i `uc ]
-[; ;i2c.c: 21: SSPCON2bits.SEN = 1;
-"21
+[; ;i2c.c: 20: SSPCON2bits.SEN = 1;
+"20
 [e = . . _SSPCON2bits 0 0 -> -> 1 `i `uc ]
-[; ;i2c.c: 30: SSPADD = 0x23<<1;
-"30
+[; ;i2c.c: 29: SSPADD = 0x23<<1;
+"29
 [e = _SSPADD -> << -> 35 `i -> 1 `i `uc ]
-[; ;i2c.c: 33: PIR1bits.SSPIF = 0;
-"33
+[; ;i2c.c: 32: PIR1bits.SSPIF = 0;
+"32
 [e = . . _PIR1bits 0 3 -> -> 0 `i `uc ]
-[; ;i2c.c: 35: PIE1bits.SSPIE = 1;
-"35
+[; ;i2c.c: 34: PIE1bits.SSPIE = 1;
+"34
 [e = . . _PIE1bits 0 3 -> -> 1 `i `uc ]
-[; ;i2c.c: 38: INTCONbits.GIE = 1;
-"38
+[; ;i2c.c: 37: INTCONbits.GIE = 1;
+"37
 [e = . . _INTCONbits 1 7 -> -> 1 `i `uc ]
-[; ;i2c.c: 40: INTCONbits.PEIE = 1;
-"40
+[; ;i2c.c: 39: INTCONbits.PEIE = 1;
+"39
 [e = . . _INTCONbits 1 6 -> -> 1 `i `uc ]
-[; ;i2c.c: 43: SSPCON1bits.SSPEN = 1;
-"43
+[; ;i2c.c: 42: SSPCON1bits.SSPEN = 1;
+"42
 [e = . . _SSPCON1bits 0 2 -> -> 1 `i `uc ]
-[; ;i2c.c: 44: }
-"44
+[; ;i2c.c: 43: }
+"43
 [e :UE 322 ]
 }
-"75
+"74
 [v _currentByte `uc ~T0 @X0 1 e ]
 [i _currentByte
 -> -> 0 `i `uc
 ]
-[; ;i2c.c: 75: unsigned char currentByte = 0;
-"76
+[; ;i2c.c: 74: unsigned char currentByte = 0;
+"75
 [v _state `uc ~T0 @X0 1 e ]
 [i _state
 -> -> 0 `i `uc
 ]
-[; ;i2c.c: 76: unsigned char state = 0;
-"78
-[v _i `i ~T0 @X0 1 e ]
-[; ;i2c.c: 78: int i;
+[; ;i2c.c: 75: unsigned char state = 0;
+"77
+[v _i `ui ~T0 @X0 1 e ]
+[; ;i2c.c: 77: unsigned int i;
 [v $root$_I2C_Slave_Read `(v ~T0 @X0 0 e ]
-[v F3335 `(v ~T0 @X0 1 tf ]
+[v F3339 `(v ~T0 @X0 1 tf ]
+"90
+[v _I2C_Slave_Read `IF3339 ~T0 @X0 1 e ]
 "91
-[v _I2C_Slave_Read `IF3335 ~T0 @X0 1 e ]
-"92
 {
-[; ;i2c.c: 91: void interrupt I2C_Slave_Read(void)
-[; ;i2c.c: 92: {
+[; ;i2c.c: 90: void interrupt I2C_Slave_Read(void)
+[; ;i2c.c: 91: {
 [e :U _I2C_Slave_Read ]
 [f ]
-[; ;i2c.c: 93: if(PIR1bits.SSPIF == 1) {
-"93
+[; ;i2c.c: 92: if(PIR1bits.SSPIF == 1) {
+"92
 [e $ ! == -> . . _PIR1bits 0 3 `i -> 1 `i 324  ]
 {
-[; ;i2c.c: 95: currentByte = SSPBUF;
-"95
+[; ;i2c.c: 94: currentByte = SSPBUF;
+"94
 [e = _currentByte _SSPBUF ]
-[; ;i2c.c: 97: SSPCON1bits.CKP = 0;
-"97
+[; ;i2c.c: 96: SSPCON1bits.CKP = 0;
+"96
 [e = . . _SSPCON1bits 0 1 -> -> 0 `i `uc ]
-[; ;i2c.c: 99: if ((SSPCON1bits.SSPOV) || (SSPCON1bits.WCOL)) {
-"99
+[; ;i2c.c: 98: if ((SSPCON1bits.SSPOV) || (SSPCON1bits.WCOL)) {
+"98
 [e $ ! || != -> . . _SSPCON1bits 0 3 `i -> -> -> 0 `i `Vuc `i != -> . . _SSPCON1bits 0 4 `i -> -> -> 0 `i `Vuc `i 325  ]
 {
 [; ;i2c.c: 100: SSPCON1bits.SSPOV = 0;
 "100
 [e = . . _SSPCON1bits 0 3 -> -> 0 `i `uc ]
-[; ;i2c.c: 101: SSPCON1bits.WCOL = 0;
-"101
+[; ;i2c.c: 102: SSPCON1bits.WCOL = 0;
+"102
 [e = . . _SSPCON1bits 0 4 -> -> 0 `i `uc ]
-[; ;i2c.c: 103: SSPCON1bits.CKP = 1;
-"103
-[e = . . _SSPCON1bits 0 1 -> -> 1 `i `uc ]
+[; ;i2c.c: 104: SSPCON1bits.CKP = 1;
 "104
+[e = . . _SSPCON1bits 0 1 -> -> 1 `i `uc ]
+"105
 }
-[; ;i2c.c: 104: } else if(!SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
+[; ;i2c.c: 105: } else if(!SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
 [e $U 326  ]
 [e :U 325 ]
 [e $ ! && ! != -> . . _SSPSTATbits 2 5 `i -> -> -> 0 `i `Vuc `i ! != -> . . _SSPSTATbits 2 2 `i -> -> -> 0 `i `Vuc `i 327  ]
 {
-[; ;i2c.c: 106: state = 0;
-"106
+[; ;i2c.c: 107: state = 0;
+"107
 [e = _state -> -> 0 `i `uc ]
-[; ;i2c.c: 108: SSPCON1bits.CKP = 1;
-"108
-[e = . . _SSPCON1bits 0 1 -> -> 1 `i `uc ]
+[; ;i2c.c: 109: SSPCON1bits.CKP = 1;
 "109
+[e = . . _SSPCON1bits 0 1 -> -> 1 `i `uc ]
+"110
 }
-[; ;i2c.c: 109: } else if (SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
+[; ;i2c.c: 110: } else if (SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
 [e $U 328  ]
 [e :U 327 ]
 [e $ ! && != -> . . _SSPSTATbits 2 5 `i -> -> -> 0 `i `Vuc `i ! != -> . . _SSPSTATbits 2 2 `i -> -> -> 0 `i `Vuc `i 329  ]
 {
-[; ;i2c.c: 110: if (state == 0) {
-"110
+[; ;i2c.c: 111: if (state == 0) {
+"111
 [e $ ! == -> _state `i -> 0 `i 330  ]
 {
-[; ;i2c.c: 112: state = currentByte;
-"112
-[e = _state _currentByte ]
+[; ;i2c.c: 113: state = currentByte;
 "113
+[e = _state _currentByte ]
+"114
 }
-[; ;i2c.c: 113: } else {
+[; ;i2c.c: 114: } else {
 [e $U 331  ]
 [e :U 330 ]
 {
-[; ;i2c.c: 115: switch (state) {
-"115
+[; ;i2c.c: 116: switch (state) {
+"116
 [e $U 333  ]
 {
-[; ;i2c.c: 116: case 1:
-"116
-[e :U 334 ]
-[; ;i2c.c: 117: for (i = 0; i < 4; i++) {
+[; ;i2c.c: 117: case 1:
 "117
+[e :U 334 ]
+[; ;i2c.c: 118: for (i = 0; i < 4; i++) {
+"118
 {
-[e = _i -> 0 `i ]
-[e $ < _i -> 4 `i 335  ]
+[e = _i -> -> 0 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 335  ]
 [e $U 336  ]
 [e :U 335 ]
 {
-[; ;i2c.c: 118: if (currentByte < MinimumDuty) {
-"118
-[e $ ! < -> _currentByte `i -> _MinimumDuty `i 338  ]
-{
-[; ;i2c.c: 119: Motors[i].target = 0;
+[; ;i2c.c: 119: if (currentByte < Motors[i].minimumDuty) {
 "119
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 10 -> -> 0 `i `uc ]
+[e $ ! < -> _currentByte `i -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 14 `i 338  ]
+{
+[; ;i2c.c: 120: Motors[i].target = 0;
 "120
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 10 -> -> 0 `i `uc ]
+"121
 }
-[; ;i2c.c: 120: } else {
+[; ;i2c.c: 121: } else {
 [e $U 339  ]
 [e :U 338 ]
 {
-[; ;i2c.c: 121: Motors[i].target = currentByte;
-"121
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 10 _currentByte ]
+[; ;i2c.c: 122: Motors[i].target = currentByte;
 "122
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 10 _currentByte ]
+"123
 }
 [e :U 339 ]
-"123
-}
-"117
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 4 `i 335  ]
-[e :U 336 ]
-"123
-}
-[; ;i2c.c: 122: }
-[; ;i2c.c: 123: }
-[; ;i2c.c: 124: break;
 "124
-[e $U 332  ]
-[; ;i2c.c: 125: case 2:
-"125
-[e :U 340 ]
-[; ;i2c.c: 126: if (currentByte < MinimumDuty) {
-"126
-[e $ ! < -> _currentByte `i -> _MinimumDuty `i 341  ]
-{
-[; ;i2c.c: 127: Motors[0].target = 0;
-"127
-[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 -> -> 0 `i `uc ]
-"128
 }
-[; ;i2c.c: 128: } else {
+"118
+[e ++ _i -> -> 1 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 335  ]
+[e :U 336 ]
+"124
+}
+[; ;i2c.c: 123: }
+[; ;i2c.c: 124: }
+[; ;i2c.c: 125: break;
+"125
+[e $U 332  ]
+[; ;i2c.c: 126: case 2:
+"126
+[e :U 340 ]
+[; ;i2c.c: 127: if (currentByte < Motors[0].minimumDuty) {
+"127
+[e $ ! < -> _currentByte `i -> . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 `i 341  ]
+{
+[; ;i2c.c: 128: Motors[0].target = 0;
+"128
+[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 -> -> 0 `i `uc ]
+"129
+}
+[; ;i2c.c: 129: } else {
 [e $U 342  ]
 [e :U 341 ]
 {
-[; ;i2c.c: 129: Motors[0].target = currentByte;
-"129
-[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 _currentByte ]
+[; ;i2c.c: 130: Motors[0].target = currentByte;
 "130
+[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 _currentByte ]
+"131
 }
 [e :U 342 ]
-[; ;i2c.c: 130: }
-[; ;i2c.c: 131: break;
-"131
-[e $U 332  ]
-[; ;i2c.c: 132: case 3:
+[; ;i2c.c: 131: }
+[; ;i2c.c: 132: break;
 "132
-[e :U 343 ]
-[; ;i2c.c: 133: if (currentByte < MinimumDuty) {
+[e $U 332  ]
+[; ;i2c.c: 133: case 3:
 "133
-[e $ ! < -> _currentByte `i -> _MinimumDuty `i 344  ]
-{
-[; ;i2c.c: 134: Motors[1].target = 0;
+[e :U 343 ]
+[; ;i2c.c: 134: if (currentByte < Motors[1].minimumDuty) {
 "134
-[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 -> -> 0 `i `uc ]
+[e $ ! < -> _currentByte `i -> . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 `i 344  ]
+{
+[; ;i2c.c: 135: Motors[1].target = 0;
 "135
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 -> -> 0 `i `uc ]
+"136
 }
-[; ;i2c.c: 135: } else {
+[; ;i2c.c: 136: } else {
 [e $U 345  ]
 [e :U 344 ]
 {
-[; ;i2c.c: 136: Motors[1].target = currentByte;
-"136
-[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 _currentByte ]
+[; ;i2c.c: 137: Motors[1].target = currentByte;
 "137
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 _currentByte ]
+"138
 }
 [e :U 345 ]
-[; ;i2c.c: 137: }
-[; ;i2c.c: 138: break;
-"138
-[e $U 332  ]
-[; ;i2c.c: 139: case 4:
+[; ;i2c.c: 138: }
+[; ;i2c.c: 139: break;
 "139
-[e :U 346 ]
-[; ;i2c.c: 140: if (currentByte < MinimumDuty) {
+[e $U 332  ]
+[; ;i2c.c: 140: case 4:
 "140
-[e $ ! < -> _currentByte `i -> _MinimumDuty `i 347  ]
-{
-[; ;i2c.c: 141: Motors[2].target = 0;
+[e :U 346 ]
+[; ;i2c.c: 141: if (currentByte < Motors[2].minimumDuty) {
 "141
-[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 -> -> 0 `i `uc ]
+[e $ ! < -> _currentByte `i -> . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 `i 347  ]
+{
+[; ;i2c.c: 142: Motors[2].target = 0;
 "142
+[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 -> -> 0 `i `uc ]
+"143
 }
-[; ;i2c.c: 142: } else {
+[; ;i2c.c: 143: } else {
 [e $U 348  ]
 [e :U 347 ]
 {
-[; ;i2c.c: 143: Motors[2].target = currentByte;
-"143
-[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 _currentByte ]
+[; ;i2c.c: 144: Motors[2].target = currentByte;
 "144
+[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 _currentByte ]
+"145
 }
 [e :U 348 ]
-[; ;i2c.c: 144: }
-[; ;i2c.c: 145: break;
-"145
-[e $U 332  ]
-[; ;i2c.c: 146: case 5:
+[; ;i2c.c: 145: }
+[; ;i2c.c: 146: break;
 "146
-[e :U 349 ]
-[; ;i2c.c: 147: if (currentByte < MinimumDuty) {
+[e $U 332  ]
+[; ;i2c.c: 147: case 5:
 "147
-[e $ ! < -> _currentByte `i -> _MinimumDuty `i 350  ]
-{
-[; ;i2c.c: 148: Motors[3].target = 0;
+[e :U 349 ]
+[; ;i2c.c: 148: if (currentByte < Motors[3].minimumDuty) {
 "148
-[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 -> -> 0 `i `uc ]
+[e $ ! < -> _currentByte `i -> . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 `i 350  ]
+{
+[; ;i2c.c: 149: Motors[3].target = 0;
 "149
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 -> -> 0 `i `uc ]
+"150
 }
-[; ;i2c.c: 149: } else {
+[; ;i2c.c: 150: } else {
 [e $U 351  ]
 [e :U 350 ]
 {
-[; ;i2c.c: 150: Motors[3].target = currentByte;
-"150
-[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 _currentByte ]
+[; ;i2c.c: 151: Motors[3].target = currentByte;
 "151
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 10 _currentByte ]
+"152
 }
 [e :U 351 ]
-[; ;i2c.c: 151: }
-[; ;i2c.c: 152: break;
-"152
-[e $U 332  ]
-[; ;i2c.c: 153: case 7:
+[; ;i2c.c: 152: }
+[; ;i2c.c: 153: break;
 "153
-[e :U 352 ]
-[; ;i2c.c: 154: for (i = 0; i < 4; i++) {
+[e $U 332  ]
+[; ;i2c.c: 154: case 6:
 "154
+[e :U 352 ]
+[; ;i2c.c: 156: for (i = 0; i < 4; i++) {
+"156
 {
-[e = _i -> 0 `i ]
-[e $ < _i -> 4 `i 353  ]
+[e = _i -> -> 0 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 353  ]
 [e $U 354  ]
 [e :U 353 ]
 {
-[; ;i2c.c: 155: if ((currentByte>>(i+1)) & 0b00000001) {
-"155
-[e $ ! != & >> -> _currentByte `i + _i -> 1 `i -> 1 `i -> 0 `i 356  ]
-{
-[; ;i2c.c: 156: Motors[i].targetDirection = 1;
-"156
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 4 -> -> 1 `i `uc ]
+[; ;i2c.c: 157: Motors[i].motorType = (unsigned) (currentByte>>(2*i)) & 0b00000011;
 "157
-}
-[; ;i2c.c: 157: } else {
-[e $U 357  ]
-[e :U 356 ]
-{
-[; ;i2c.c: 158: Motors[i].targetDirection = 0;
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 5 -> & -> >> -> _currentByte `i * -> -> 2 `i `ui _i `ui -> -> 3 `i `ui `uc ]
 "158
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 4 -> -> 0 `i `uc ]
-"159
 }
-[e :U 357 ]
-"160
-}
-"154
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 4 `i 353  ]
+"156
+[e ++ _i -> -> 1 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 353  ]
 [e :U 354 ]
-"160
+"158
 }
-[; ;i2c.c: 159: }
-[; ;i2c.c: 160: }
-[; ;i2c.c: 161: break;
-"161
+[; ;i2c.c: 158: }
+[; ;i2c.c: 159: break;
+"159
 [e $U 332  ]
-[; ;i2c.c: 162: case 9:
+[; ;i2c.c: 160: case 13:
+"160
+[e :U 356 ]
+[; ;i2c.c: 161: Motors[0].motorType = currentByte;
+"161
+[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 5 _currentByte ]
+[; ;i2c.c: 162: break;
 "162
-[e :U 358 ]
-[; ;i2c.c: 163: PWMEnable = (currentByte & 0b00000001);
+[e $U 332  ]
+[; ;i2c.c: 163: case 14:
 "163
-[e = _PWMEnable -> & -> _currentByte `i -> 1 `i `uc ]
-[; ;i2c.c: 164: for (i = 0; i < 4; i++) {
+[e :U 357 ]
+[; ;i2c.c: 164: Motors[1].motorType = currentByte;
 "164
-{
-[e = _i -> 0 `i ]
-[e $ < _i -> 4 `i 359  ]
-[e $U 360  ]
-[e :U 359 ]
-{
-[; ;i2c.c: 165: if ((currentByte>>(i+1)) & 0b00000001) {
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 5 _currentByte ]
+[; ;i2c.c: 165: break;
 "165
-[e $ ! != & >> -> _currentByte `i + _i -> 1 `i -> 1 `i -> 0 `i 362  ]
-{
-[; ;i2c.c: 166: Motors[i].enabled = 1;
+[e $U 332  ]
+[; ;i2c.c: 166: case 15:
 "166
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 1 -> -> 1 `i `uc ]
+[e :U 358 ]
+[; ;i2c.c: 167: Motors[2].motorType = currentByte;
 "167
-}
-[; ;i2c.c: 167: } else {
-[e $U 363  ]
-[e :U 362 ]
-{
-[; ;i2c.c: 168: Motors[i].enabled = 0;
+[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 5 _currentByte ]
+[; ;i2c.c: 168: break;
 "168
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 1 -> -> 0 `i `uc ]
+[e $U 332  ]
+[; ;i2c.c: 169: case 16:
 "169
-}
-[e :U 363 ]
+[e :U 359 ]
+[; ;i2c.c: 170: Motors[3].motorType = currentByte;
 "170
-}
-"164
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 4 `i 359  ]
-[e :U 360 ]
-"170
-}
-[; ;i2c.c: 169: }
-[; ;i2c.c: 170: }
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 5 _currentByte ]
 [; ;i2c.c: 171: break;
 "171
 [e $U 332  ]
-[; ;i2c.c: 172: case 8:
+[; ;i2c.c: 172: case 7:
 "172
-[e :U 364 ]
-[; ;i2c.c: 173: PWMPause = currentByte & 0b00000001;
+[e :U 360 ]
+[; ;i2c.c: 173: for (i = 0; i < 4; i++) {
 "173
-[e = _PWMPause -> & -> _currentByte `i -> 1 `i `uc ]
-[; ;i2c.c: 174: for (i = 0; i < 4; i++) {
+{
+[e = _i -> -> 0 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 361  ]
+[e $U 362  ]
+[e :U 361 ]
+{
+[; ;i2c.c: 174: if ((currentByte>>(2*i)) & 0b00000011) {
 "174
+[e $ ! != & >> -> _currentByte `i * -> -> 2 `i `ui _i -> 3 `i -> 0 `i 364  ]
 {
-[e = _i -> 0 `i ]
-[e $ < _i -> 4 `i 365  ]
-[e $U 366  ]
-[e :U 365 ]
-{
-[; ;i2c.c: 175: if ((currentByte>>(i+1)) & 0b00000001) {
+[; ;i2c.c: 175: Motors[i].targetDirection = 1;
 "175
-[e $ ! != & >> -> _currentByte `i + _i -> 1 `i -> 1 `i -> 0 `i 368  ]
-{
-[; ;i2c.c: 176: Motors[i].paused = 1;
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 4 -> -> 1 `i `uc ]
 "176
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 2 -> -> 1 `i `uc ]
-"177
 }
-[; ;i2c.c: 177: } else {
-[e $U 369  ]
-[e :U 368 ]
+[; ;i2c.c: 176: } else {
+[e $U 365  ]
+[e :U 364 ]
 {
-[; ;i2c.c: 178: Motors[i].paused = 0;
+[; ;i2c.c: 177: Motors[i].targetDirection = 0;
+"177
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 4 -> -> 0 `i `uc ]
 "178
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 2 -> -> 0 `i `uc ]
+}
+[e :U 365 ]
 "179
 }
-[e :U 369 ]
-"180
+"173
+[e ++ _i -> -> 1 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 361  ]
+[e :U 362 ]
+"179
 }
-"174
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 4 `i 365  ]
-[e :U 366 ]
-"180
-}
+[; ;i2c.c: 178: }
 [; ;i2c.c: 179: }
-[; ;i2c.c: 180: }
-[; ;i2c.c: 181: break;
+[; ;i2c.c: 180: break;
+"180
+[e $U 332  ]
+[; ;i2c.c: 181: case 25:
 "181
-[e $U 332  ]
-[; ;i2c.c: 182: case 10:
+[e :U 366 ]
+[; ;i2c.c: 182: Motors[0].targetDirection = currentByte;
 "182
-[e :U 370 ]
-[; ;i2c.c: 183: AccelType = currentByte;
+[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 4 _currentByte ]
+[; ;i2c.c: 183: break;
 "183
-[e = _AccelType _currentByte ]
-[; ;i2c.c: 184: break;
+[e $U 332  ]
+[; ;i2c.c: 184: case 26:
 "184
-[e $U 332  ]
-[; ;i2c.c: 185: case 11:
+[e :U 367 ]
+[; ;i2c.c: 185: Motors[1].targetDirection = currentByte;
 "185
-[e :U 371 ]
-[; ;i2c.c: 186: AccelRate = currentByte;
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 4 _currentByte ]
+[; ;i2c.c: 186: break;
 "186
-[e = _AccelRate -> _currentByte `ui ]
-[; ;i2c.c: 187: break;
+[e $U 332  ]
+[; ;i2c.c: 187: case 27:
 "187
-[e $U 332  ]
-[; ;i2c.c: 188: case 12:
+[e :U 368 ]
+[; ;i2c.c: 188: Motors[2].targetDirection = currentByte;
 "188
-[e :U 372 ]
-[; ;i2c.c: 189: MinimumDuty = currentByte;
+[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 4 _currentByte ]
+[; ;i2c.c: 189: break;
 "189
-[e = _MinimumDuty _currentByte ]
-[; ;i2c.c: 190: break;
+[e $U 332  ]
+[; ;i2c.c: 190: case 28:
 "190
-[e $U 332  ]
+[e :U 369 ]
+[; ;i2c.c: 191: Motors[3].targetDirection = currentByte;
 "191
-}
-[; ;i2c.c: 191: }
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 4 _currentByte ]
+[; ;i2c.c: 192: break;
+"192
 [e $U 332  ]
-"115
+[; ;i2c.c: 193: case 9:
+"193
+[e :U 370 ]
+[; ;i2c.c: 194: PWMEnable = (unsigned)(currentByte & 0b00000011);
+"194
+[e = _PWMEnable -> -> & -> _currentByte `i -> 3 `i `ui `uc ]
+[; ;i2c.c: 195: break;
+"195
+[e $U 332  ]
+[; ;i2c.c: 196: case 17:
+"196
+[e :U 371 ]
+[; ;i2c.c: 197: Motors[0].enabled = currentByte;
+"197
+[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 1 _currentByte ]
+[; ;i2c.c: 198: break;
+"198
+[e $U 332  ]
+[; ;i2c.c: 199: case 18:
+"199
+[e :U 372 ]
+[; ;i2c.c: 200: Motors[1].enabled = currentByte;
+"200
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 1 _currentByte ]
+[; ;i2c.c: 201: break;
+"201
+[e $U 332  ]
+[; ;i2c.c: 202: case 19:
+"202
+[e :U 373 ]
+[; ;i2c.c: 203: Motors[2].enabled = currentByte;
+"203
+[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 1 _currentByte ]
+[; ;i2c.c: 204: break;
+"204
+[e $U 332  ]
+[; ;i2c.c: 205: case 20:
+"205
+[e :U 374 ]
+[; ;i2c.c: 206: Motors[3].enabled = currentByte;
+"206
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 1 _currentByte ]
+[; ;i2c.c: 207: break;
+"207
+[e $U 332  ]
+[; ;i2c.c: 208: case 8:
+"208
+[e :U 375 ]
+[; ;i2c.c: 209: PWMPause = (unsigned) currentByte & 0b00000011;
+"209
+[e = _PWMPause -> & -> _currentByte `ui -> -> 3 `i `ui `uc ]
+[; ;i2c.c: 210: break;
+"210
+[e $U 332  ]
+[; ;i2c.c: 211: case 21:
+"211
+[e :U 376 ]
+[; ;i2c.c: 212: Motors[0].paused = currentByte;
+"212
+[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 2 _currentByte ]
+[; ;i2c.c: 213: break;
+"213
+[e $U 332  ]
+[; ;i2c.c: 214: case 22:
+"214
+[e :U 377 ]
+[; ;i2c.c: 215: Motors[1].paused = currentByte;
+"215
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 2 _currentByte ]
+[; ;i2c.c: 216: break;
+"216
+[e $U 332  ]
+[; ;i2c.c: 217: case 23:
+"217
+[e :U 378 ]
+[; ;i2c.c: 218: Motors[2].paused = currentByte;
+"218
+[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 2 _currentByte ]
+[; ;i2c.c: 219: break;
+"219
+[e $U 332  ]
+[; ;i2c.c: 220: case 24:
+"220
+[e :U 379 ]
+[; ;i2c.c: 221: Motors[3].paused = currentByte;
+"221
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 2 _currentByte ]
+[; ;i2c.c: 222: break;
+"222
+[e $U 332  ]
+[; ;i2c.c: 223: case 10:
+"223
+[e :U 380 ]
+[; ;i2c.c: 224: for (i = 0; i < 4; i++) {
+"224
+{
+[e = _i -> -> 0 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 381  ]
+[e $U 382  ]
+[e :U 381 ]
+{
+[; ;i2c.c: 225: Motors[i].accelType = currentByte;
+"225
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 12 _currentByte ]
+"226
+}
+"224
+[e ++ _i -> -> 1 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 381  ]
+[e :U 382 ]
+"226
+}
+[; ;i2c.c: 226: }
+[; ;i2c.c: 227: break;
+"227
+[e $U 332  ]
+[; ;i2c.c: 228: case 29:
+"228
+[e :U 384 ]
+[; ;i2c.c: 229: Motors[0].accelType = currentByte;
+"229
+[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 12 _currentByte ]
+[; ;i2c.c: 230: break;
+"230
+[e $U 332  ]
+[; ;i2c.c: 231: case 30:
+"231
+[e :U 385 ]
+[; ;i2c.c: 232: Motors[1].accelType = currentByte;
+"232
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 12 _currentByte ]
+[; ;i2c.c: 233: break;
+"233
+[e $U 332  ]
+[; ;i2c.c: 234: case 31:
+"234
+[e :U 386 ]
+[; ;i2c.c: 235: Motors[2].accelType = currentByte;
+"235
+[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 12 _currentByte ]
+[; ;i2c.c: 236: break;
+"236
+[e $U 332  ]
+[; ;i2c.c: 237: case 32:
+"237
+[e :U 387 ]
+[; ;i2c.c: 238: Motors[3].accelType = currentByte;
+"238
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 12 _currentByte ]
+[; ;i2c.c: 239: break;
+"239
+[e $U 332  ]
+[; ;i2c.c: 240: case 11:
+"240
+[e :U 388 ]
+[; ;i2c.c: 241: for (i = 0; i < 4; i++) {
+"241
+{
+[e = _i -> -> 0 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 389  ]
+[e $U 390  ]
+[e :U 389 ]
+{
+[; ;i2c.c: 242: Motors[i].accelRate = currentByte;
+"242
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 13 _currentByte ]
+"243
+}
+"241
+[e ++ _i -> -> 1 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 389  ]
+[e :U 390 ]
+"243
+}
+[; ;i2c.c: 243: }
+[; ;i2c.c: 244: break;
+"244
+[e $U 332  ]
+[; ;i2c.c: 245: case 33:
+"245
+[e :U 392 ]
+[; ;i2c.c: 246: Motors[0].accelRate = currentByte;
+"246
+[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 13 _currentByte ]
+[; ;i2c.c: 247: break;
+"247
+[e $U 332  ]
+[; ;i2c.c: 248: case 34:
+"248
+[e :U 393 ]
+[; ;i2c.c: 249: Motors[1].accelRate = currentByte;
+"249
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 13 _currentByte ]
+[; ;i2c.c: 250: break;
+"250
+[e $U 332  ]
+[; ;i2c.c: 251: case 35:
+"251
+[e :U 394 ]
+[; ;i2c.c: 252: Motors[2].accelRate = currentByte;
+"252
+[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 13 _currentByte ]
+[; ;i2c.c: 253: break;
+"253
+[e $U 332  ]
+[; ;i2c.c: 254: case 36:
+"254
+[e :U 395 ]
+[; ;i2c.c: 255: Motors[3].accelRate = currentByte;
+"255
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 13 _currentByte ]
+[; ;i2c.c: 256: break;
+"256
+[e $U 332  ]
+[; ;i2c.c: 257: case 12:
+"257
+[e :U 396 ]
+[; ;i2c.c: 258: for (i = 0; i < 4; i++) {
+"258
+{
+[e = _i -> -> 0 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 397  ]
+[e $U 398  ]
+[e :U 397 ]
+{
+[; ;i2c.c: 259: Motors[i].minimumDuty = currentByte;
+"259
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 14 _currentByte ]
+"260
+}
+"258
+[e ++ _i -> -> 1 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 397  ]
+[e :U 398 ]
+"260
+}
+[; ;i2c.c: 260: }
+[; ;i2c.c: 261: break;
+"261
+[e $U 332  ]
+[; ;i2c.c: 262: case 37:
+"262
+[e :U 400 ]
+[; ;i2c.c: 263: Motors[0].minimumDuty = currentByte;
+"263
+[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 _currentByte ]
+[; ;i2c.c: 264: break;
+"264
+[e $U 332  ]
+[; ;i2c.c: 265: case 38:
+"265
+[e :U 401 ]
+[; ;i2c.c: 266: Motors[1].minimumDuty = currentByte;
+"266
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 _currentByte ]
+[; ;i2c.c: 267: break;
+"267
+[e $U 332  ]
+[; ;i2c.c: 268: case 39:
+"268
+[e :U 402 ]
+[; ;i2c.c: 269: Motors[2].minimumDuty = currentByte;
+"269
+[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 _currentByte ]
+[; ;i2c.c: 270: break;
+"270
+[e $U 332  ]
+[; ;i2c.c: 271: case 40:
+"271
+[e :U 403 ]
+[; ;i2c.c: 272: Motors[3].minimumDuty = currentByte;
+"272
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 _currentByte ]
+[; ;i2c.c: 273: break;
+"273
+[e $U 332  ]
+"274
+}
+[; ;i2c.c: 274: }
+[e $U 332  ]
+"116
 [e :U 333 ]
 [e [\ _state , $ -> -> 1 `i `uc 334
  , $ -> -> 2 `i `uc 340
  , $ -> -> 3 `i `uc 343
  , $ -> -> 4 `i `uc 346
  , $ -> -> 5 `i `uc 349
- , $ -> -> 7 `i `uc 352
- , $ -> -> 9 `i `uc 358
- , $ -> -> 8 `i `uc 364
- , $ -> -> 10 `i `uc 370
- , $ -> -> 11 `i `uc 371
- , $ -> -> 12 `i `uc 372
+ , $ -> -> 6 `i `uc 352
+ , $ -> -> 13 `i `uc 356
+ , $ -> -> 14 `i `uc 357
+ , $ -> -> 15 `i `uc 358
+ , $ -> -> 16 `i `uc 359
+ , $ -> -> 7 `i `uc 360
+ , $ -> -> 25 `i `uc 366
+ , $ -> -> 26 `i `uc 367
+ , $ -> -> 27 `i `uc 368
+ , $ -> -> 28 `i `uc 369
+ , $ -> -> 9 `i `uc 370
+ , $ -> -> 17 `i `uc 371
+ , $ -> -> 18 `i `uc 372
+ , $ -> -> 19 `i `uc 373
+ , $ -> -> 20 `i `uc 374
+ , $ -> -> 8 `i `uc 375
+ , $ -> -> 21 `i `uc 376
+ , $ -> -> 22 `i `uc 377
+ , $ -> -> 23 `i `uc 378
+ , $ -> -> 24 `i `uc 379
+ , $ -> -> 10 `i `uc 380
+ , $ -> -> 29 `i `uc 384
+ , $ -> -> 30 `i `uc 385
+ , $ -> -> 31 `i `uc 386
+ , $ -> -> 32 `i `uc 387
+ , $ -> -> 11 `i `uc 388
+ , $ -> -> 33 `i `uc 392
+ , $ -> -> 34 `i `uc 393
+ , $ -> -> 35 `i `uc 394
+ , $ -> -> 36 `i `uc 395
+ , $ -> -> 12 `i `uc 396
+ , $ -> -> 37 `i `uc 400
+ , $ -> -> 38 `i `uc 401
+ , $ -> -> 39 `i `uc 402
+ , $ -> -> 40 `i `uc 403
  332 ]
-"191
+"274
 [e :U 332 ]
-[; ;i2c.c: 192: state = 0;
-"192
+[; ;i2c.c: 275: state = 0;
+"275
 [e = _state -> -> 0 `i `uc ]
-"193
+"276
 }
 [e :U 331 ]
-[; ;i2c.c: 193: }
-[; ;i2c.c: 194: SSPCON1bits.CKP = 1;
-"194
+[; ;i2c.c: 276: }
+[; ;i2c.c: 277: SSPCON1bits.CKP = 1;
+"277
 [e = . . _SSPCON1bits 0 1 -> -> 1 `i `uc ]
-"195
+"278
 }
-[; ;i2c.c: 195: } else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
-[e $U 373  ]
+[; ;i2c.c: 278: } else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
+[e $U 404  ]
 [e :U 329 ]
-[e $ ! && ! != -> . . _SSPSTATbits 2 5 `i -> -> -> 0 `i `Vuc `i != -> . . _SSPSTATbits 2 2 `i -> -> -> 0 `i `Vuc `i 374  ]
+[e $ ! && ! != -> . . _SSPSTATbits 2 5 `i -> -> -> 0 `i `Vuc `i != -> . . _SSPSTATbits 2 2 `i -> -> -> 0 `i `Vuc `i 405  ]
 {
-[; ;i2c.c: 208: SSPCON1bits.CKP = 1;
-"208
-[e = . . _SSPCON1bits 0 1 -> -> 1 `i `uc ]
-[; ;i2c.c: 210: while(SSPSTATbits.BF);
-"210
-[e $U 375  ]
-[e :U 376 ]
-[e :U 375 ]
-[e $ != -> . . _SSPSTATbits 2 0 `i -> -> -> 0 `i `Vuc `i 376  ]
-[e :U 377 ]
-"211
+[; ;i2c.c: 279: if (state == 0) {
+"279
+[e $ ! == -> _state `i -> 0 `i 406  ]
+{
+[; ;i2c.c: 281: state = currentByte;
+"281
+[e = _state _currentByte ]
+"282
 }
-[e :U 374 ]
-"213
-[e :U 373 ]
+[; ;i2c.c: 282: } else {
+[e $U 407  ]
+[e :U 406 ]
+{
+[; ;i2c.c: 284: switch (state) {
+"284
+[e $U 409  ]
+{
+[; ;i2c.c: 285: case 1:
+"285
+[e :U 410 ]
+[; ;i2c.c: 286: SSPBUF = Motors[0].duty;
+"286
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 9 ]
+[; ;i2c.c: 287: break;
+"287
+[e $U 408  ]
+[; ;i2c.c: 288: case 2:
+"288
+[e :U 411 ]
+[; ;i2c.c: 289: SSPBUF = Motors[0].duty;
+"289
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 9 ]
+[; ;i2c.c: 290: break;
+"290
+[e $U 408  ]
+[; ;i2c.c: 291: case 3:
+"291
+[e :U 412 ]
+[; ;i2c.c: 292: SSPBUF = Motors[1].duty;
+"292
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 9 ]
+[; ;i2c.c: 293: break;
+"293
+[e $U 408  ]
+[; ;i2c.c: 294: case 4:
+"294
+[e :U 413 ]
+[; ;i2c.c: 295: SSPBUF = Motors[2].duty;
+"295
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 9 ]
+[; ;i2c.c: 296: break;
+"296
+[e $U 408  ]
+[; ;i2c.c: 297: case 5:
+"297
+[e :U 414 ]
+[; ;i2c.c: 298: SSPBUF = Motors[3].duty;
+"298
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 9 ]
+[; ;i2c.c: 299: break;
+"299
+[e $U 408  ]
+[; ;i2c.c: 300: case 6:
+"300
+[e :U 415 ]
+[; ;i2c.c: 302: SSPBUF = (unsigned)((Motors[0].motorType & 0b00000011) | (Motors[1].motorType & 0b00000011)<<2 | (Motors[2].motorType & 0b00000011)<<4 | (Motors[3].motorType & 0b00000011)<<6);
+"302
+[e = _SSPBUF -> -> | | | & -> . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 5 `i -> 3 `i << & -> . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 5 `i -> 3 `i -> 2 `i << & -> . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 5 `i -> 3 `i -> 4 `i << & -> . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 5 `i -> 3 `i -> 6 `i `ui `uc ]
+[; ;i2c.c: 303: break;
+"303
+[e $U 408  ]
+[; ;i2c.c: 304: case 13:
+"304
+[e :U 416 ]
+[; ;i2c.c: 305: SSPBUF = Motors[0].motorType;
+"305
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 5 ]
+[; ;i2c.c: 306: break;
+"306
+[e $U 408  ]
+[; ;i2c.c: 307: case 14:
+"307
+[e :U 417 ]
+[; ;i2c.c: 308: SSPBUF = Motors[1].motorType;
+"308
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 5 ]
+[; ;i2c.c: 309: break;
+"309
+[e $U 408  ]
+[; ;i2c.c: 310: case 15:
+"310
+[e :U 418 ]
+[; ;i2c.c: 311: SSPBUF = Motors[2].motorType;
+"311
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 5 ]
+[; ;i2c.c: 312: break;
+"312
+[e $U 408  ]
+[; ;i2c.c: 313: case 16:
+"313
+[e :U 419 ]
+[; ;i2c.c: 314: SSPBUF = Motors[3].motorType;
+"314
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 5 ]
+[; ;i2c.c: 315: break;
+"315
+[e $U 408  ]
+[; ;i2c.c: 316: case 7:
+"316
+[e :U 420 ]
+[; ;i2c.c: 317: SSPBUF = (unsigned)((Motors[0].direction & 0b00000011) | (Motors[1].direction & 0b00000011)<<2 | (Motors[2].direction & 0b00000011)<<4 | (Motors[3].direction & 0b00000011)<<6);
+"317
+[e = _SSPBUF -> -> | | | & -> . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 3 `i -> 3 `i << & -> . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 3 `i -> 3 `i -> 2 `i << & -> . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 3 `i -> 3 `i -> 4 `i << & -> . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 3 `i -> 3 `i -> 6 `i `ui `uc ]
+[; ;i2c.c: 318: break;
+"318
+[e $U 408  ]
+[; ;i2c.c: 319: case 25:
+"319
+[e :U 421 ]
+[; ;i2c.c: 320: SSPBUF = Motors[0].direction;
+"320
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 3 ]
+[; ;i2c.c: 321: break;
+"321
+[e $U 408  ]
+[; ;i2c.c: 322: case 26:
+"322
+[e :U 422 ]
+[; ;i2c.c: 323: SSPBUF = Motors[1].direction;
+"323
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 3 ]
+[; ;i2c.c: 324: break;
+"324
+[e $U 408  ]
+[; ;i2c.c: 325: case 27:
+"325
+[e :U 423 ]
+[; ;i2c.c: 326: SSPBUF = Motors[2].direction;
+"326
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 3 ]
+[; ;i2c.c: 327: break;
+"327
+[e $U 408  ]
+[; ;i2c.c: 328: case 28:
+"328
+[e :U 424 ]
+[; ;i2c.c: 329: SSPBUF = Motors[3].direction;
+"329
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 3 ]
+[; ;i2c.c: 330: break;
+"330
+[e $U 408  ]
+[; ;i2c.c: 331: case 9:
+"331
+[e :U 425 ]
+[; ;i2c.c: 332: SSPBUF = PWMEnable;
+"332
+[e = _SSPBUF _PWMEnable ]
+[; ;i2c.c: 333: break;
+"333
+[e $U 408  ]
+[; ;i2c.c: 334: case 17:
+"334
+[e :U 426 ]
+[; ;i2c.c: 335: SSPBUF = Motors[0].enabled;
+"335
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 1 ]
+[; ;i2c.c: 336: break;
+"336
+[e $U 408  ]
+[; ;i2c.c: 337: case 18:
+"337
+[e :U 427 ]
+[; ;i2c.c: 338: SSPBUF = Motors[1].enabled;
+"338
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 1 ]
+[; ;i2c.c: 339: break;
+"339
+[e $U 408  ]
+[; ;i2c.c: 340: case 19:
+"340
+[e :U 428 ]
+[; ;i2c.c: 341: SSPBUF = Motors[2].enabled;
+"341
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 1 ]
+[; ;i2c.c: 342: break;
+"342
+[e $U 408  ]
+[; ;i2c.c: 343: case 20:
+"343
+[e :U 429 ]
+[; ;i2c.c: 344: SSPBUF = Motors[3].enabled;
+"344
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 1 ]
+[; ;i2c.c: 345: break;
+"345
+[e $U 408  ]
+[; ;i2c.c: 346: case 8:
+"346
+[e :U 430 ]
+[; ;i2c.c: 347: SSPBUF = PWMPause;
+"347
+[e = _SSPBUF _PWMPause ]
+[; ;i2c.c: 348: break;
+"348
+[e $U 408  ]
+[; ;i2c.c: 349: case 21:
+"349
+[e :U 431 ]
+[; ;i2c.c: 350: SSPBUF = Motors[0].paused;
+"350
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 2 ]
+[; ;i2c.c: 351: break;
+"351
+[e $U 408  ]
+[; ;i2c.c: 352: case 22:
+"352
+[e :U 432 ]
+[; ;i2c.c: 353: SSPBUF = Motors[1].paused;
+"353
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 2 ]
+[; ;i2c.c: 354: break;
+"354
+[e $U 408  ]
+[; ;i2c.c: 355: case 23:
+"355
+[e :U 433 ]
+[; ;i2c.c: 356: SSPBUF = Motors[2].paused;
+"356
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 2 ]
+[; ;i2c.c: 357: break;
+"357
+[e $U 408  ]
+[; ;i2c.c: 358: case 24:
+"358
+[e :U 434 ]
+[; ;i2c.c: 359: SSPBUF = Motors[3].paused;
+"359
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 2 ]
+[; ;i2c.c: 360: break;
+"360
+[e $U 408  ]
+[; ;i2c.c: 361: case 10:
+"361
+[e :U 435 ]
+[; ;i2c.c: 362: SSPBUF = Motors[0].accelType;
+"362
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 12 ]
+[; ;i2c.c: 363: break;
+"363
+[e $U 408  ]
+[; ;i2c.c: 364: case 29:
+"364
+[e :U 436 ]
+[; ;i2c.c: 365: SSPBUF = Motors[0].accelType;
+"365
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 12 ]
+[; ;i2c.c: 366: break;
+"366
+[e $U 408  ]
+[; ;i2c.c: 367: case 30:
+"367
+[e :U 437 ]
+[; ;i2c.c: 368: SSPBUF = Motors[1].accelType;
+"368
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 12 ]
+[; ;i2c.c: 369: break;
+"369
+[e $U 408  ]
+[; ;i2c.c: 370: case 31:
+"370
+[e :U 438 ]
+[; ;i2c.c: 371: SSPBUF = Motors[2].accelType;
+"371
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 12 ]
+[; ;i2c.c: 372: break;
+"372
+[e $U 408  ]
+[; ;i2c.c: 373: case 32:
+"373
+[e :U 439 ]
+[; ;i2c.c: 374: SSPBUF = Motors[3].accelType;
+"374
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 12 ]
+[; ;i2c.c: 375: break;
+"375
+[e $U 408  ]
+[; ;i2c.c: 376: case 11:
+"376
+[e :U 440 ]
+[; ;i2c.c: 377: SSPBUF = Motors[0].accelRate;
+"377
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 13 ]
+[; ;i2c.c: 378: break;
+"378
+[e $U 408  ]
+[; ;i2c.c: 379: case 33:
+"379
+[e :U 441 ]
+[; ;i2c.c: 380: SSPBUF = Motors[0].accelRate;
+"380
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 13 ]
+[; ;i2c.c: 381: break;
+"381
+[e $U 408  ]
+[; ;i2c.c: 382: case 34:
+"382
+[e :U 442 ]
+[; ;i2c.c: 383: SSPBUF = Motors[1].accelRate;
+"383
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 13 ]
+[; ;i2c.c: 384: break;
+"384
+[e $U 408  ]
+[; ;i2c.c: 385: case 35:
+"385
+[e :U 443 ]
+[; ;i2c.c: 386: SSPBUF = Motors[2].accelRate;
+"386
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 13 ]
+[; ;i2c.c: 387: break;
+"387
+[e $U 408  ]
+[; ;i2c.c: 388: case 36:
+"388
+[e :U 444 ]
+[; ;i2c.c: 389: SSPBUF = Motors[3].accelRate;
+"389
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 13 ]
+[; ;i2c.c: 390: break;
+"390
+[e $U 408  ]
+[; ;i2c.c: 391: case 12:
+"391
+[e :U 445 ]
+[; ;i2c.c: 392: SSPBUF = Motors[0].minimumDuty;
+"392
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 ]
+[; ;i2c.c: 393: break;
+"393
+[e $U 408  ]
+[; ;i2c.c: 394: case 37:
+"394
+[e :U 446 ]
+[; ;i2c.c: 395: SSPBUF = Motors[0].minimumDuty;
+"395
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 ]
+[; ;i2c.c: 396: break;
+"396
+[e $U 408  ]
+[; ;i2c.c: 397: case 38:
+"397
+[e :U 447 ]
+[; ;i2c.c: 398: SSPBUF = Motors[1].minimumDuty;
+"398
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 ]
+[; ;i2c.c: 399: break;
+"399
+[e $U 408  ]
+[; ;i2c.c: 400: case 39:
+"400
+[e :U 448 ]
+[; ;i2c.c: 401: SSPBUF = Motors[2].minimumDuty;
+"401
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 ]
+[; ;i2c.c: 402: break;
+"402
+[e $U 408  ]
+[; ;i2c.c: 403: case 40:
+"403
+[e :U 449 ]
+[; ;i2c.c: 404: SSPBUF = Motors[3].minimumDuty;
+"404
+[e = _SSPBUF . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 14 ]
+[; ;i2c.c: 405: break;
+"405
+[e $U 408  ]
+"406
+}
+[; ;i2c.c: 406: }
+[e $U 408  ]
+"284
+[e :U 409 ]
+[e [\ _state , $ -> -> 1 `i `uc 410
+ , $ -> -> 2 `i `uc 411
+ , $ -> -> 3 `i `uc 412
+ , $ -> -> 4 `i `uc 413
+ , $ -> -> 5 `i `uc 414
+ , $ -> -> 6 `i `uc 415
+ , $ -> -> 13 `i `uc 416
+ , $ -> -> 14 `i `uc 417
+ , $ -> -> 15 `i `uc 418
+ , $ -> -> 16 `i `uc 419
+ , $ -> -> 7 `i `uc 420
+ , $ -> -> 25 `i `uc 421
+ , $ -> -> 26 `i `uc 422
+ , $ -> -> 27 `i `uc 423
+ , $ -> -> 28 `i `uc 424
+ , $ -> -> 9 `i `uc 425
+ , $ -> -> 17 `i `uc 426
+ , $ -> -> 18 `i `uc 427
+ , $ -> -> 19 `i `uc 428
+ , $ -> -> 20 `i `uc 429
+ , $ -> -> 8 `i `uc 430
+ , $ -> -> 21 `i `uc 431
+ , $ -> -> 22 `i `uc 432
+ , $ -> -> 23 `i `uc 433
+ , $ -> -> 24 `i `uc 434
+ , $ -> -> 10 `i `uc 435
+ , $ -> -> 29 `i `uc 436
+ , $ -> -> 30 `i `uc 437
+ , $ -> -> 31 `i `uc 438
+ , $ -> -> 32 `i `uc 439
+ , $ -> -> 11 `i `uc 440
+ , $ -> -> 33 `i `uc 441
+ , $ -> -> 34 `i `uc 442
+ , $ -> -> 35 `i `uc 443
+ , $ -> -> 36 `i `uc 444
+ , $ -> -> 12 `i `uc 445
+ , $ -> -> 37 `i `uc 446
+ , $ -> -> 38 `i `uc 447
+ , $ -> -> 39 `i `uc 448
+ , $ -> -> 40 `i `uc 449
+ 408 ]
+"406
+[e :U 408 ]
+[; ;i2c.c: 407: state = 0;
+"407
+[e = _state -> -> 0 `i `uc ]
+"408
+}
+[e :U 407 ]
+[; ;i2c.c: 408: }
+[; ;i2c.c: 410: SSPCON1bits.CKP = 1;
+"410
+[e = . . _SSPCON1bits 0 1 -> -> 1 `i `uc ]
+[; ;i2c.c: 412: while(SSPSTATbits.BF);
+"412
+[e $U 450  ]
+[e :U 451 ]
+[e :U 450 ]
+[e $ != -> . . _SSPSTATbits 2 0 `i -> -> -> 0 `i `Vuc `i 451  ]
+[e :U 452 ]
+"413
+}
+[e :U 405 ]
+"415
+[e :U 404 ]
 [e :U 328 ]
 [e :U 326 ]
-[; ;i2c.c: 211: }
-[; ;i2c.c: 213: PIR1bits.SSPIF = 0;
+[; ;i2c.c: 413: }
+[; ;i2c.c: 415: PIR1bits.SSPIF = 0;
 [e = . . _PIR1bits 0 3 -> -> 0 `i `uc ]
-"214
+"416
 }
 [e :U 324 ]
-[; ;i2c.c: 214: }
-[; ;i2c.c: 215: }
-"215
+[; ;i2c.c: 416: }
+[; ;i2c.c: 417: }
+"417
 [e :UE 323 ]
 }

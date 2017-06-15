@@ -1,7 +1,7 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"78 parameters.h
-[s S321 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
-[n S321 Motor state enabled paused direction targetDirection motorType PWMPin dirPin cdirPin duty target servoCount ]
+"121 parameters.h
+[s S321 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
+[n S321 Motor state enabled paused direction targetDirection motorType PWMPin dirPin cdirPin duty target servoCount accelType accelRate minimumDuty accelCount ]
 "2929 /Applications/microchip/xc8/v1.42/include/pic18f14k50.h
 [v _TRISA `Vuc ~T0 @X0 0 e@3986 ]
 "3011
@@ -23,11 +23,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [n S297 . . . . ]
 "6542
 [v _OSCCONbits `VS297 ~T0 @X0 0 e@4051 ]
-"74 parameters.h
+"115 parameters.h
 [v _InitI2C `(v ~T0 @X0 0 ef ]
-"75
+"116
 [v _InitPWM `(v ~T0 @X0 0 ef ]
-"76
+"117
 [v _CheckPWMOutput `(v ~T0 @X0 0 ef ]
 "44 main.c
 [p x CPUDIV=NOCLKDIV ]
@@ -3169,62 +3169,66 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic18.h: 164: extern __nonreentrant void _delay(unsigned long);
 [; ;pic18.h: 166: extern __nonreentrant void _delaywdt(unsigned long);
 [; ;pic18.h: 168: extern __nonreentrant void _delay3(unsigned char);
-"62 parameters.h
+"99 parameters.h
 [v _PWMEnable `uc ~T0 @X0 1 e ]
 [i _PWMEnable
 -> -> 1 `i `uc
 ]
-[; ;parameters.h: 62: unsigned char PWMEnable = 1;
-"65
+[; ;parameters.h: 99: unsigned char PWMEnable = 1;
+"103
 [v _PWMPause `uc ~T0 @X0 1 e ]
 [i _PWMPause
 -> -> 0 `i `uc
 ]
-[; ;parameters.h: 65: unsigned char PWMPause = 0;
-"68
+[; ;parameters.h: 103: unsigned char PWMPause = 0;
+"106
 [v _AccelType `uc ~T0 @X0 1 e ]
 [i _AccelType
 -> -> 0 `i `uc
 ]
-[; ;parameters.h: 68: unsigned char AccelType = 0;
-"69
+[; ;parameters.h: 106: unsigned char AccelType = 0;
+"108
 [v _AccelRate `ui ~T0 @X0 1 e ]
 [i _AccelRate
 -> -> 150 `i `ui
 ]
-[; ;parameters.h: 69: unsigned int AccelRate = 150;
-"70
+[; ;parameters.h: 108: unsigned int AccelRate = 150;
+"110
 [v _AccelCount `ui ~T0 @X0 1 e ]
 [i _AccelCount
 -> -> 0 `i `ui
 ]
-[; ;parameters.h: 70: unsigned int AccelCount = 0;
-"72
+[; ;parameters.h: 110: unsigned int AccelCount = 0;
+"112
 [v _MinimumDuty `uc ~T0 @X0 1 e ]
 [i _MinimumDuty
 -> -> 0 `i `uc
 ]
-[; ;parameters.h: 72: unsigned char MinimumDuty = 0;
-[; ;parameters.h: 74: void InitI2C(void);
-[; ;parameters.h: 75: void InitPWM(void);
-[; ;parameters.h: 76: void CheckPWMOutput(void);
-[; ;parameters.h: 78: struct Motor {
-[; ;parameters.h: 79: unsigned char state:1;
-[; ;parameters.h: 80: unsigned char enabled:1;
-[; ;parameters.h: 81: unsigned char paused:1;
-[; ;parameters.h: 82: unsigned char direction:1;
-[; ;parameters.h: 83: unsigned char targetDirection:1;
-[; ;parameters.h: 84: unsigned char motorType:1;
-[; ;parameters.h: 85: unsigned char PWMPin;
-[; ;parameters.h: 86: unsigned char dirPin;
-[; ;parameters.h: 87: unsigned char cdirPin;
-[; ;parameters.h: 88: unsigned char duty;
-[; ;parameters.h: 89: unsigned char target;
-[; ;parameters.h: 90: unsigned char servoCount;
-[; ;parameters.h: 91: };
-"93
+[; ;parameters.h: 112: unsigned char MinimumDuty = 0;
+[; ;parameters.h: 115: void InitI2C(void);
+[; ;parameters.h: 116: void InitPWM(void);
+[; ;parameters.h: 117: void CheckPWMOutput(void);
+[; ;parameters.h: 121: struct Motor {
+[; ;parameters.h: 122: unsigned char state:1;
+[; ;parameters.h: 123: unsigned char enabled:1;
+[; ;parameters.h: 124: unsigned char paused:1;
+[; ;parameters.h: 125: unsigned char direction:1;
+[; ;parameters.h: 126: unsigned char targetDirection:1;
+[; ;parameters.h: 127: unsigned char motorType;
+[; ;parameters.h: 128: unsigned char PWMPin;
+[; ;parameters.h: 129: unsigned char dirPin;
+[; ;parameters.h: 130: unsigned char cdirPin;
+[; ;parameters.h: 131: unsigned char duty;
+[; ;parameters.h: 132: unsigned char target;
+[; ;parameters.h: 133: unsigned char servoCount;
+[; ;parameters.h: 134: unsigned char accelType;
+[; ;parameters.h: 135: unsigned char accelRate;
+[; ;parameters.h: 136: unsigned char minimumDuty;
+[; ;parameters.h: 137: unsigned char accelCount;
+[; ;parameters.h: 138: };
+"141
 [v _Motors `S321 ~T0 @X0 -> 4 `i e ]
-[; ;parameters.h: 93: struct Motor Motors[4];
+[; ;parameters.h: 141: struct Motor Motors[4];
 "106 main.c
 [v _InitPorts `(v ~T0 @X0 1 ef ]
 {

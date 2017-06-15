@@ -4256,22 +4256,28 @@ extern __nonreentrant void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __nonreentrant void _delay3(unsigned char);
 
-# 62 "parameters.h"
+# 99 "parameters.h"
 unsigned char PWMEnable = 1;
+
 
 
 unsigned char PWMPause = 0;
 
 
 unsigned char AccelType = 0;
+
 unsigned int AccelRate = 150;
+
 unsigned int AccelCount = 0;
 
 unsigned char MinimumDuty = 0;
 
+
 void InitI2C(void);
 void InitPWM(void);
 void CheckPWMOutput(void);
+
+
 
 struct Motor {
 unsigned char state:1;
@@ -4279,14 +4285,19 @@ unsigned char enabled:1;
 unsigned char paused:1;
 unsigned char direction:1;
 unsigned char targetDirection:1;
-unsigned char motorType:1;
+unsigned char motorType;
 unsigned char PWMPin;
 unsigned char dirPin;
 unsigned char cdirPin;
 unsigned char duty;
 unsigned char target;
 unsigned char servoCount;
+unsigned char accelType;
+unsigned char accelRate;
+unsigned char minimumDuty;
+unsigned char accelCount;
 };
+
 
 struct Motor Motors[4];
 
@@ -4346,7 +4357,7 @@ T0CONbits.T08BIT = 1;
 T0CONbits.TMR0ON = 1;
 
 
-int n;
+unsigned int n;
 for (n = 0; n < 4; n++) {
 Motors[n].state = (unsigned char)0;
 Motors[n].paused = (unsigned char)0;
@@ -4357,6 +4368,8 @@ Motors[n].duty = (unsigned char)0;
 Motors[n].target = (unsigned char)0;
 Motors[n].motorType = (unsigned char)0;
 }
+
+
 
 
 Motors[0].PWMPin = 0;
@@ -4376,78 +4389,87 @@ Motors[3].dirPin = 10;
 Motors[3].cdirPin = 8;
 
 
-int i;
+unsigned int i;
 for (i = 0; i < 4; i++) {
 SetPin(Motors[i].dirPin,1);
 SetPin(Motors[i].cdirPin,0);
 }
 }
 
-# 110
-char ExponentialProfile(unsigned char current, unsigned char target) {
+# 117
+char ExponentialProfile(unsigned char current, unsigned char target, unsigned int index) {
 unsigned char change = 0;
 if (current > target) {
 
-if (current-MinimumDuty > 200) {
+if (current-Motors[index].minimumDuty > 200) {
 change = 50;
-} else if (current-MinimumDuty > 150) {
+} else if (current-Motors[index].minimumDuty > 150) {
 change = 25;
-} else if (current-MinimumDuty > 100) {
+} else if (current-Motors[index].minimumDuty > 100) {
 change = 20;
-} else if (current-MinimumDuty > 75) {
+} else if (current-Motors[index].minimumDuty > 75) {
 change = 10;
-} else if (current-MinimumDuty > 50) {
+} else if (current-Motors[index].minimumDuty > 50) {
 change = 5;
 } else {
 change = 1;
 }
+
+
 if (current-target < change) {
-change = current-target;
+change = (unsigned) current-target;
 }
 } else {
 
-if (current-MinimumDuty > 200) {
-change = current-target;
-} else if (current-MinimumDuty > 150) {
+if (current-Motors[index].minimumDuty > 200) {
+change = (unsigned) current-target;
+} else if (current-Motors[index].minimumDuty > 150) {
 change = 25;
-} else if (current-MinimumDuty > 100) {
+} else if (current-Motors[index].minimumDuty > 100) {
 change = 20;
-} else if (current-MinimumDuty > 75) {
+} else if (current-Motors[index].minimumDuty > 75) {
 change = 10;
-} else if (current-MinimumDuty > 50) {
+} else if (current-Motors[index].minimumDuty > 50) {
 change = 5;
 } else {
 change = 1;
 }
+
 if (target-current < change) {
-change = target-current;
+change = (unsigned) target-current;
 }
 }
 return change;
 }
 
-# 158
-void StopMotor(int index) {
+# 168
+void StopMotor(unsigned int index) {
+
+
 if (Motors[index].duty == 0 && Motors[index].direction != Motors[index].targetDirection) {
+
 Motors[index].direction = Motors[index].targetDirection;
 
 SetPin(Motors[index].dirPin, Motors[index].direction);
-SetPin(Motors[index].cdirPin, !Motors[index].direction);
+SetPin(Motors[index].cdirPin, (unsigned) !Motors[index].direction);
 } else if (Motors[index].duty > 0) {
+
+
+
 switch (AccelType) {
 case 0:
 Motors[index].duty = 0;
 break;
 case 1:
-if (Motors[index].duty > MinimumDuty) {
+if (Motors[index].duty > Motors[index].minimumDuty) {
 Motors[index].duty -= 1;
 } else {
 Motors[index].duty = 0;
 }
 break;
 case 2:
-if (Motors[index].duty > MinimumDuty) {
-Motors[index].duty -= ExponentialProfile(Motors[index].duty, MinimumDuty);
+if (Motors[index].duty > Motors[index].minimumDuty) {
+Motors[index].duty -= ExponentialProfile(Motors[index].duty, Motors[index].minimumDuty, index);
 } else {
 Motors[index].duty = 0;
 }
@@ -4458,13 +4480,14 @@ break;
 }
 }
 
-void AccelerateMotor(int index) {
-if (Motors[index].duty < MinimumDuty && Motors[index].target >= MinimumDuty) {
-Motors[index].duty = MinimumDuty;
-} else if (Motors[index].duty <= MinimumDuty && Motors[index].target < MinimumDuty) {
+# 208
+void AccelerateMotor(unsigned int index) {
+if (Motors[index].duty < Motors[index].minimumDuty && Motors[index].target >= Motors[index].minimumDuty) {
+Motors[index].duty = Motors[index].minimumDuty;
+} else if (Motors[index].duty <= Motors[index].minimumDuty && Motors[index].target < Motors[index].minimumDuty) {
 Motors[index].duty = 0;
 }
-switch (AccelType) {
+switch (Motors[index].accelType) {
 case 0:
 Motors[index].duty = Motors[index].target;
 break;
@@ -4477,9 +4500,9 @@ Motors[index].duty += 1;
 break;
 case 2:
 if (Motors[index].duty > Motors[index].target) {
-Motors[index].duty -= ExponentialProfile(Motors[index].duty, Motors[index].target);
+Motors[index].duty -= ExponentialProfile(Motors[index].duty, Motors[index].target, index);
 } else if (Motors[index].duty < Motors[index].target) {
-Motors[index].duty += ExponentialProfile(Motors[index].duty, Motors[index].target);
+Motors[index].duty += ExponentialProfile(Motors[index].duty, Motors[index].target, index);
 }
 break;
 default:
@@ -4487,28 +4510,25 @@ break;
 }
 }
 
-# 225
-void AcceleratePWM(void) {
-int i;
-for (i = 0; i < 4; i++) {
-if (PWMPause || Motors[i].paused) {
-StopMotor(i);
+# 244
+void AcceleratePWM(unsigned int index) {
+if (PWMPause || Motors[index].paused) {
+StopMotor(index);
 } else {
 
 
 
-if (Motors[i].direction != Motors[i].targetDirection) {
-StopMotor(i);
-} else if (Motors[i].duty != Motors[i].target) {
-AccelerateMotor(i);
-}
+if (Motors[index].direction != Motors[index].targetDirection) {
+StopMotor(index);
+} else if (Motors[index].duty != Motors[index].target) {
+AccelerateMotor(index);
 }
 }
 }
 
-# 261
+# 277
 void CheckPWMOutput(void) {
-int i;
+unsigned int i;
 for (i = 0; i < 4; i++) {
 if (PWMEnable && Motors[i].enabled) {
 if (Motors[i].motorType) {
@@ -4545,12 +4565,14 @@ SetPin(Motors[i].PWMPin,0);
 Motors[i].state = 0;
 SetPin(Motors[i].PWMPin,0);
 }
+
+if (Motors[i].accelCount >= Motors[i].accelRate) {
+AcceleratePWM(i);
+Motors[i].accelCount = 0;
+} else {
+Motors[i].accelCount++;
+}
 }
 
-if (AccelCount >= AccelRate) {
-AcceleratePWM();
-AccelCount = 0;
-} else {
-AccelCount++;
-}
+# 332
 }

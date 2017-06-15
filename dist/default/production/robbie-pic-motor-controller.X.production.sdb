@@ -26,9 +26,9 @@
 [v i2___wmul __wmul `(ui  1 e 2 0 ]
 "15 /Applications/microchip/xc8/v1.42/sources/common/Umul32.c
 [v ___lmul __lmul `(ul  1 e 4 0 ]
-"8 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/i2c.c
+"7 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/i2c.c
 [v _InitI2C InitI2C `(v  1 e 1 0 ]
-"91
+"90
 [v _I2C_Slave_Read I2C_Slave_Read `II(v  1 e 1 0 ]
 "106 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/main.c
 [v _InitPorts InitPorts `(v  1 e 1 0 ]
@@ -38,52 +38,52 @@
 [v _SetPin SetPin `(v  1 e 1 0 ]
 "56
 [v _InitPWM InitPWM `(v  1 e 1 0 ]
-"110
+"117
 [v _ExponentialProfile ExponentialProfile `(uc  1 e 1 0 ]
-"158
+"168
 [v _StopMotor StopMotor `(v  1 e 1 0 ]
-"189
+"208
 [v _AccelerateMotor AccelerateMotor `(v  1 e 1 0 ]
-"225
+"244
 [v _AcceleratePWM AcceleratePWM `(v  1 e 1 0 ]
-"261
+"277
 [v _CheckPWMOutput CheckPWMOutput `(v  1 e 1 0 ]
-[s S150 . 1 `uc 1 . 1 0 :4:0 
+[s S158 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 WPUB4 1 0 :1:4 
 `uc 1 WPUB5 1 0 :1:5 
 `uc 1 WPUB6 1 0 :1:6 
 `uc 1 WPUB7 1 0 :1:7 
 ]
 "2016 /Applications/microchip/xc8/v1.42/include/pic18f14k50.h
-[u S156 . 1 `S150 1 . 1 0 ]
-[v _WPUBbits WPUBbits `VES156  1 e 1 @3960 ]
-[s S607 . 1 `uc 1 . 1 0 :4:0 
+[u S164 . 1 `S158 1 . 1 0 ]
+[v _WPUBbits WPUBbits `VES164  1 e 1 @3960 ]
+[s S623 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 LATA4 1 0 :1:4 
 `uc 1 LATA5 1 0 :1:5 
 ]
 "2726
-[s S611 . 1 `uc 1 . 1 0 :4:0 
+[s S627 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 LA4 1 0 :1:4 
 `uc 1 LA5 1 0 :1:5 
 ]
-[u S615 . 1 `S607 1 . 1 0 `S611 1 . 1 0 ]
-[v _LATAbits LATAbits `VES615  1 e 1 @3977 ]
-[s S579 . 1 `uc 1 . 1 0 :4:0 
+[u S631 . 1 `S623 1 . 1 0 `S627 1 . 1 0 ]
+[v _LATAbits LATAbits `VES631  1 e 1 @3977 ]
+[s S595 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 LATB4 1 0 :1:4 
 `uc 1 LATB5 1 0 :1:5 
 `uc 1 LATB6 1 0 :1:6 
 `uc 1 LATB7 1 0 :1:7 
 ]
 "2772
-[s S585 . 1 `uc 1 . 1 0 :4:0 
+[s S601 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 LB4 1 0 :1:4 
 `uc 1 LB5 1 0 :1:5 
 `uc 1 LB6 1 0 :1:6 
 `uc 1 LB7 1 0 :1:7 
 ]
-[u S591 . 1 `S579 1 . 1 0 `S585 1 . 1 0 ]
-[v _LATBbits LATBbits `VES591  1 e 1 @3978 ]
-[s S539 . 1 `uc 1 LATC0 1 0 :1:0 
+[u S607 . 1 `S595 1 . 1 0 `S601 1 . 1 0 ]
+[v _LATBbits LATBbits `VES607  1 e 1 @3978 ]
+[s S555 . 1 `uc 1 LATC0 1 0 :1:0 
 `uc 1 LATC1 1 0 :1:1 
 `uc 1 LATC2 1 0 :1:2 
 `uc 1 LATC3 1 0 :1:3 
@@ -93,7 +93,7 @@
 `uc 1 LATC7 1 0 :1:7 
 ]
 "2844
-[s S548 . 1 `uc 1 LC0 1 0 :1:0 
+[s S564 . 1 `uc 1 LC0 1 0 :1:0 
 `uc 1 LC1 1 0 :1:1 
 `uc 1 LC2 1 0 :1:2 
 `uc 1 LC3 1 0 :1:3 
@@ -102,15 +102,15 @@
 `uc 1 LC6 1 0 :1:6 
 `uc 1 LC7 1 0 :1:7 
 ]
-[u S557 . 1 `S539 1 . 1 0 `S548 1 . 1 0 ]
-[v _LATCbits LATCbits `VES557  1 e 1 @3979 ]
+[u S573 . 1 `S555 1 . 1 0 `S564 1 . 1 0 ]
+[v _LATCbits LATCbits `VES573  1 e 1 @3979 ]
 "2929
 [v _TRISA TRISA `VEuc  1 e 1 @3986 ]
 "3011
 [v _TRISB TRISB `VEuc  1 e 1 @3987 ]
 "3141
 [v _TRISC TRISC `VEuc  1 e 1 @3988 ]
-[s S369 . 1 `uc 1 TMR1IE 1 0 :1:0 
+[s S377 . 1 `uc 1 TMR1IE 1 0 :1:0 
 `uc 1 TMR2IE 1 0 :1:1 
 `uc 1 CCP1IE 1 0 :1:2 
 `uc 1 SSPIE 1 0 :1:3 
@@ -119,13 +119,13 @@
 `uc 1 ADIE 1 0 :1:6 
 ]
 "3454
-[s S377 . 1 `uc 1 . 1 0 :4:0 
+[s S385 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 TX1IE 1 0 :1:4 
 `uc 1 RC1IE 1 0 :1:5 
 ]
-[u S381 . 1 `S369 1 . 1 0 `S377 1 . 1 0 ]
-[v _PIE1bits PIE1bits `VES381  1 e 1 @3997 ]
-[s S341 . 1 `uc 1 TMR1IF 1 0 :1:0 
+[u S389 . 1 `S377 1 . 1 0 `S385 1 . 1 0 ]
+[v _PIE1bits PIE1bits `VES389  1 e 1 @3997 ]
+[s S349 . 1 `uc 1 TMR1IF 1 0 :1:0 
 `uc 1 TMR2IF 1 0 :1:1 
 `uc 1 CCP1IF 1 0 :1:2 
 `uc 1 SSPIF 1 0 :1:3 
@@ -134,13 +134,13 @@
 `uc 1 ADIF 1 0 :1:6 
 ]
 "3525
-[s S349 . 1 `uc 1 . 1 0 :4:0 
+[s S357 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 TX1IF 1 0 :1:4 
 `uc 1 RC1IF 1 0 :1:5 
 ]
-[u S353 . 1 `S341 1 . 1 0 `S349 1 . 1 0 ]
-[v _PIR1bits PIR1bits `VES353  1 e 1 @3998 ]
-[s S319 . 1 `uc 1 SEN 1 0 :1:0 
+[u S361 . 1 `S349 1 . 1 0 `S357 1 . 1 0 ]
+[v _PIR1bits PIR1bits `VES361  1 e 1 @3998 ]
+[s S327 . 1 `uc 1 SEN 1 0 :1:0 
 `uc 1 RSEN 1 0 :1:1 
 `uc 1 PEN 1 0 :1:2 
 `uc 1 RCEN 1 0 :1:3 
@@ -150,30 +150,30 @@
 `uc 1 GCEN 1 0 :1:7 
 ]
 "5663
-[u S328 . 1 `S319 1 . 1 0 ]
-[v _SSPCON2bits SSPCON2bits `VES328  1 e 1 @4037 ]
-[s S293 . 1 `uc 1 SSPM 1 0 :4:0 
+[u S336 . 1 `S327 1 . 1 0 ]
+[v _SSPCON2bits SSPCON2bits `VES336  1 e 1 @4037 ]
+[s S301 . 1 `uc 1 SSPM 1 0 :4:0 
 `uc 1 CKP 1 0 :1:4 
 `uc 1 SSPEN 1 0 :1:5 
 `uc 1 SSPOV 1 0 :1:6 
 `uc 1 WCOL 1 0 :1:7 
 ]
 "5728
-[s S299 . 1 `uc 1 SSPM0 1 0 :1:0 
+[s S307 . 1 `uc 1 SSPM0 1 0 :1:0 
 `uc 1 SSPM1 1 0 :1:1 
 `uc 1 SSPM2 1 0 :1:2 
 `uc 1 SSPM3 1 0 :1:3 
 ]
-[u S304 . 1 `S293 1 . 1 0 `S299 1 . 1 0 ]
-[v _SSPCON1bits SSPCON1bits `VES304  1 e 1 @4038 ]
-[s S165 . 1 `uc 1 . 1 0 :2:0 
+[u S312 . 1 `S301 1 . 1 0 `S307 1 . 1 0 ]
+[v _SSPCON1bits SSPCON1bits `VES312  1 e 1 @4038 ]
+[s S173 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 R_NOT_W 1 0 :1:2 
 ]
 "5854
-[s S168 . 1 `uc 1 . 1 0 :5:0 
+[s S176 . 1 `uc 1 . 1 0 :5:0 
 `uc 1 D_NOT_A 1 0 :1:5 
 ]
-[s S171 . 1 `uc 1 BF 1 0 :1:0 
+[s S179 . 1 `uc 1 BF 1 0 :1:0 
 `uc 1 UA 1 0 :1:1 
 `uc 1 R_nW 1 0 :1:2 
 `uc 1 S 1 0 :1:3 
@@ -182,55 +182,55 @@
 `uc 1 CKE 1 0 :1:6 
 `uc 1 SMP 1 0 :1:7 
 ]
-[s S180 . 1 `uc 1 . 1 0 :2:0 
+[s S188 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 R 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 D 1 0 :1:5 
 ]
-[s S185 . 1 `uc 1 . 1 0 :2:0 
+[s S193 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 W 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 A 1 0 :1:5 
 ]
-[s S190 . 1 `uc 1 . 1 0 :2:0 
+[s S198 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 nW 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 nA 1 0 :1:5 
 ]
-[s S195 . 1 `uc 1 . 1 0 :2:0 
+[s S203 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 R_W 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 D_A 1 0 :1:5 
 ]
-[s S200 . 1 `uc 1 . 1 0 :2:0 
+[s S208 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 NOT_WRITE 1 0 :1:2 
 ]
-[s S203 . 1 `uc 1 . 1 0 :5:0 
+[s S211 . 1 `uc 1 . 1 0 :5:0 
 `uc 1 NOT_ADDRESS 1 0 :1:5 
 ]
-[s S206 . 1 `uc 1 . 1 0 :2:0 
+[s S214 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 nWRITE 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 nADDRESS 1 0 :1:5 
 ]
-[s S211 . 1 `uc 1 . 1 0 :2:0 
+[s S219 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 RW 1 0 :1:2 
 `uc 1 START 1 0 :1:3 
 `uc 1 STOP 1 0 :1:4 
 `uc 1 DA 1 0 :1:5 
 ]
-[s S217 . 1 `uc 1 . 1 0 :2:0 
+[s S225 . 1 `uc 1 . 1 0 :2:0 
 `uc 1 NOT_W 1 0 :1:2 
 `uc 1 . 1 0 :2:3 
 `uc 1 NOT_A 1 0 :1:5 
 ]
-[u S222 . 1 `S165 1 . 1 0 `S168 1 . 1 0 `S171 1 . 1 0 `S180 1 . 1 0 `S185 1 . 1 0 `S190 1 . 1 0 `S195 1 . 1 0 `S200 1 . 1 0 `S203 1 . 1 0 `S206 1 . 1 0 `S211 1 . 1 0 `S217 1 . 1 0 ]
-[v _SSPSTATbits SSPSTATbits `VES222  1 e 1 @4039 ]
+[u S230 . 1 `S173 1 . 1 0 `S176 1 . 1 0 `S179 1 . 1 0 `S188 1 . 1 0 `S193 1 . 1 0 `S198 1 . 1 0 `S203 1 . 1 0 `S208 1 . 1 0 `S211 1 . 1 0 `S214 1 . 1 0 `S219 1 . 1 0 `S225 1 . 1 0 ]
+[v _SSPSTATbits SSPSTATbits `VES230  1 e 1 @4039 ]
 "5999
 [v _SSPADD SSPADD `VEuc  1 e 1 @4040 ]
 "6006
 [v _SSPBUF SSPBUF `VEuc  1 e 1 @4041 ]
-[s S37 . 1 `uc 1 SCS0 1 0 :1:0 
+[s S41 . 1 `uc 1 SCS0 1 0 :1:0 
 `uc 1 SCS1 1 0 :1:1 
 `uc 1 IOFS 1 0 :1:2 
 `uc 1 OSTS 1 0 :1:3 
@@ -238,16 +238,16 @@
 `uc 1 IDLEN 1 0 :1:7 
 ]
 "6542
-[s S44 . 1 `uc 1 . 1 0 :4:0 
+[s S48 . 1 `uc 1 . 1 0 :4:0 
 `uc 1 IRCF0 1 0 :1:4 
 `uc 1 IRCF1 1 0 :1:5 
 `uc 1 IRCF2 1 0 :1:6 
 ]
-[s S49 . 1 `uc 1 SCS 1 0 :1:0 
+[s S53 . 1 `uc 1 SCS 1 0 :1:0 
 ]
-[u S51 . 1 `S37 1 . 1 0 `S44 1 . 1 0 `S49 1 . 1 0 ]
-[v _OSCCONbits OSCCONbits `VES51  1 e 1 @4051 ]
-[s S627 . 1 `uc 1 T0PS 1 0 :3:0 
+[u S55 . 1 `S41 1 . 1 0 `S48 1 . 1 0 `S53 1 . 1 0 ]
+[v _OSCCONbits OSCCONbits `VES55  1 e 1 @4051 ]
+[s S643 . 1 `uc 1 T0PS 1 0 :3:0 
 `uc 1 PSA 1 0 :1:3 
 `uc 1 T0SE 1 0 :1:4 
 `uc 1 T0CS 1 0 :1:5 
@@ -255,19 +255,19 @@
 `uc 1 TMR0ON 1 0 :1:7 
 ]
 "6617
-[s S634 . 1 `uc 1 T0PS0 1 0 :1:0 
+[s S650 . 1 `uc 1 T0PS0 1 0 :1:0 
 `uc 1 T0PS1 1 0 :1:1 
 `uc 1 T0PS2 1 0 :1:2 
 ]
-[u S638 . 1 `S627 1 . 1 0 `S634 1 . 1 0 ]
-[v _T0CONbits T0CONbits `VES638  1 e 1 @4053 ]
+[u S654 . 1 `S643 1 . 1 0 `S650 1 . 1 0 ]
+[v _T0CONbits T0CONbits `VES654  1 e 1 @4053 ]
 "6667
 [v _TMR0 TMR0 `VEus  1 e 2 @4054 ]
-[s S115 . 1 `uc 1 . 1 0 :7:0 
+[s S123 . 1 `uc 1 . 1 0 :7:0 
 `uc 1 NOT_RABPU 1 0 :1:7 
 ]
 "7063
-[s S118 . 1 `uc 1 RABIP 1 0 :1:0 
+[s S126 . 1 `uc 1 RABIP 1 0 :1:0 
 `uc 1 . 1 0 :1:1 
 `uc 1 TMR0IP 1 0 :1:2 
 `uc 1 . 1 0 :1:3 
@@ -276,12 +276,12 @@
 `uc 1 INTEDG0 1 0 :1:6 
 `uc 1 nRABPU 1 0 :1:7 
 ]
-[s S127 . 1 `uc 1 . 1 0 :7:0 
+[s S135 . 1 `uc 1 . 1 0 :7:0 
 `uc 1 RABPU 1 0 :1:7 
 ]
-[u S130 . 1 `S115 1 . 1 0 `S118 1 . 1 0 `S127 1 . 1 0 ]
-[v _INTCON2bits INTCON2bits `VES130  1 e 1 @4081 ]
-[s S397 . 1 `uc 1 RABIF 1 0 :1:0 
+[u S138 . 1 `S123 1 . 1 0 `S126 1 . 1 0 `S135 1 . 1 0 ]
+[v _INTCON2bits INTCON2bits `VES138  1 e 1 @4081 ]
+[s S405 . 1 `uc 1 RABIF 1 0 :1:0 
 `uc 1 INT0IF 1 0 :1:1 
 `uc 1 TMR0IF 1 0 :1:2 
 `uc 1 RABIE 1 0 :1:3 
@@ -291,7 +291,7 @@
 `uc 1 GIE_GIEH 1 0 :1:7 
 ]
 "7140
-[s S406 . 1 `uc 1 . 1 0 :1:0 
+[s S414 . 1 `uc 1 . 1 0 :1:0 
 `uc 1 INT0F 1 0 :1:1 
 `uc 1 T0IF 1 0 :1:2 
 `uc 1 . 1 0 :1:3 
@@ -300,39 +300,32 @@
 `uc 1 PEIE 1 0 :1:6 
 `uc 1 GIE 1 0 :1:7 
 ]
-[s S415 . 1 `uc 1 . 1 0 :6:0 
+[s S423 . 1 `uc 1 . 1 0 :6:0 
 `uc 1 GIEL 1 0 :1:6 
 `uc 1 GIEH 1 0 :1:7 
 ]
-[u S419 . 1 `S397 1 . 1 0 `S406 1 . 1 0 `S415 1 . 1 0 ]
-[v _INTCONbits INTCONbits `VES419  1 e 1 @4082 ]
-"75 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/i2c.c
+[u S427 . 1 `S405 1 . 1 0 `S414 1 . 1 0 `S423 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES427  1 e 1 @4082 ]
+"74 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/i2c.c
 [v _currentByte currentByte `uc  1 e 1 0 ]
-"76
+"75
 [v _state state `uc  1 e 1 0 ]
-"78
-[v _i i `i  1 e 2 0 ]
-"62 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/parameters.h
+"77
+[v _i i `ui  1 e 2 0 ]
+"99 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/parameters.h
 [v _PWMEnable PWMEnable `uc  1 e 1 0 ]
-"65
+"103
 [v _PWMPause PWMPause `uc  1 e 1 0 ]
-"68
+"106
 [v _AccelType AccelType `uc  1 e 1 0 ]
-"69
-[v _AccelRate AccelRate `ui  1 e 2 0 ]
-"70
-[v _AccelCount AccelCount `ui  1 e 2 0 ]
-"72
-[v _MinimumDuty MinimumDuty `uc  1 e 1 0 ]
-[s S21 Motor 7 `uc 1 state 1 0 :1:0 
+[s S21 Motor 12 `uc 1 state 1 0 :1:0 
 `uc 1 enabled 1 0 :1:1 
 `uc 1 paused 1 0 :1:2 
 `uc 1 direction 1 0 :1:3 
 `uc 1 targetDirection 1 0 :1:4 
-`uc 1 motorType 1 0 :1:5 
-`uc 1 PWMPin 1 1 `uc 1 dirPin 1 2 `uc 1 cdirPin 1 3 `uc 1 duty 1 4 `uc 1 target 1 5 `uc 1 servoCount 1 6 ]
-"93
-[v _Motors Motors `[4]S21  1 e 28 0 ]
+`uc 1 motorType 1 1 `uc 1 PWMPin 1 2 `uc 1 dirPin 1 3 `uc 1 cdirPin 1 4 `uc 1 duty 1 5 `uc 1 target 1 6 `uc 1 servoCount 1 7 `uc 1 accelType 1 8 `uc 1 accelRate 1 9 `uc 1 minimumDuty 1 10 `uc 1 accelCount 1 11 ]
+"141
+[v _Motors Motors `[4]S21  1 e 48 0 ]
 "115 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/main.c
 [v _main main `(v  1 e 1 0 ]
 {
@@ -347,77 +340,77 @@
 [v _InitPWM InitPWM `(v  1 e 1 0 ]
 {
 "69
-[v InitPWM@n n `i  1 a 2 2 ]
-"99
-[v InitPWM@i i `i  1 a 2 0 ]
-"104
+[v InitPWM@n n `ui  1 a 2 34 ]
+"101
+[v InitPWM@i i `ui  1 a 2 32 ]
+"106
 } 0
-"8 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/i2c.c
+"7 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/i2c.c
 [v _InitI2C InitI2C `(v  1 e 1 0 ]
 {
-"44
+"43
 } 0
-"261 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/pwm.c
+"277 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/pwm.c
 [v _CheckPWMOutput CheckPWMOutput `(v  1 e 1 0 ]
 {
-"262
-[v CheckPWMOutput@i i `i  1 a 2 17 ]
-"307
+"278
+[v CheckPWMOutput@i i `ui  1 a 2 54 ]
+"332
 } 0
-"225
+"244
 [v _AcceleratePWM AcceleratePWM `(v  1 e 1 0 ]
 {
-"226
-[v AcceleratePWM@i i `i  1 a 2 13 ]
-"241
+[v AcceleratePWM@index index `ui  1 p 2 48 ]
+"257
 } 0
-"158
+"168
 [v _StopMotor StopMotor `(v  1 e 1 0 ]
 {
-[v StopMotor@index index `i  1 p 2 7 ]
-"187
+[v StopMotor@index index `ui  1 p 2 42 ]
+"203
 } 0
 "10
 [v _SetPin SetPin `(v  1 e 1 0 ]
 {
 [v SetPin@pin pin `uc  1 a 1 wreg ]
 [v SetPin@pin pin `uc  1 a 1 wreg ]
-[v SetPin@value value `uc  1 p 1 28 ]
-[v SetPin@pin pin `uc  1 a 1 29 ]
+[v SetPin@value value `uc  1 p 1 30 ]
+[v SetPin@pin pin `uc  1 a 1 31 ]
 "49
 } 0
-"189
+"208
 [v _AccelerateMotor AccelerateMotor `(v  1 e 1 0 ]
 {
-[v AccelerateMotor@index index `i  1 p 2 7 ]
-"216
+[v AccelerateMotor@index index `ui  1 p 2 42 ]
+"235
+} 0
+"117
+[v _ExponentialProfile ExponentialProfile `(uc  1 e 1 0 ]
+{
+[v ExponentialProfile@current current `uc  1 a 1 wreg ]
+"118
+[v ExponentialProfile@change change `uc  1 a 1 40 ]
+"117
+[v ExponentialProfile@current current `uc  1 a 1 wreg ]
+[v ExponentialProfile@target target `uc  1 p 1 30 ]
+[v ExponentialProfile@index index `ui  1 p 2 31 ]
+[v ExponentialProfile@current current `uc  1 a 1 41 ]
+"160
 } 0
 "15 /Applications/microchip/xc8/v1.42/sources/common/Umul16.c
 [v ___wmul __wmul `(ui  1 e 2 0 ]
 {
 "17
-[v ___wmul@product product `ui  1 a 2 26 ]
+[v ___wmul@product product `ui  1 a 2 28 ]
 "15
-[v ___wmul@multiplier multiplier `ui  1 p 2 22 ]
-[v ___wmul@multiplicand multiplicand `ui  1 p 2 24 ]
+[v ___wmul@multiplier multiplier `ui  1 p 2 24 ]
+[v ___wmul@multiplicand multiplicand `ui  1 p 2 26 ]
 "53
 } 0
-"110 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/pwm.c
-[v _ExponentialProfile ExponentialProfile `(uc  1 e 1 0 ]
-{
-[v ExponentialProfile@current current `uc  1 a 1 wreg ]
-"111
-[v ExponentialProfile@change change `uc  1 a 1 29 ]
-"110
-[v ExponentialProfile@current current `uc  1 a 1 wreg ]
-[v ExponentialProfile@target target `uc  1 p 1 28 ]
-[v ExponentialProfile@current current `uc  1 a 1 30 ]
-"150
-} 0
-"91 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/i2c.c
+"90 /Users/inmysocks/Documents/GitLab/robbie-pic-motor-controller.X/i2c.c
 [v _I2C_Slave_Read I2C_Slave_Read `II(v  1 e 1 0 ]
 {
-"215
+"417
 } 0
 "15 /Applications/microchip/xc8/v1.42/sources/common/Umul16.c
 [v i2___wmul __wmul `(ui  1 e 2 0 ]

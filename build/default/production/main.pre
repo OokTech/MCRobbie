@@ -4311,22 +4311,28 @@ extern __nonreentrant void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __nonreentrant void _delay3(unsigned char);
 
-# 62 "parameters.h"
+# 99 "parameters.h"
 unsigned char PWMEnable = 1;
+
 
 
 unsigned char PWMPause = 0;
 
 
 unsigned char AccelType = 0;
+
 unsigned int AccelRate = 150;
+
 unsigned int AccelCount = 0;
 
 unsigned char MinimumDuty = 0;
 
+
 void InitI2C(void);
 void InitPWM(void);
 void CheckPWMOutput(void);
+
+
 
 struct Motor {
 unsigned char state:1;
@@ -4334,14 +4340,19 @@ unsigned char enabled:1;
 unsigned char paused:1;
 unsigned char direction:1;
 unsigned char targetDirection:1;
-unsigned char motorType:1;
+unsigned char motorType;
 unsigned char PWMPin;
 unsigned char dirPin;
 unsigned char cdirPin;
 unsigned char duty;
 unsigned char target;
 unsigned char servoCount;
+unsigned char accelType;
+unsigned char accelRate;
+unsigned char minimumDuty;
+unsigned char accelCount;
 };
+
 
 struct Motor Motors[4];
 

@@ -4256,22 +4256,28 @@ extern __nonreentrant void _delaywdt(unsigned long);
 #pragma intrinsic(_delay3)
 extern __nonreentrant void _delay3(unsigned char);
 
-# 62 "parameters.h"
+# 99 "parameters.h"
 unsigned char PWMEnable = 1;
+
 
 
 unsigned char PWMPause = 0;
 
 
 unsigned char AccelType = 0;
+
 unsigned int AccelRate = 150;
+
 unsigned int AccelCount = 0;
 
 unsigned char MinimumDuty = 0;
 
+
 void InitI2C(void);
 void InitPWM(void);
 void CheckPWMOutput(void);
+
+
 
 struct Motor {
 unsigned char state:1;
@@ -4279,18 +4285,23 @@ unsigned char enabled:1;
 unsigned char paused:1;
 unsigned char direction:1;
 unsigned char targetDirection:1;
-unsigned char motorType:1;
+unsigned char motorType;
 unsigned char PWMPin;
 unsigned char dirPin;
 unsigned char cdirPin;
 unsigned char duty;
 unsigned char target;
 unsigned char servoCount;
+unsigned char accelType;
+unsigned char accelRate;
+unsigned char minimumDuty;
+unsigned char accelCount;
 };
+
 
 struct Motor Motors[4];
 
-# 8 "i2c.c"
+# 7 "i2c.c"
 void InitI2C(void) {
 
 INTCON2bits.NOT_RABPU = 0;
@@ -4306,7 +4317,7 @@ SSPCON1bits.SSPM = 0b0110;
 
 SSPCON2bits.SEN = 1;
 
-# 30
+# 29
 SSPADD = 0x23<<1;
 
 
@@ -4323,13 +4334,13 @@ INTCONbits.PEIE = 1;
 SSPCON1bits.SSPEN = 1;
 }
 
-# 75
+# 74
 unsigned char currentByte = 0;
 unsigned char state = 0;
 
-int i;
+unsigned int i;
 
-# 91
+# 90
 void interrupt I2C_Slave_Read(void)
 {
 if(PIR1bits.SSPIF == 1) {
@@ -4339,7 +4350,9 @@ currentByte = SSPBUF;
 SSPCON1bits.CKP = 0;
 
 if ((SSPCON1bits.SSPOV) || (SSPCON1bits.WCOL)) {
+
 SSPCON1bits.SSPOV = 0;
+
 SSPCON1bits.WCOL = 0;
 
 SSPCON1bits.CKP = 1;
@@ -4357,7 +4370,7 @@ state = currentByte;
 switch (state) {
 case 1:
 for (i = 0; i < 4; i++) {
-if (currentByte < MinimumDuty) {
+if (currentByte < Motors[i].minimumDuty) {
 Motors[i].target = 0;
 } else {
 Motors[i].target = currentByte;
@@ -4365,78 +4378,289 @@ Motors[i].target = currentByte;
 }
 break;
 case 2:
-if (currentByte < MinimumDuty) {
+if (currentByte < Motors[0].minimumDuty) {
 Motors[0].target = 0;
 } else {
 Motors[0].target = currentByte;
 }
 break;
 case 3:
-if (currentByte < MinimumDuty) {
+if (currentByte < Motors[1].minimumDuty) {
 Motors[1].target = 0;
 } else {
 Motors[1].target = currentByte;
 }
 break;
 case 4:
-if (currentByte < MinimumDuty) {
+if (currentByte < Motors[2].minimumDuty) {
 Motors[2].target = 0;
 } else {
 Motors[2].target = currentByte;
 }
 break;
 case 5:
-if (currentByte < MinimumDuty) {
+if (currentByte < Motors[3].minimumDuty) {
 Motors[3].target = 0;
 } else {
 Motors[3].target = currentByte;
 }
 break;
+case 6:
+
+for (i = 0; i < 4; i++) {
+Motors[i].motorType = (unsigned) (currentByte>>(2*i)) & 0b00000011;
+}
+break;
+case 13:
+Motors[0].motorType = currentByte;
+break;
+case 14:
+Motors[1].motorType = currentByte;
+break;
+case 15:
+Motors[2].motorType = currentByte;
+break;
+case 16:
+Motors[3].motorType = currentByte;
+break;
 case 7:
 for (i = 0; i < 4; i++) {
-if ((currentByte>>(i+1)) & 0b00000001) {
+if ((currentByte>>(2*i)) & 0b00000011) {
 Motors[i].targetDirection = 1;
 } else {
 Motors[i].targetDirection = 0;
 }
 }
 break;
+case 25:
+Motors[0].targetDirection = currentByte;
+break;
+case 26:
+Motors[1].targetDirection = currentByte;
+break;
+case 27:
+Motors[2].targetDirection = currentByte;
+break;
+case 28:
+Motors[3].targetDirection = currentByte;
+break;
 case 9:
-PWMEnable = (currentByte & 0b00000001);
-for (i = 0; i < 4; i++) {
-if ((currentByte>>(i+1)) & 0b00000001) {
-Motors[i].enabled = 1;
-} else {
-Motors[i].enabled = 0;
-}
-}
+PWMEnable = (unsigned)(currentByte & 0b00000011);
+break;
+case 17:
+Motors[0].enabled = currentByte;
+break;
+case 18:
+Motors[1].enabled = currentByte;
+break;
+case 19:
+Motors[2].enabled = currentByte;
+break;
+case 20:
+Motors[3].enabled = currentByte;
 break;
 case 8:
-PWMPause = currentByte & 0b00000001;
-for (i = 0; i < 4; i++) {
-if ((currentByte>>(i+1)) & 0b00000001) {
-Motors[i].paused = 1;
-} else {
-Motors[i].paused = 0;
-}
-}
+PWMPause = (unsigned) currentByte & 0b00000011;
+break;
+case 21:
+Motors[0].paused = currentByte;
+break;
+case 22:
+Motors[1].paused = currentByte;
+break;
+case 23:
+Motors[2].paused = currentByte;
+break;
+case 24:
+Motors[3].paused = currentByte;
 break;
 case 10:
-AccelType = currentByte;
+for (i = 0; i < 4; i++) {
+Motors[i].accelType = currentByte;
+}
+break;
+case 29:
+Motors[0].accelType = currentByte;
+break;
+case 30:
+Motors[1].accelType = currentByte;
+break;
+case 31:
+Motors[2].accelType = currentByte;
+break;
+case 32:
+Motors[3].accelType = currentByte;
 break;
 case 11:
-AccelRate = currentByte;
+for (i = 0; i < 4; i++) {
+Motors[i].accelRate = currentByte;
+}
+break;
+case 33:
+Motors[0].accelRate = currentByte;
+break;
+case 34:
+Motors[1].accelRate = currentByte;
+break;
+case 35:
+Motors[2].accelRate = currentByte;
+break;
+case 36:
+Motors[3].accelRate = currentByte;
 break;
 case 12:
-MinimumDuty = currentByte;
+for (i = 0; i < 4; i++) {
+Motors[i].minimumDuty = currentByte;
+}
+break;
+case 37:
+Motors[0].minimumDuty = currentByte;
+break;
+case 38:
+Motors[1].minimumDuty = currentByte;
+break;
+case 39:
+Motors[2].minimumDuty = currentByte;
+break;
+case 40:
+Motors[3].minimumDuty = currentByte;
 break;
 }
 state = 0;
 }
 SSPCON1bits.CKP = 1;
 } else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
+if (state == 0) {
 
-# 208
+state = currentByte;
+} else {
+
+switch (state) {
+case 1:
+SSPBUF = Motors[0].duty;
+break;
+case 2:
+SSPBUF = Motors[0].duty;
+break;
+case 3:
+SSPBUF = Motors[1].duty;
+break;
+case 4:
+SSPBUF = Motors[2].duty;
+break;
+case 5:
+SSPBUF = Motors[3].duty;
+break;
+case 6:
+
+SSPBUF = (unsigned)((Motors[0].motorType & 0b00000011) | (Motors[1].motorType & 0b00000011)<<2 | (Motors[2].motorType & 0b00000011)<<4 | (Motors[3].motorType & 0b00000011)<<6);
+break;
+case 13:
+SSPBUF = Motors[0].motorType;
+break;
+case 14:
+SSPBUF = Motors[1].motorType;
+break;
+case 15:
+SSPBUF = Motors[2].motorType;
+break;
+case 16:
+SSPBUF = Motors[3].motorType;
+break;
+case 7:
+SSPBUF = (unsigned)((Motors[0].direction & 0b00000011) | (Motors[1].direction & 0b00000011)<<2 | (Motors[2].direction & 0b00000011)<<4 | (Motors[3].direction & 0b00000011)<<6);
+break;
+case 25:
+SSPBUF = Motors[0].direction;
+break;
+case 26:
+SSPBUF = Motors[1].direction;
+break;
+case 27:
+SSPBUF = Motors[2].direction;
+break;
+case 28:
+SSPBUF = Motors[3].direction;
+break;
+case 9:
+SSPBUF = PWMEnable;
+break;
+case 17:
+SSPBUF = Motors[0].enabled;
+break;
+case 18:
+SSPBUF = Motors[1].enabled;
+break;
+case 19:
+SSPBUF = Motors[2].enabled;
+break;
+case 20:
+SSPBUF = Motors[3].enabled;
+break;
+case 8:
+SSPBUF = PWMPause;
+break;
+case 21:
+SSPBUF = Motors[0].paused;
+break;
+case 22:
+SSPBUF = Motors[1].paused;
+break;
+case 23:
+SSPBUF = Motors[2].paused;
+break;
+case 24:
+SSPBUF = Motors[3].paused;
+break;
+case 10:
+SSPBUF = Motors[0].accelType;
+break;
+case 29:
+SSPBUF = Motors[0].accelType;
+break;
+case 30:
+SSPBUF = Motors[1].accelType;
+break;
+case 31:
+SSPBUF = Motors[2].accelType;
+break;
+case 32:
+SSPBUF = Motors[3].accelType;
+break;
+case 11:
+SSPBUF = Motors[0].accelRate;
+break;
+case 33:
+SSPBUF = Motors[0].accelRate;
+break;
+case 34:
+SSPBUF = Motors[1].accelRate;
+break;
+case 35:
+SSPBUF = Motors[2].accelRate;
+break;
+case 36:
+SSPBUF = Motors[3].accelRate;
+break;
+case 12:
+SSPBUF = Motors[0].minimumDuty;
+break;
+case 37:
+SSPBUF = Motors[0].minimumDuty;
+break;
+case 38:
+SSPBUF = Motors[1].minimumDuty;
+break;
+case 39:
+SSPBUF = Motors[2].minimumDuty;
+break;
+case 40:
+SSPBUF = Motors[3].minimumDuty;
+break;
+}
+state = 0;
+}
+
 SSPCON1bits.CKP = 1;
 
 while(SSPSTATbits.BF);

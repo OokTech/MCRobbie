@@ -1,7 +1,7 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"78 parameters.h
-[s S321 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
-[n S321 Motor state enabled paused direction targetDirection motorType PWMPin dirPin cdirPin duty target servoCount ]
+"121 parameters.h
+[s S321 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 `uc 1 ]
+[n S321 Motor state enabled paused direction targetDirection motorType PWMPin dirPin cdirPin duty target servoCount accelType accelRate minimumDuty accelCount ]
 "2823 /Applications/microchip/xc8/v1.42/include/pic18f14k50.h
 [s S118 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S118 . LATC0 LATC1 LATC2 LATC3 LATC4 LATC5 LATC6 LATC7 ]
@@ -3128,62 +3128,66 @@ Version 3.2 HI-TECH Software Intermediate Code
 [; ;pic18.h: 164: extern __nonreentrant void _delay(unsigned long);
 [; ;pic18.h: 166: extern __nonreentrant void _delaywdt(unsigned long);
 [; ;pic18.h: 168: extern __nonreentrant void _delay3(unsigned char);
-"62 parameters.h
+"99 parameters.h
 [v _PWMEnable `uc ~T0 @X0 1 e ]
 [i _PWMEnable
 -> -> 1 `i `uc
 ]
-[; ;parameters.h: 62: unsigned char PWMEnable = 1;
-"65
+[; ;parameters.h: 99: unsigned char PWMEnable = 1;
+"103
 [v _PWMPause `uc ~T0 @X0 1 e ]
 [i _PWMPause
 -> -> 0 `i `uc
 ]
-[; ;parameters.h: 65: unsigned char PWMPause = 0;
-"68
+[; ;parameters.h: 103: unsigned char PWMPause = 0;
+"106
 [v _AccelType `uc ~T0 @X0 1 e ]
 [i _AccelType
 -> -> 0 `i `uc
 ]
-[; ;parameters.h: 68: unsigned char AccelType = 0;
-"69
+[; ;parameters.h: 106: unsigned char AccelType = 0;
+"108
 [v _AccelRate `ui ~T0 @X0 1 e ]
 [i _AccelRate
 -> -> 150 `i `ui
 ]
-[; ;parameters.h: 69: unsigned int AccelRate = 150;
-"70
+[; ;parameters.h: 108: unsigned int AccelRate = 150;
+"110
 [v _AccelCount `ui ~T0 @X0 1 e ]
 [i _AccelCount
 -> -> 0 `i `ui
 ]
-[; ;parameters.h: 70: unsigned int AccelCount = 0;
-"72
+[; ;parameters.h: 110: unsigned int AccelCount = 0;
+"112
 [v _MinimumDuty `uc ~T0 @X0 1 e ]
 [i _MinimumDuty
 -> -> 0 `i `uc
 ]
-[; ;parameters.h: 72: unsigned char MinimumDuty = 0;
-[; ;parameters.h: 74: void InitI2C(void);
-[; ;parameters.h: 75: void InitPWM(void);
-[; ;parameters.h: 76: void CheckPWMOutput(void);
-[; ;parameters.h: 78: struct Motor {
-[; ;parameters.h: 79: unsigned char state:1;
-[; ;parameters.h: 80: unsigned char enabled:1;
-[; ;parameters.h: 81: unsigned char paused:1;
-[; ;parameters.h: 82: unsigned char direction:1;
-[; ;parameters.h: 83: unsigned char targetDirection:1;
-[; ;parameters.h: 84: unsigned char motorType:1;
-[; ;parameters.h: 85: unsigned char PWMPin;
-[; ;parameters.h: 86: unsigned char dirPin;
-[; ;parameters.h: 87: unsigned char cdirPin;
-[; ;parameters.h: 88: unsigned char duty;
-[; ;parameters.h: 89: unsigned char target;
-[; ;parameters.h: 90: unsigned char servoCount;
-[; ;parameters.h: 91: };
-"93
+[; ;parameters.h: 112: unsigned char MinimumDuty = 0;
+[; ;parameters.h: 115: void InitI2C(void);
+[; ;parameters.h: 116: void InitPWM(void);
+[; ;parameters.h: 117: void CheckPWMOutput(void);
+[; ;parameters.h: 121: struct Motor {
+[; ;parameters.h: 122: unsigned char state:1;
+[; ;parameters.h: 123: unsigned char enabled:1;
+[; ;parameters.h: 124: unsigned char paused:1;
+[; ;parameters.h: 125: unsigned char direction:1;
+[; ;parameters.h: 126: unsigned char targetDirection:1;
+[; ;parameters.h: 127: unsigned char motorType;
+[; ;parameters.h: 128: unsigned char PWMPin;
+[; ;parameters.h: 129: unsigned char dirPin;
+[; ;parameters.h: 130: unsigned char cdirPin;
+[; ;parameters.h: 131: unsigned char duty;
+[; ;parameters.h: 132: unsigned char target;
+[; ;parameters.h: 133: unsigned char servoCount;
+[; ;parameters.h: 134: unsigned char accelType;
+[; ;parameters.h: 135: unsigned char accelRate;
+[; ;parameters.h: 136: unsigned char minimumDuty;
+[; ;parameters.h: 137: unsigned char accelCount;
+[; ;parameters.h: 138: };
+"141
 [v _Motors `S321 ~T0 @X0 -> 4 `i e ]
-[; ;parameters.h: 93: struct Motor Motors[4];
+[; ;parameters.h: 141: struct Motor Motors[4];
 "10 pwm.c
 [v _SetPin `(v ~T0 @X0 1 ef2`uc`uc ]
 {
@@ -3351,777 +3355,759 @@ Version 3.2 HI-TECH Software Intermediate Code
 "66
 [e = . . _T0CONbits 0 5 -> -> 1 `i `uc ]
 "69
-[v _n `i ~T0 @X0 1 a ]
-[; ;pwm.c: 69: int n;
+[v _n `ui ~T0 @X0 1 a ]
+[; ;pwm.c: 69: unsigned int n;
 [; ;pwm.c: 70: for (n = 0; n < 4; n++) {
 "70
 {
-[e = _n -> 0 `i ]
-[e $ < _n -> 4 `i 338  ]
+[e = _n -> -> 0 `i `ui ]
+[e $ < _n -> -> 4 `i `ui 338  ]
 [e $U 339  ]
 [e :U 338 ]
 {
 [; ;pwm.c: 71: Motors[n].state = (unsigned char)0;
 "71
-[e = . *U + &U _Motors * -> -> _n `ui `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 0 `i `uc ]
+[e = . *U + &U _Motors * -> _n `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 0 `i `uc ]
 [; ;pwm.c: 72: Motors[n].paused = (unsigned char)0;
 "72
-[e = . *U + &U _Motors * -> -> _n `ui `ux -> -> # *U &U _Motors `ui `ux 2 -> -> 0 `i `uc ]
+[e = . *U + &U _Motors * -> _n `ux -> -> # *U &U _Motors `ui `ux 2 -> -> 0 `i `uc ]
 [; ;pwm.c: 73: Motors[n].enabled = (unsigned char)1;
 "73
-[e = . *U + &U _Motors * -> -> _n `ui `ux -> -> # *U &U _Motors `ui `ux 1 -> -> 1 `i `uc ]
+[e = . *U + &U _Motors * -> _n `ux -> -> # *U &U _Motors `ui `ux 1 -> -> 1 `i `uc ]
 [; ;pwm.c: 74: Motors[n].direction = (unsigned char)1;
 "74
-[e = . *U + &U _Motors * -> -> _n `ui `ux -> -> # *U &U _Motors `ui `ux 3 -> -> 1 `i `uc ]
+[e = . *U + &U _Motors * -> _n `ux -> -> # *U &U _Motors `ui `ux 3 -> -> 1 `i `uc ]
 [; ;pwm.c: 75: Motors[n].targetDirection = (unsigned char)1;
 "75
-[e = . *U + &U _Motors * -> -> _n `ui `ux -> -> # *U &U _Motors `ui `ux 4 -> -> 1 `i `uc ]
+[e = . *U + &U _Motors * -> _n `ux -> -> # *U &U _Motors `ui `ux 4 -> -> 1 `i `uc ]
 [; ;pwm.c: 76: Motors[n].duty = (unsigned char)0;
 "76
-[e = . *U + &U _Motors * -> -> _n `ui `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 0 `i `uc ]
+[e = . *U + &U _Motors * -> _n `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 0 `i `uc ]
 [; ;pwm.c: 77: Motors[n].target = (unsigned char)0;
 "77
-[e = . *U + &U _Motors * -> -> _n `ui `ux -> -> # *U &U _Motors `ui `ux 10 -> -> 0 `i `uc ]
+[e = . *U + &U _Motors * -> _n `ux -> -> # *U &U _Motors `ui `ux 10 -> -> 0 `i `uc ]
 [; ;pwm.c: 78: Motors[n].motorType = (unsigned char)0;
 "78
-[e = . *U + &U _Motors * -> -> _n `ui `ux -> -> # *U &U _Motors `ui `ux 5 -> -> 0 `i `uc ]
+[e = . *U + &U _Motors * -> _n `ux -> -> # *U &U _Motors `ui `ux 5 -> -> 0 `i `uc ]
 "79
 }
 "70
-[e ++ _n -> 1 `i ]
-[e $ < _n -> 4 `i 338  ]
+[e ++ _n -> -> 1 `i `ui ]
+[e $ < _n -> -> 4 `i `ui 338  ]
 [e :U 339 ]
 "79
 }
 [; ;pwm.c: 79: }
-[; ;pwm.c: 82: Motors[0].PWMPin = 0;
-"82
-[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 0 `i `uc ]
-[; ;pwm.c: 83: Motors[0].dirPin = 1;
-"83
-[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 1 `i `uc ]
-[; ;pwm.c: 84: Motors[0].cdirPin = 2;
+[; ;pwm.c: 84: Motors[0].PWMPin = 0;
 "84
-[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 2 `i `uc ]
-[; ;pwm.c: 86: Motors[1].PWMPin = 5;
+[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 0 `i `uc ]
+[; ;pwm.c: 85: Motors[0].dirPin = 1;
+"85
+[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 1 `i `uc ]
+[; ;pwm.c: 86: Motors[0].cdirPin = 2;
 "86
-[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 5 `i `uc ]
-[; ;pwm.c: 87: Motors[1].dirPin = 4;
-"87
-[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 4 `i `uc ]
-[; ;pwm.c: 88: Motors[1].cdirPin = 3;
+[e = . *U + &U _Motors * -> -> -> 0 `i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 2 `i `uc ]
+[; ;pwm.c: 88: Motors[1].PWMPin = 5;
 "88
-[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 3 `i `uc ]
-[; ;pwm.c: 90: Motors[2].PWMPin = 6;
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 5 `i `uc ]
+[; ;pwm.c: 89: Motors[1].dirPin = 4;
+"89
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 4 `i `uc ]
+[; ;pwm.c: 90: Motors[1].cdirPin = 3;
 "90
-[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 6 `i `uc ]
-[; ;pwm.c: 91: Motors[2].dirPin = 7;
-"91
-[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 7 `i `uc ]
-[; ;pwm.c: 92: Motors[2].cdirPin = 9;
+[e = . *U + &U _Motors * -> -> -> 1 `i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 3 `i `uc ]
+[; ;pwm.c: 92: Motors[2].PWMPin = 6;
 "92
-[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 9 `i `uc ]
-[; ;pwm.c: 94: Motors[3].PWMPin = 11;
+[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 6 `i `uc ]
+[; ;pwm.c: 93: Motors[2].dirPin = 7;
+"93
+[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 7 `i `uc ]
+[; ;pwm.c: 94: Motors[2].cdirPin = 9;
 "94
-[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 11 `i `uc ]
-[; ;pwm.c: 95: Motors[3].dirPin = 10;
-"95
-[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 10 `i `uc ]
-[; ;pwm.c: 96: Motors[3].cdirPin = 8;
+[e = . *U + &U _Motors * -> -> -> 2 `i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 9 `i `uc ]
+[; ;pwm.c: 96: Motors[3].PWMPin = 11;
 "96
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 11 `i `uc ]
+[; ;pwm.c: 97: Motors[3].dirPin = 10;
+"97
+[e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 10 `i `uc ]
+[; ;pwm.c: 98: Motors[3].cdirPin = 8;
+"98
 [e = . *U + &U _Motors * -> -> -> 3 `i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 8 `i `uc ]
-"99
-[v _i `i ~T0 @X0 1 a ]
-[; ;pwm.c: 99: int i;
-[; ;pwm.c: 100: for (i = 0; i < 4; i++) {
-"100
+"101
+[v _i `ui ~T0 @X0 1 a ]
+[; ;pwm.c: 101: unsigned int i;
+[; ;pwm.c: 102: for (i = 0; i < 4; i++) {
+"102
 {
-[e = _i -> 0 `i ]
-[e $ < _i -> 4 `i 341  ]
+[e = _i -> -> 0 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 341  ]
 [e $U 342  ]
 [e :U 341 ]
 {
-[; ;pwm.c: 101: SetPin(Motors[i].dirPin,1);
-"101
-[e ( _SetPin (2 , . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 1 `i `uc ]
-[; ;pwm.c: 102: SetPin(Motors[i].cdirPin,0);
-"102
-[e ( _SetPin (2 , . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 0 `i `uc ]
+[; ;pwm.c: 103: SetPin(Motors[i].dirPin,1);
 "103
-}
-"100
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 4 `i 341  ]
-[e :U 342 ]
-"103
-}
-[; ;pwm.c: 103: }
-[; ;pwm.c: 104: }
+[e ( _SetPin (2 , . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 7 -> -> 1 `i `uc ]
+[; ;pwm.c: 104: SetPin(Motors[i].cdirPin,0);
 "104
+[e ( _SetPin (2 , . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 8 -> -> 0 `i `uc ]
+"105
+}
+"102
+[e ++ _i -> -> 1 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 341  ]
+[e :U 342 ]
+"105
+}
+[; ;pwm.c: 105: }
+[; ;pwm.c: 106: }
+"106
 [e :UE 337 ]
 }
-"110
-[v _ExponentialProfile `(uc ~T0 @X0 1 ef2`uc`uc ]
+"117
+[v _ExponentialProfile `(uc ~T0 @X0 1 ef3`uc`uc`ui ]
 {
-[; ;pwm.c: 110: char ExponentialProfile(unsigned char current, unsigned char target) {
+[; ;pwm.c: 117: char ExponentialProfile(unsigned char current, unsigned char target, unsigned int index) {
 [e :U _ExponentialProfile ]
 [v _current `uc ~T0 @X0 1 r1 ]
 [v _target `uc ~T0 @X0 1 r2 ]
+[v _index `ui ~T0 @X0 1 r3 ]
 [f ]
-"111
+"118
 [v _change `uc ~T0 @X0 1 a ]
-[; ;pwm.c: 111: unsigned char change = 0;
+[; ;pwm.c: 118: unsigned char change = 0;
 [e = _change -> -> 0 `i `uc ]
-[; ;pwm.c: 112: if (current > target) {
-"112
+[; ;pwm.c: 119: if (current > target) {
+"119
 [e $ ! > -> _current `i -> _target `i 345  ]
 {
-[; ;pwm.c: 114: if (current-MinimumDuty > 200) {
-"114
-[e $ ! > - -> _current `i -> _MinimumDuty `i -> 200 `i 346  ]
+[; ;pwm.c: 121: if (current-Motors[index].minimumDuty > 200) {
+"121
+[e $ ! > - -> _current `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i -> 200 `i 346  ]
 {
-[; ;pwm.c: 115: change = 50;
-"115
+[; ;pwm.c: 122: change = 50;
+"122
 [e = _change -> -> 50 `i `uc ]
-"116
+"123
 }
-[; ;pwm.c: 116: } else if (current-MinimumDuty > 150) {
+[; ;pwm.c: 123: } else if (current-Motors[index].minimumDuty > 150) {
 [e $U 347  ]
 [e :U 346 ]
-[e $ ! > - -> _current `i -> _MinimumDuty `i -> 150 `i 348  ]
+[e $ ! > - -> _current `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i -> 150 `i 348  ]
 {
-[; ;pwm.c: 117: change = 25;
-"117
+[; ;pwm.c: 124: change = 25;
+"124
 [e = _change -> -> 25 `i `uc ]
-"118
+"125
 }
-[; ;pwm.c: 118: } else if (current-MinimumDuty > 100) {
+[; ;pwm.c: 125: } else if (current-Motors[index].minimumDuty > 100) {
 [e $U 349  ]
 [e :U 348 ]
-[e $ ! > - -> _current `i -> _MinimumDuty `i -> 100 `i 350  ]
+[e $ ! > - -> _current `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i -> 100 `i 350  ]
 {
-[; ;pwm.c: 119: change = 20;
-"119
+[; ;pwm.c: 126: change = 20;
+"126
 [e = _change -> -> 20 `i `uc ]
-"120
+"127
 }
-[; ;pwm.c: 120: } else if (current-MinimumDuty > 75) {
+[; ;pwm.c: 127: } else if (current-Motors[index].minimumDuty > 75) {
 [e $U 351  ]
 [e :U 350 ]
-[e $ ! > - -> _current `i -> _MinimumDuty `i -> 75 `i 352  ]
+[e $ ! > - -> _current `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i -> 75 `i 352  ]
 {
-[; ;pwm.c: 121: change = 10;
-"121
+[; ;pwm.c: 128: change = 10;
+"128
 [e = _change -> -> 10 `i `uc ]
-"122
+"129
 }
-[; ;pwm.c: 122: } else if (current-MinimumDuty > 50) {
+[; ;pwm.c: 129: } else if (current-Motors[index].minimumDuty > 50) {
 [e $U 353  ]
 [e :U 352 ]
-[e $ ! > - -> _current `i -> _MinimumDuty `i -> 50 `i 354  ]
+[e $ ! > - -> _current `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i -> 50 `i 354  ]
 {
-[; ;pwm.c: 123: change = 5;
-"123
+[; ;pwm.c: 130: change = 5;
+"130
 [e = _change -> -> 5 `i `uc ]
-"124
+"131
 }
-[; ;pwm.c: 124: } else {
+[; ;pwm.c: 131: } else {
 [e $U 355  ]
 [e :U 354 ]
 {
-[; ;pwm.c: 125: change = 1;
-"125
+[; ;pwm.c: 132: change = 1;
+"132
 [e = _change -> -> 1 `i `uc ]
-"126
+"133
 }
 [e :U 355 ]
 [e :U 353 ]
 [e :U 351 ]
 [e :U 349 ]
 [e :U 347 ]
-[; ;pwm.c: 126: }
-[; ;pwm.c: 127: if (current-target < change) {
-"127
+[; ;pwm.c: 133: }
+[; ;pwm.c: 136: if (current-target < change) {
+"136
 [e $ ! < - -> _current `i -> _target `i -> _change `i 356  ]
 {
-[; ;pwm.c: 128: change = current-target;
-"128
-[e = _change -> - -> _current `i -> _target `i `uc ]
-"129
+[; ;pwm.c: 137: change = (unsigned) current-target;
+"137
+[e = _change -> - -> _current `ui -> _target `ui `uc ]
+"138
 }
 [e :U 356 ]
-"130
+"139
 }
-[; ;pwm.c: 129: }
-[; ;pwm.c: 130: } else {
+[; ;pwm.c: 138: }
+[; ;pwm.c: 139: } else {
 [e $U 357  ]
 [e :U 345 ]
 {
-[; ;pwm.c: 132: if (current-MinimumDuty > 200) {
-"132
-[e $ ! > - -> _current `i -> _MinimumDuty `i -> 200 `i 358  ]
+[; ;pwm.c: 141: if (current-Motors[index].minimumDuty > 200) {
+"141
+[e $ ! > - -> _current `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i -> 200 `i 358  ]
 {
-[; ;pwm.c: 133: change = current-target;
-"133
-[e = _change -> - -> _current `i -> _target `i `uc ]
-"134
+[; ;pwm.c: 142: change = (unsigned) current-target;
+"142
+[e = _change -> - -> _current `ui -> _target `ui `uc ]
+"143
 }
-[; ;pwm.c: 134: } else if (current-MinimumDuty > 150) {
+[; ;pwm.c: 143: } else if (current-Motors[index].minimumDuty > 150) {
 [e $U 359  ]
 [e :U 358 ]
-[e $ ! > - -> _current `i -> _MinimumDuty `i -> 150 `i 360  ]
+[e $ ! > - -> _current `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i -> 150 `i 360  ]
 {
-[; ;pwm.c: 135: change = 25;
-"135
+[; ;pwm.c: 144: change = 25;
+"144
 [e = _change -> -> 25 `i `uc ]
-"136
+"145
 }
-[; ;pwm.c: 136: } else if (current-MinimumDuty > 100) {
+[; ;pwm.c: 145: } else if (current-Motors[index].minimumDuty > 100) {
 [e $U 361  ]
 [e :U 360 ]
-[e $ ! > - -> _current `i -> _MinimumDuty `i -> 100 `i 362  ]
+[e $ ! > - -> _current `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i -> 100 `i 362  ]
 {
-[; ;pwm.c: 137: change = 20;
-"137
+[; ;pwm.c: 146: change = 20;
+"146
 [e = _change -> -> 20 `i `uc ]
-"138
+"147
 }
-[; ;pwm.c: 138: } else if (current-MinimumDuty > 75) {
+[; ;pwm.c: 147: } else if (current-Motors[index].minimumDuty > 75) {
 [e $U 363  ]
 [e :U 362 ]
-[e $ ! > - -> _current `i -> _MinimumDuty `i -> 75 `i 364  ]
+[e $ ! > - -> _current `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i -> 75 `i 364  ]
 {
-[; ;pwm.c: 139: change = 10;
-"139
+[; ;pwm.c: 148: change = 10;
+"148
 [e = _change -> -> 10 `i `uc ]
-"140
+"149
 }
-[; ;pwm.c: 140: } else if (current-MinimumDuty > 50) {
+[; ;pwm.c: 149: } else if (current-Motors[index].minimumDuty > 50) {
 [e $U 365  ]
 [e :U 364 ]
-[e $ ! > - -> _current `i -> _MinimumDuty `i -> 50 `i 366  ]
+[e $ ! > - -> _current `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i -> 50 `i 366  ]
 {
-[; ;pwm.c: 141: change = 5;
-"141
+[; ;pwm.c: 150: change = 5;
+"150
 [e = _change -> -> 5 `i `uc ]
-"142
+"151
 }
-[; ;pwm.c: 142: } else {
+[; ;pwm.c: 151: } else {
 [e $U 367  ]
 [e :U 366 ]
 {
-[; ;pwm.c: 143: change = 1;
-"143
+[; ;pwm.c: 152: change = 1;
+"152
 [e = _change -> -> 1 `i `uc ]
-"144
+"153
 }
 [e :U 367 ]
 [e :U 365 ]
 [e :U 363 ]
 [e :U 361 ]
 [e :U 359 ]
-[; ;pwm.c: 144: }
-[; ;pwm.c: 145: if (target-current < change) {
-"145
+[; ;pwm.c: 153: }
+[; ;pwm.c: 155: if (target-current < change) {
+"155
 [e $ ! < - -> _target `i -> _current `i -> _change `i 368  ]
 {
-[; ;pwm.c: 146: change = target-current;
-"146
-[e = _change -> - -> _target `i -> _current `i `uc ]
-"147
+[; ;pwm.c: 156: change = (unsigned) target-current;
+"156
+[e = _change -> - -> _target `ui -> _current `ui `uc ]
+"157
 }
 [e :U 368 ]
-"148
+"158
 }
 [e :U 357 ]
-[; ;pwm.c: 147: }
-[; ;pwm.c: 148: }
-[; ;pwm.c: 149: return change;
-"149
+[; ;pwm.c: 157: }
+[; ;pwm.c: 158: }
+[; ;pwm.c: 159: return change;
+"159
 [e ) _change ]
 [e $UE 344  ]
-[; ;pwm.c: 150: }
-"150
+[; ;pwm.c: 160: }
+"160
 [e :UE 344 ]
 }
-"158
-[v _StopMotor `(v ~T0 @X0 1 ef1`i ]
+"168
+[v _StopMotor `(v ~T0 @X0 1 ef1`ui ]
 {
-[; ;pwm.c: 158: void StopMotor(int index) {
+[; ;pwm.c: 168: void StopMotor(unsigned int index) {
 [e :U _StopMotor ]
-[v _index `i ~T0 @X0 1 r1 ]
+[v _index `ui ~T0 @X0 1 r1 ]
 [f ]
-[; ;pwm.c: 159: if (Motors[index].duty == 0 && Motors[index].direction != Motors[index].targetDirection) {
-"159
-[e $ ! && == -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 `i -> 0 `i != -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 3 `i -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 4 `i 370  ]
+[; ;pwm.c: 171: if (Motors[index].duty == 0 && Motors[index].direction != Motors[index].targetDirection) {
+"171
+[e $ ! && == -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 `i -> 0 `i != -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 3 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 4 `i 370  ]
 {
-[; ;pwm.c: 160: Motors[index].direction = Motors[index].targetDirection;
-"160
-[e = . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 3 . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 4 ]
-[; ;pwm.c: 162: SetPin(Motors[index].dirPin, Motors[index].direction);
-"162
-[e ( _SetPin (2 , . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 7 . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 3 ]
-[; ;pwm.c: 163: SetPin(Motors[index].cdirPin, !Motors[index].direction);
-"163
-[e ( _SetPin (2 , . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 8 -> -> ! != -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 3 `i -> -> -> 0 `i `uc `i `i `uc ]
-"164
+[; ;pwm.c: 173: Motors[index].direction = Motors[index].targetDirection;
+"173
+[e = . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 3 . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 4 ]
+[; ;pwm.c: 175: SetPin(Motors[index].dirPin, Motors[index].direction);
+"175
+[e ( _SetPin (2 , . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 7 . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 3 ]
+[; ;pwm.c: 176: SetPin(Motors[index].cdirPin, (unsigned) !Motors[index].direction);
+"176
+[e ( _SetPin (2 , . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 8 -> -> -> ! != -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 3 `i -> -> -> 0 `i `uc `i `i `ui `uc ]
+"177
 }
-[; ;pwm.c: 164: } else if (Motors[index].duty > 0) {
+[; ;pwm.c: 177: } else if (Motors[index].duty > 0) {
 [e $U 371  ]
 [e :U 370 ]
-[e $ ! > -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 `i -> 0 `i 372  ]
+[e $ ! > -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 `i -> 0 `i 372  ]
 {
-[; ;pwm.c: 165: switch (AccelType) {
-"165
+[; ;pwm.c: 181: switch (AccelType) {
+"181
 [e $U 374  ]
 {
-[; ;pwm.c: 166: case 0:
-"166
-[e :U 375 ]
-[; ;pwm.c: 167: Motors[index].duty = 0;
-"167
-[e = . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 0 `i `uc ]
-[; ;pwm.c: 168: break;
-"168
-[e $U 373  ]
-[; ;pwm.c: 169: case 1:
-"169
-[e :U 376 ]
-[; ;pwm.c: 170: if (Motors[index].duty > MinimumDuty) {
-"170
-[e $ ! > -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 `i -> _MinimumDuty `i 377  ]
-{
-[; ;pwm.c: 171: Motors[index].duty -= 1;
-"171
-[e =- . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 1 `i `uc ]
-"172
-}
-[; ;pwm.c: 172: } else {
-[e $U 378  ]
-[e :U 377 ]
-{
-[; ;pwm.c: 173: Motors[index].duty = 0;
-"173
-[e = . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 0 `i `uc ]
-"174
-}
-[e :U 378 ]
-[; ;pwm.c: 174: }
-[; ;pwm.c: 175: break;
-"175
-[e $U 373  ]
-[; ;pwm.c: 176: case 2:
-"176
-[e :U 379 ]
-[; ;pwm.c: 177: if (Motors[index].duty > MinimumDuty) {
-"177
-[e $ ! > -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 `i -> _MinimumDuty `i 380  ]
-{
-[; ;pwm.c: 178: Motors[index].duty -= ExponentialProfile(Motors[index].duty, MinimumDuty);
-"178
-[e =- . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 ( _ExponentialProfile (2 , . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 _MinimumDuty ]
-"179
-}
-[; ;pwm.c: 179: } else {
-[e $U 381  ]
-[e :U 380 ]
-{
-[; ;pwm.c: 180: Motors[index].duty = 0;
-"180
-[e = . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 0 `i `uc ]
-"181
-}
-[e :U 381 ]
-[; ;pwm.c: 181: }
-[; ;pwm.c: 182: break;
+[; ;pwm.c: 182: case 0:
 "182
-[e $U 373  ]
-[; ;pwm.c: 183: default:
+[e :U 375 ]
+[; ;pwm.c: 183: Motors[index].duty = 0;
 "183
-[e :U 382 ]
+[e = . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 0 `i `uc ]
 [; ;pwm.c: 184: break;
 "184
 [e $U 373  ]
+[; ;pwm.c: 185: case 1:
 "185
+[e :U 376 ]
+[; ;pwm.c: 186: if (Motors[index].duty > Motors[index].minimumDuty) {
+"186
+[e $ ! > -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i 377  ]
+{
+[; ;pwm.c: 187: Motors[index].duty -= 1;
+"187
+[e =- . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 1 `i `uc ]
+"188
 }
-[; ;pwm.c: 185: }
+[; ;pwm.c: 188: } else {
+[e $U 378  ]
+[e :U 377 ]
+{
+[; ;pwm.c: 189: Motors[index].duty = 0;
+"189
+[e = . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 0 `i `uc ]
+"190
+}
+[e :U 378 ]
+[; ;pwm.c: 190: }
+[; ;pwm.c: 191: break;
+"191
 [e $U 373  ]
-"165
+[; ;pwm.c: 192: case 2:
+"192
+[e :U 379 ]
+[; ;pwm.c: 193: if (Motors[index].duty > Motors[index].minimumDuty) {
+"193
+[e $ ! > -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i 380  ]
+{
+[; ;pwm.c: 194: Motors[index].duty -= ExponentialProfile(Motors[index].duty, Motors[index].minimumDuty, index);
+"194
+[e =- . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 ( _ExponentialProfile (3 , , . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 _index ]
+"195
+}
+[; ;pwm.c: 195: } else {
+[e $U 381  ]
+[e :U 380 ]
+{
+[; ;pwm.c: 196: Motors[index].duty = 0;
+"196
+[e = . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 0 `i `uc ]
+"197
+}
+[e :U 381 ]
+[; ;pwm.c: 197: }
+[; ;pwm.c: 198: break;
+"198
+[e $U 373  ]
+[; ;pwm.c: 199: default:
+"199
+[e :U 382 ]
+[; ;pwm.c: 200: break;
+"200
+[e $U 373  ]
+"201
+}
+[; ;pwm.c: 201: }
+[e $U 373  ]
+"181
 [e :U 374 ]
 [e [\ _AccelType , $ -> -> 0 `i `uc 375
  , $ -> -> 1 `i `uc 376
  , $ -> -> 2 `i `uc 379
  382 ]
-"185
-[e :U 373 ]
-"186
-}
-[e :U 372 ]
-"187
-[e :U 371 ]
-[; ;pwm.c: 186: }
-[; ;pwm.c: 187: }
-[e :UE 369 ]
-}
-"189
-[v _AccelerateMotor `(v ~T0 @X0 1 ef1`i ]
-{
-[; ;pwm.c: 189: void AccelerateMotor(int index) {
-[e :U _AccelerateMotor ]
-[v _index `i ~T0 @X0 1 r1 ]
-[f ]
-[; ;pwm.c: 190: if (Motors[index].duty < MinimumDuty && Motors[index].target >= MinimumDuty) {
-"190
-[e $ ! && < -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 `i -> _MinimumDuty `i >= -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 10 `i -> _MinimumDuty `i 384  ]
-{
-[; ;pwm.c: 191: Motors[index].duty = MinimumDuty;
-"191
-[e = . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 _MinimumDuty ]
-"192
-}
-[; ;pwm.c: 192: } else if (Motors[index].duty <= MinimumDuty && Motors[index].target < MinimumDuty) {
-[e $U 385  ]
-[e :U 384 ]
-[e $ ! && <= -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 `i -> _MinimumDuty `i < -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 10 `i -> _MinimumDuty `i 386  ]
-{
-[; ;pwm.c: 193: Motors[index].duty = 0;
-"193
-[e = . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 0 `i `uc ]
-"194
-}
-[e :U 386 ]
-"195
-[e :U 385 ]
-[; ;pwm.c: 194: }
-[; ;pwm.c: 195: switch (AccelType) {
-[e $U 388  ]
-{
-[; ;pwm.c: 196: case 0:
-"196
-[e :U 389 ]
-[; ;pwm.c: 197: Motors[index].duty = Motors[index].target;
-"197
-[e = . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 10 ]
-[; ;pwm.c: 198: break;
-"198
-[e $U 387  ]
-[; ;pwm.c: 199: case 1:
-"199
-[e :U 390 ]
-[; ;pwm.c: 200: if (Motors[index].duty > Motors[index].target) {
-"200
-[e $ ! > -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 10 `i 391  ]
-{
-[; ;pwm.c: 201: Motors[index].duty -= 1;
 "201
-[e =- . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 1 `i `uc ]
+[e :U 373 ]
 "202
 }
-[; ;pwm.c: 202: } else if (Motors[index].duty < Motors[index].target) {
-[e $U 392  ]
-[e :U 391 ]
-[e $ ! < -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 10 `i 393  ]
-{
-[; ;pwm.c: 203: Motors[index].duty += 1;
+[e :U 372 ]
 "203
-[e =+ . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 1 `i `uc ]
-"204
+[e :U 371 ]
+[; ;pwm.c: 202: }
+[; ;pwm.c: 203: }
+[e :UE 369 ]
 }
-[e :U 393 ]
-"205
-[e :U 392 ]
-[; ;pwm.c: 204: }
-[; ;pwm.c: 205: break;
-[e $U 387  ]
-[; ;pwm.c: 206: case 2:
-"206
-[e :U 394 ]
-[; ;pwm.c: 207: if (Motors[index].duty > Motors[index].target) {
-"207
-[e $ ! > -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 10 `i 395  ]
-{
-[; ;pwm.c: 208: Motors[index].duty -= ExponentialProfile(Motors[index].duty, Motors[index].target);
 "208
-[e =- . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 ( _ExponentialProfile (2 , . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 10 ]
-"209
-}
-[; ;pwm.c: 209: } else if (Motors[index].duty < Motors[index].target) {
-[e $U 396  ]
-[e :U 395 ]
-[e $ ! < -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 10 `i 397  ]
+[v _AccelerateMotor `(v ~T0 @X0 1 ef1`ui ]
 {
-[; ;pwm.c: 210: Motors[index].duty += ExponentialProfile(Motors[index].duty, Motors[index].target);
+[; ;pwm.c: 208: void AccelerateMotor(unsigned int index) {
+[e :U _AccelerateMotor ]
+[v _index `ui ~T0 @X0 1 r1 ]
+[f ]
+[; ;pwm.c: 209: if (Motors[index].duty < Motors[index].minimumDuty && Motors[index].target >= Motors[index].minimumDuty) {
+"209
+[e $ ! && < -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i >= -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 10 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i 384  ]
+{
+[; ;pwm.c: 210: Motors[index].duty = Motors[index].minimumDuty;
 "210
-[e =+ . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 ( _ExponentialProfile (2 , . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 9 . *U + &U _Motors * -> -> _index `ui `ux -> -> # *U &U _Motors `ui `ux 10 ]
+[e = . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 ]
 "211
 }
-[e :U 397 ]
+[; ;pwm.c: 211: } else if (Motors[index].duty <= Motors[index].minimumDuty && Motors[index].target < Motors[index].minimumDuty) {
+[e $U 385  ]
+[e :U 384 ]
+[e $ ! && <= -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i < -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 10 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 14 `i 386  ]
+{
+[; ;pwm.c: 212: Motors[index].duty = 0;
 "212
-[e :U 396 ]
-[; ;pwm.c: 211: }
-[; ;pwm.c: 212: break;
-[e $U 387  ]
-[; ;pwm.c: 213: default:
+[e = . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 0 `i `uc ]
 "213
-[e :U 398 ]
-[; ;pwm.c: 214: break;
-"214
-[e $U 387  ]
-"215
 }
-[; ;pwm.c: 215: }
+[e :U 386 ]
+"214
+[e :U 385 ]
+[; ;pwm.c: 213: }
+[; ;pwm.c: 214: switch (Motors[index].accelType) {
+[e $U 388  ]
+{
+[; ;pwm.c: 215: case 0:
+"215
+[e :U 389 ]
+[; ;pwm.c: 216: Motors[index].duty = Motors[index].target;
+"216
+[e = . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 10 ]
+[; ;pwm.c: 217: break;
+"217
 [e $U 387  ]
-"195
+[; ;pwm.c: 218: case 1:
+"218
+[e :U 390 ]
+[; ;pwm.c: 219: if (Motors[index].duty > Motors[index].target) {
+"219
+[e $ ! > -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 10 `i 391  ]
+{
+[; ;pwm.c: 220: Motors[index].duty -= 1;
+"220
+[e =- . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 1 `i `uc ]
+"221
+}
+[; ;pwm.c: 221: } else if (Motors[index].duty < Motors[index].target) {
+[e $U 392  ]
+[e :U 391 ]
+[e $ ! < -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 10 `i 393  ]
+{
+[; ;pwm.c: 222: Motors[index].duty += 1;
+"222
+[e =+ . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 -> -> 1 `i `uc ]
+"223
+}
+[e :U 393 ]
+"224
+[e :U 392 ]
+[; ;pwm.c: 223: }
+[; ;pwm.c: 224: break;
+[e $U 387  ]
+[; ;pwm.c: 225: case 2:
+"225
+[e :U 394 ]
+[; ;pwm.c: 226: if (Motors[index].duty > Motors[index].target) {
+"226
+[e $ ! > -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 10 `i 395  ]
+{
+[; ;pwm.c: 227: Motors[index].duty -= ExponentialProfile(Motors[index].duty, Motors[index].target, index);
+"227
+[e =- . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 ( _ExponentialProfile (3 , , . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 10 _index ]
+"228
+}
+[; ;pwm.c: 228: } else if (Motors[index].duty < Motors[index].target) {
+[e $U 396  ]
+[e :U 395 ]
+[e $ ! < -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 10 `i 397  ]
+{
+[; ;pwm.c: 229: Motors[index].duty += ExponentialProfile(Motors[index].duty, Motors[index].target, index);
+"229
+[e =+ . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 ( _ExponentialProfile (3 , , . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 10 _index ]
+"230
+}
+[e :U 397 ]
+"231
+[e :U 396 ]
+[; ;pwm.c: 230: }
+[; ;pwm.c: 231: break;
+[e $U 387  ]
+[; ;pwm.c: 232: default:
+"232
+[e :U 398 ]
+[; ;pwm.c: 233: break;
+"233
+[e $U 387  ]
+"234
+}
+[; ;pwm.c: 234: }
+[e $U 387  ]
+"214
 [e :U 388 ]
-[e [\ _AccelType , $ -> -> 0 `i `uc 389
+[e [\ . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 12 , $ -> -> 0 `i `uc 389
  , $ -> -> 1 `i `uc 390
  , $ -> -> 2 `i `uc 394
  398 ]
-"215
+"234
 [e :U 387 ]
-[; ;pwm.c: 216: }
-"216
+[; ;pwm.c: 235: }
+"235
 [e :UE 383 ]
 }
-"225
-[v _AcceleratePWM `(v ~T0 @X0 1 ef ]
+"244
+[v _AcceleratePWM `(v ~T0 @X0 1 ef1`ui ]
 {
-[; ;pwm.c: 225: void AcceleratePWM(void) {
+[; ;pwm.c: 244: void AcceleratePWM(unsigned int index) {
 [e :U _AcceleratePWM ]
+[v _index `ui ~T0 @X0 1 r1 ]
 [f ]
-"226
-[v _i `i ~T0 @X0 1 a ]
-[; ;pwm.c: 226: int i;
-[; ;pwm.c: 227: for (i = 0; i < 4; i++) {
-"227
+[; ;pwm.c: 245: if (PWMPause || Motors[index].paused) {
+"245
+[e $ ! || != -> _PWMPause `i -> -> -> 0 `i `uc `i != -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 2 `i -> -> -> 0 `i `uc `i 400  ]
 {
-[e = _i -> 0 `i ]
-[e $ < _i -> 4 `i 400  ]
+[; ;pwm.c: 246: StopMotor(index);
+"246
+[e ( _StopMotor (1 _index ]
+"247
+}
+[; ;pwm.c: 247: } else {
 [e $U 401  ]
 [e :U 400 ]
 {
-[; ;pwm.c: 228: if (PWMPause || Motors[i].paused) {
-"228
-[e $ ! || != -> _PWMPause `i -> -> -> 0 `i `uc `i != -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 2 `i -> -> -> 0 `i `uc `i 403  ]
+[; ;pwm.c: 251: if (Motors[index].direction != Motors[index].targetDirection) {
+"251
+[e $ ! != -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 3 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 4 `i 402  ]
 {
-[; ;pwm.c: 229: StopMotor(i);
-"229
-[e ( _StopMotor (1 _i ]
-"230
+[; ;pwm.c: 252: StopMotor(index);
+"252
+[e ( _StopMotor (1 _index ]
+"253
 }
-[; ;pwm.c: 230: } else {
-[e $U 404  ]
-[e :U 403 ]
+[; ;pwm.c: 253: } else if (Motors[index].duty != Motors[index].target) {
+[e $U 403  ]
+[e :U 402 ]
+[e $ ! != -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> _index `ux -> -> # *U &U _Motors `ui `ux 10 `i 404  ]
 {
-[; ;pwm.c: 234: if (Motors[i].direction != Motors[i].targetDirection) {
-"234
-[e $ ! != -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 3 `i -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 4 `i 405  ]
-{
-[; ;pwm.c: 235: StopMotor(i);
-"235
-[e ( _StopMotor (1 _i ]
-"236
-}
-[; ;pwm.c: 236: } else if (Motors[i].duty != Motors[i].target) {
-[e $U 406  ]
-[e :U 405 ]
-[e $ ! != -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 9 `i -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 10 `i 407  ]
-{
-[; ;pwm.c: 237: AccelerateMotor(i);
-"237
-[e ( _AccelerateMotor (1 _i ]
-"238
-}
-[e :U 407 ]
-"239
-[e :U 406 ]
+[; ;pwm.c: 254: AccelerateMotor(index);
+"254
+[e ( _AccelerateMotor (1 _index ]
+"255
 }
 [e :U 404 ]
-"240
+"256
+[e :U 403 ]
 }
-"227
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 4 `i 400  ]
 [e :U 401 ]
-"240
-}
-[; ;pwm.c: 238: }
-[; ;pwm.c: 239: }
-[; ;pwm.c: 240: }
-[; ;pwm.c: 241: }
-"241
+[; ;pwm.c: 255: }
+[; ;pwm.c: 256: }
+[; ;pwm.c: 257: }
+"257
 [e :UE 399 ]
 }
-"261
+"277
 [v _CheckPWMOutput `(v ~T0 @X0 1 ef ]
 {
-[; ;pwm.c: 261: void CheckPWMOutput(void) {
+[; ;pwm.c: 277: void CheckPWMOutput(void) {
 [e :U _CheckPWMOutput ]
 [f ]
-"262
-[v _i `i ~T0 @X0 1 a ]
-[; ;pwm.c: 262: int i;
-[; ;pwm.c: 263: for (i = 0; i < 4; i++) {
-"263
-{
-[e = _i -> 0 `i ]
-[e $ < _i -> 4 `i 409  ]
-[e $U 410  ]
-[e :U 409 ]
-{
-[; ;pwm.c: 264: if (PWMEnable && Motors[i].enabled) {
-"264
-[e $ ! && != -> _PWMEnable `i -> -> -> 0 `i `uc `i != -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 1 `i -> -> -> 0 `i `uc `i 412  ]
-{
-[; ;pwm.c: 265: if (Motors[i].motorType) {
-"265
-[e $ ! != -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 5 `i -> -> -> 0 `i `uc `i 413  ]
-{
-[; ;pwm.c: 266: if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount < 19) {
-"266
-[e $ ! && && < -> _TMR0 `ui -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 9 `ui == -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 `i -> 0 `i < -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 11 `i -> 19 `i 414  ]
-{
-[; ;pwm.c: 267: Motors[i].servoCount++;
-"267
-[e ++ . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 11 -> -> 1 `i `uc ]
-[; ;pwm.c: 268: Motors[i].state = 1;
-"268
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 1 `i `uc ]
-"269
-}
-[; ;pwm.c: 269: } else if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount == 20) {
-[e $U 415  ]
-[e :U 414 ]
-[e $ ! && && < -> _TMR0 `ui -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 9 `ui == -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 `i -> 0 `i == -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 11 `i -> 20 `i 416  ]
-{
-[; ;pwm.c: 270: Motors[i].state = 1;
-"270
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 1 `i `uc ]
-[; ;pwm.c: 271: SetPin(Motors[i].PWMPin,1);
-"271
-[e ( _SetPin (2 , . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 1 `i `uc ]
-"272
-}
-[; ;pwm.c: 272: } else if (TMR0 >= Motors[i].duty && Motors[i].state == 1 && Motors[i].servoCount < 19) {
-[e $U 417  ]
-[e :U 416 ]
-[e $ ! && && >= -> _TMR0 `ui -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 9 `ui == -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 `i -> 1 `i < -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 11 `i -> 19 `i 418  ]
-{
-[; ;pwm.c: 273: Motors[i].state = 0;
-"273
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 0 `i `uc ]
-"274
-}
-[; ;pwm.c: 274: } else if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount == 20) {
-[e $U 419  ]
-[e :U 418 ]
-[e $ ! && && < -> _TMR0 `ui -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 9 `ui == -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 `i -> 0 `i == -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 11 `i -> 20 `i 420  ]
-{
-[; ;pwm.c: 275: Motors[i].state = 0;
-"275
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 0 `i `uc ]
-[; ;pwm.c: 276: Motors[i].servoCount = 0;
-"276
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 11 -> -> 0 `i `uc ]
-[; ;pwm.c: 277: SetPin(Motors[i].PWMPin,0);
-"277
-[e ( _SetPin (2 , . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 0 `i `uc ]
 "278
-}
-[e :U 420 ]
+[v _i `ui ~T0 @X0 1 a ]
+[; ;pwm.c: 278: unsigned int i;
+[; ;pwm.c: 279: for (i = 0; i < 4; i++) {
 "279
-[e :U 419 ]
-[e :U 417 ]
-[e :U 415 ]
-}
-[; ;pwm.c: 278: }
-[; ;pwm.c: 279: } else {
-[e $U 421  ]
-[e :U 413 ]
 {
-[; ;pwm.c: 281: if (TMR0 < Motors[i].duty && Motors[i].state == 0) {
+[e = _i -> -> 0 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 406  ]
+[e $U 407  ]
+[e :U 406 ]
+{
+[; ;pwm.c: 280: if (PWMEnable && Motors[i].enabled) {
+"280
+[e $ ! && != -> _PWMEnable `i -> -> -> 0 `i `uc `i != -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 1 `i -> -> -> 0 `i `uc `i 409  ]
+{
+[; ;pwm.c: 281: if (Motors[i].motorType) {
 "281
-[e $ ! && < -> _TMR0 `ui -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 9 `ui == -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 `i -> 0 `i 422  ]
+[e $ ! != -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 5 `i -> -> -> 0 `i `uc `i 410  ]
 {
-[; ;pwm.c: 283: Motors[i].state = 1;
+[; ;pwm.c: 282: if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount < 19) {
+"282
+[e $ ! && && < -> _TMR0 `ui -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 9 `ui == -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 `i -> 0 `i < -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 11 `i -> 19 `i 411  ]
+{
+[; ;pwm.c: 283: Motors[i].servoCount++;
 "283
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 1 `i `uc ]
-[; ;pwm.c: 285: SetPin(Motors[i].PWMPin,1);
+[e ++ . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 11 -> -> 1 `i `uc ]
+[; ;pwm.c: 284: Motors[i].state = 1;
+"284
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 1 `i `uc ]
 "285
-[e ( _SetPin (2 , . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 1 `i `uc ]
-"286
 }
-[; ;pwm.c: 286: } else if (TMR0 >= Motors[i].duty && Motors[i].state == 1) {
-[e $U 423  ]
-[e :U 422 ]
-[e $ ! && >= -> _TMR0 `ui -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 9 `ui == -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 `i -> 1 `i 424  ]
+[; ;pwm.c: 285: } else if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount == 20) {
+[e $U 412  ]
+[e :U 411 ]
+[e $ ! && && < -> _TMR0 `ui -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 9 `ui == -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 `i -> 0 `i == -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 11 `i -> 20 `i 413  ]
 {
-[; ;pwm.c: 288: Motors[i].state = 0;
+[; ;pwm.c: 286: Motors[i].state = 1;
+"286
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 1 `i `uc ]
+[; ;pwm.c: 287: SetPin(Motors[i].PWMPin,1);
+"287
+[e ( _SetPin (2 , . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 1 `i `uc ]
 "288
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 0 `i `uc ]
-[; ;pwm.c: 290: SetPin(Motors[i].PWMPin,0);
-"290
-[e ( _SetPin (2 , . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 0 `i `uc ]
-"291
 }
-[e :U 424 ]
+[; ;pwm.c: 288: } else if (TMR0 >= Motors[i].duty && Motors[i].state == 1 && Motors[i].servoCount < 19) {
+[e $U 414  ]
+[e :U 413 ]
+[e $ ! && && >= -> _TMR0 `ui -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 9 `ui == -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 `i -> 1 `i < -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 11 `i -> 19 `i 415  ]
+{
+[; ;pwm.c: 289: Motors[i].state = 0;
+"289
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 0 `i `uc ]
+"290
+}
+[; ;pwm.c: 290: } else if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount == 20) {
+[e $U 416  ]
+[e :U 415 ]
+[e $ ! && && < -> _TMR0 `ui -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 9 `ui == -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 `i -> 0 `i == -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 11 `i -> 20 `i 417  ]
+{
+[; ;pwm.c: 291: Motors[i].state = 0;
+"291
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 0 `i `uc ]
+[; ;pwm.c: 292: Motors[i].servoCount = 0;
 "292
-[e :U 423 ]
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 11 -> -> 0 `i `uc ]
+[; ;pwm.c: 293: SetPin(Motors[i].PWMPin,0);
+"293
+[e ( _SetPin (2 , . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 0 `i `uc ]
+"294
+}
+[e :U 417 ]
+"295
+[e :U 416 ]
+[e :U 414 ]
+[e :U 412 ]
+}
+[; ;pwm.c: 294: }
+[; ;pwm.c: 295: } else {
+[e $U 418  ]
+[e :U 410 ]
+{
+[; ;pwm.c: 297: if (TMR0 < Motors[i].duty && Motors[i].state == 0) {
+"297
+[e $ ! && < -> _TMR0 `ui -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 9 `ui == -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 `i -> 0 `i 419  ]
+{
+[; ;pwm.c: 299: Motors[i].state = 1;
+"299
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 1 `i `uc ]
+[; ;pwm.c: 301: SetPin(Motors[i].PWMPin,1);
+"301
+[e ( _SetPin (2 , . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 1 `i `uc ]
+"302
+}
+[; ;pwm.c: 302: } else if (TMR0 >= Motors[i].duty && Motors[i].state == 1) {
+[e $U 420  ]
+[e :U 419 ]
+[e $ ! && >= -> _TMR0 `ui -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 9 `ui == -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 `i -> 1 `i 421  ]
+{
+[; ;pwm.c: 304: Motors[i].state = 0;
+"304
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 0 `i `uc ]
+[; ;pwm.c: 306: SetPin(Motors[i].PWMPin,0);
+"306
+[e ( _SetPin (2 , . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 0 `i `uc ]
+"307
 }
 [e :U 421 ]
-"293
+"308
+[e :U 420 ]
 }
-[; ;pwm.c: 291: }
-[; ;pwm.c: 292: }
-[; ;pwm.c: 293: } else if (Motors[i].state) {
-[e $U 425  ]
-[e :U 412 ]
-[e $ ! != -> . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 `i -> -> -> 0 `i `uc `i 426  ]
-{
-[; ;pwm.c: 296: Motors[i].state = 0;
-"296
-[e = . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 0 `i `uc ]
-[; ;pwm.c: 297: SetPin(Motors[i].PWMPin,0);
-"297
-[e ( _SetPin (2 , . *U + &U _Motors * -> -> _i `ui `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 0 `i `uc ]
-"298
+[e :U 418 ]
+"309
 }
-[e :U 426 ]
-"299
-[e :U 425 ]
-}
-"263
-[e ++ _i -> 1 `i ]
-[e $ < _i -> 4 `i 409  ]
-[e :U 410 ]
-"299
-}
-[; ;pwm.c: 298: }
-[; ;pwm.c: 299: }
-[; ;pwm.c: 301: if (AccelCount >= AccelRate) {
-"301
-[e $ ! >= _AccelCount _AccelRate 427  ]
-{
-[; ;pwm.c: 302: AcceleratePWM();
-"302
-[e ( _AcceleratePWM ..  ]
-[; ;pwm.c: 303: AccelCount = 0;
-"303
-[e = _AccelCount -> -> 0 `i `ui ]
-"304
-}
-[; ;pwm.c: 304: } else {
-[e $U 428  ]
-[e :U 427 ]
-{
-[; ;pwm.c: 305: AccelCount++;
-"305
-[e ++ _AccelCount -> -> 1 `i `ui ]
-"306
-}
-[e :U 428 ]
-[; ;pwm.c: 306: }
 [; ;pwm.c: 307: }
-"307
-[e :UE 408 ]
+[; ;pwm.c: 308: }
+[; ;pwm.c: 309: } else if (Motors[i].state) {
+[e $U 422  ]
+[e :U 409 ]
+[e $ ! != -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 `i -> -> -> 0 `i `uc `i 423  ]
+{
+[; ;pwm.c: 312: Motors[i].state = 0;
+"312
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 0 -> -> 0 `i `uc ]
+[; ;pwm.c: 313: SetPin(Motors[i].PWMPin,0);
+"313
+[e ( _SetPin (2 , . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 6 -> -> 0 `i `uc ]
+"314
+}
+[e :U 423 ]
+"316
+[e :U 422 ]
+[; ;pwm.c: 314: }
+[; ;pwm.c: 316: if (Motors[i].accelCount >= Motors[i].accelRate) {
+[e $ ! >= -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 15 `i -> . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 13 `i 424  ]
+{
+[; ;pwm.c: 317: AcceleratePWM(i);
+"317
+[e ( _AcceleratePWM (1 _i ]
+[; ;pwm.c: 318: Motors[i].accelCount = 0;
+"318
+[e = . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 15 -> -> 0 `i `uc ]
+"319
+}
+[; ;pwm.c: 319: } else {
+[e $U 425  ]
+[e :U 424 ]
+{
+[; ;pwm.c: 320: Motors[i].accelCount++;
+"320
+[e ++ . *U + &U _Motors * -> _i `ux -> -> # *U &U _Motors `ui `ux 15 -> -> 1 `i `uc ]
+"321
+}
+[e :U 425 ]
+"322
+}
+"279
+[e ++ _i -> -> 1 `i `ui ]
+[e $ < _i -> -> 4 `i `ui 406  ]
+[e :U 407 ]
+"322
+}
+[; ;pwm.c: 321: }
+[; ;pwm.c: 322: }
+[; ;pwm.c: 332: }
+"332
+[e :UE 405 ]
 }
