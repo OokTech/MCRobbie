@@ -21,18 +21,19 @@
  * 
  */
 
+//This can be used by the compiler, we aren't using it yet but it may come in 
+//handy in the future.
 #define __XTAL_FREQUENCY 16000000 //hz
-//#define PWM_PERIOD (0.002) //s
-//#define TIMER_0_PRESCALER 16
 
-//#define TIMER_0_PERIOD (PWM_PERIOD*__XTAL_FREQUENCY/TIMER_0_PRESCALER) //cycles
-
+//This is the i2c address that the controller uses. It can be any value from 
+//0x00 to 0xFF
 #define I2C_ADDRESS 0x23
 
+//These are just to simplifiy reading the code
 #define HIGH 1
 #define LOW 0
 
-//Addresses for the different parts
+//Addresses for the different parameters that we can set
 #define SPEED_ADDRESS 1
 #define MOTOR_0_SPEED_ADDRESS 2
 #define MOTOR_1_SPEED_ADDRESS 3

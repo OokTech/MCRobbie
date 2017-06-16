@@ -3,14 +3,17 @@
  * Author: inmysocks
  *
  * Created on May 31, 2017, 2:27 PM
- * This is going to be used as an i2c interface between a raspberry pi and motor
- * drivers.
+ * This is going to be used as an i2c interface between a raspberry pi 
+ * (or anything with an i2c interface, like an arduino) and motor drivers.
  * 
  * 
  * This can control up to 4 separate motors using a shared pwm period.
  * To allow for 2 or 3 wire controllers each motor has 3 pins associated with it
  * a pwm pin, a dir pin and a cdir pin. Only the pwm and dir pins are used for
- * 2 wire controllers. Only the pwm pin is used when controlling a servo motor.
+ * 2 wire controllers. 
+ * 
+ * NOTE: SERVO MOTORS ARE NOT YET SUPPORTED
+ * Only the pwm pin is used when controlling a servo motor.
  * 
  * The 4 sets of pins available are:
  * 

@@ -69,13 +69,18 @@ void InitPWM(void) {
     unsigned int n;
     for (n = 0; n < 4; n++) {
         Motors[n].state = (unsigned char)0;
-        Motors[n].paused = (unsigned char)0;
         Motors[n].enabled = (unsigned char)1;
+        Motors[n].paused = (unsigned char)0;
         Motors[n].direction = (unsigned char)1;
         Motors[n].targetDirection = (unsigned char)1;
+        Motors[n].motorType = (unsigned char)0;
         Motors[n].duty = (unsigned char)0;
         Motors[n].target = (unsigned char)0;
-        Motors[n].motorType = (unsigned char)0;
+        Motors[n].servoCount = (unsigned char)0;
+        Motors[n].accelType = (unsigned char)0;
+        Motors[n].accelRate = (unsigned char)0;
+        Motors[n].minimumDuty = (unsigned char)0;
+        Motors[n].accelCount = (unsigned char)0;
     }
     
     //Set which pins each motor uses, look at SetPin for definitions
@@ -320,13 +325,4 @@ void CheckPWMOutput(void) {
             Motors[i].accelCount++;
         }
     }
-    /*
-    //Keep a count to see when we should update the pwm acceleration.
-    if (AccelCount >= AccelRate) {
-        AcceleratePWM();
-        AccelCount = 0;
-    } else {
-        AccelCount++;
-    }
-    */
 }

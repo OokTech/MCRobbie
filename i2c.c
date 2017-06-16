@@ -103,16 +103,21 @@ void interrupt I2C_Slave_Read(void)
             //release the clock
             SSPCON1bits.CKP = 1;
         } else if(!SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
+            //When we have received an address byte that is set to 'write'
             //Set the state to 0 so we know to get the next byte as the state
             state = 0;
             //release the clock
             SSPCON1bits.CKP = 1;
         } else if (SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
+            //When we receive a data byte that is set to 'write'
             if (state == 0) {
-                //the byte is what type of data is about to be sent
+                //If we don't know what we have yet than the byte is the address 
+                //to write to. We are calling this the state.
                 state = currentByte;                
             } else {
                 //If we have a non-zero state than we set the correct values
+                //Check what address the state matches and set the values 
+                //accordingly.
                 switch (state) {
                     case SPEED_ADDRESS:
                         for (i = 0; i < 4; i++) {
@@ -272,21 +277,18 @@ void interrupt I2C_Slave_Read(void)
                         Motors[3].minimumDuty = currentByte;
                         break;
                 }
+                //We are finished so reset the state.
                 state = 0;
             }
+            //Release the clock
             SSPCON1bits.CKP = 1;
         } else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
             //We are going to read from the controller, we don't need to do anything here.
             //State was set above during the previous transmission.
-            /*
-            if (state == 0) {
-                //the byte is what type of data is about to be sent
-                state = currentByte;                
-            }
-             */
+            //Release the clock
             SSPCON1bits.CKP = 1;
         } else if (SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
-            //If we have a non-zero state than we set the correct values
+            //If we have a non-zero state than we send value requested
             switch (state) {
                 case SPEED_ADDRESS:
                     SSPBUF = Motors[0].duty;
@@ -410,6 +412,7 @@ void interrupt I2C_Slave_Read(void)
                     SSPBUF = Motors[3].minimumDuty;
                     break;
             }
+            //We are finished so reset the state.
             state = 0;
         }
         //release the clock
