@@ -178,7 +178,7 @@ void StopMotor(unsigned int index) {
         //Slow the motor down using the desired acceleration profile
         //See AccelerateMotor function for descriptions of the acceleration 
         //types
-        switch (AccelType) {
+        switch (Motors[index].accelType) {
             case ACCEL_INSTANT:
                 Motors[index].duty = 0;
                 break;
@@ -278,7 +278,7 @@ void CheckPWMOutput(void) {
     unsigned int i;
     for (i = 0; i < 4; i++) {
         if (PWMEnable && Motors[i].enabled) {
-            if (Motors[i].motorType) {
+            if (Motors[i].motorType == MOTOR_TYPE_SERVO) {
                 if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount < 19) {
                     Motors[i].servoCount++;
                     Motors[i].state = 1;
@@ -292,7 +292,7 @@ void CheckPWMOutput(void) {
                     Motors[i].servoCount = 0;
                     SetPin(Motors[i].PWMPin,0);
                 }
-            } else {
+            } else if (Motors[i].motorType == MOTOR_TYPE_DC) {
                 //Check if the right state should be changed
                 if (TMR0 < Motors[i].duty && Motors[i].state == 0) {
                     //Set the state as high
