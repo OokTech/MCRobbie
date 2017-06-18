@@ -1,0 +1,325 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:pic18f14k50
+LIBS:MCRobbie-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L PIC18F14K50 U1
+U 1 1 5943E6DB
+P 5750 3750
+F 0 "U1" H 5750 3100 60  0000 C CNN
+F 1 "PIC18F14K50" H 5800 4400 60  0000 C CNN
+F 2 "Housings_DIP:DIP-20_W7.62mm" H 5000 4950 60  0001 C CNN
+F 3 "" H 5000 4950 60  0001 C CNN
+	1    5750 3750
+	1    0    0    -1  
+$EndComp
+$Comp
+L +5V #PWR01
+U 1 1 5943E769
+P 5250 2950
+F 0 "#PWR01" H 5250 2800 50  0001 C CNN
+F 1 "+5V" H 5250 3090 50  0000 C CNN
+F 2 "" H 5250 2950 50  0001 C CNN
+F 3 "" H 5250 2950 50  0001 C CNN
+	1    5250 2950
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR02
+U 1 1 5943E790
+P 7400 3450
+F 0 "#PWR02" H 7400 3200 50  0001 C CNN
+F 1 "GND" H 7400 3300 50  0000 C CNN
+F 2 "" H 7400 3450 50  0001 C CNN
+F 3 "" H 7400 3450 50  0001 C CNN
+	1    7400 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7400 3100 7400 3300
+Wire Wire Line
+	7400 3300 7400 3450
+NoConn ~ 6250 3600
+Wire Wire Line
+	4300 3900 5050 3900
+Wire Wire Line
+	5050 3900 5300 3900
+Wire Wire Line
+	4300 3800 5300 3800
+Wire Wire Line
+	4300 3700 5300 3700
+Wire Wire Line
+	5300 3500 5150 3500
+Wire Wire Line
+	6250 4100 6300 4100
+Wire Wire Line
+	6250 3800 6500 3800
+Wire Wire Line
+	6250 3900 6400 3900
+Wire Wire Line
+	6400 3900 6400 4800
+Wire Wire Line
+	6400 4800 4300 4800
+Wire Wire Line
+	5300 3600 5150 3600
+Wire Wire Line
+	5150 3600 5150 5350
+Wire Wire Line
+	6900 4900 5350 4900
+Wire Wire Line
+	6250 3300 6900 3300
+Wire Wire Line
+	6900 3300 7400 3300
+Wire Wire Line
+	6900 3300 6900 4900
+Wire Wire Line
+	6250 3400 6800 3400
+Wire Wire Line
+	6800 3400 6800 5000
+Wire Wire Line
+	6800 5000 5450 5000
+Wire Wire Line
+	5450 5000 5450 5350
+Wire Wire Line
+	6250 3500 6700 3500
+Wire Wire Line
+	6700 3500 6700 5100
+Wire Wire Line
+	6700 5100 5550 5100
+Wire Wire Line
+	5550 5100 5550 5350
+Wire Wire Line
+	6250 4000 7400 4000
+Wire Wire Line
+	7400 4200 6250 4200
+Text Notes 6350 5800 2    60   ~ 0
+In-circuit debugger/programmer header
+Text Notes 8300 4100 2    60   ~ 0
+I2C header
+Text Notes 3850 3350 2    60   ~ 0
+Motor 0 Pins
+Text Notes 3850 3850 2    60   ~ 0
+Motor 1 Pins
+Text Notes 3850 4300 2    60   ~ 0
+Motor 2 Pins
+Text Notes 3850 4750 2    60   ~ 0
+Motor 3 Pins
+Wire Wire Line
+	5050 3900 5050 5200
+Wire Wire Line
+	5050 5200 5650 5200
+Wire Wire Line
+	5650 5200 5650 5350
+Connection ~ 5050 3900
+Wire Wire Line
+	5250 2950 5250 3000
+Wire Wire Line
+	5250 3000 5250 3300
+Wire Wire Line
+	5250 3300 5250 5350
+Wire Wire Line
+	5300 3300 5250 3300
+Connection ~ 5250 3300
+$Comp
+L CONN_01X02 J4
+U 1 1 5943F079
+P 7600 4050
+F 0 "J4" H 7600 4200 50  0000 C CNN
+F 1 "I2C_Header" V 7700 4050 50  0000 C CNN
+F 2 "Connectors:PINHEAD1-2" H 7600 4050 50  0001 C CNN
+F 3 "" H 7600 4050 50  0001 C CNN
+	1    7600 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_01X03 J3
+U 1 1 5943F0DE
+P 4100 4700
+F 0 "J3" H 4100 4900 50  0000 C CNN
+F 1 "Motor3" V 4200 4700 50  0000 C CNN
+F 2 "Connectors:PINHEAD1-3" H 4100 4700 50  0001 C CNN
+F 3 "" H 4100 4700 50  0001 C CNN
+	1    4100 4700
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_01X03 J1
+U 1 1 5943F120
+P 4100 3800
+F 0 "J1" H 4100 4000 50  0000 C CNN
+F 1 "Motor1" V 4200 3800 50  0000 C CNN
+F 2 "Connectors:PINHEAD1-3" H 4100 3800 50  0001 C CNN
+F 3 "" H 4100 3800 50  0001 C CNN
+	1    4100 3800
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_01X03 J2
+U 1 1 5943F174
+P 4100 4250
+F 0 "J2" H 4100 4450 50  0000 C CNN
+F 1 "Motor2" V 4200 4250 50  0000 C CNN
+F 2 "Connectors:PINHEAD1-3" H 4100 4250 50  0001 C CNN
+F 3 "" H 4100 4250 50  0001 C CNN
+	1    4100 4250
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_01X03 J0
+U 1 1 5943F1C3
+P 4100 3300
+F 0 "J0" H 4100 3500 50  0000 C CNN
+F 1 "Motor0" V 4200 3300 50  0000 C CNN
+F 2 "Connectors:PINHEAD1-3" H 4100 3300 50  0001 C CNN
+F 3 "" H 4100 3300 50  0001 C CNN
+	1    4100 3300
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN_01X06 J5
+U 1 1 5943F20D
+P 5400 5550
+F 0 "J5" H 5400 5900 50  0000 C CNN
+F 1 "ICP_Header" V 5500 5550 50  0000 C CNN
+F 2 "Connectors:PINHEAD1-6" H 5400 5550 50  0001 C CNN
+F 3 "" H 5400 5550 50  0001 C CNN
+	1    5400 5550
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7400 4100 7400 4200
+Wire Wire Line
+	6500 4700 4300 4700
+Wire Wire Line
+	6600 4600 4300 4600
+$Comp
+L CONN_01X02 J6
+U 1 1 59440311
+P 7600 3050
+F 0 "J6" H 7600 3200 50  0000 C CNN
+F 1 "Power_Header" V 7700 3050 50  0000 C CNN
+F 2 "Connectors:PINHEAD1-2" H 7600 3050 50  0001 C CNN
+F 3 "" H 7600 3050 50  0001 C CNN
+	1    7600 3050
+	1    0    0    -1  
+$EndComp
+Connection ~ 7400 3300
+Wire Wire Line
+	5300 3400 5050 3400
+Wire Wire Line
+	6300 4100 6300 4500
+Wire Wire Line
+	6500 3800 6500 4700
+Wire Wire Line
+	6600 4600 6600 3700
+Wire Wire Line
+	6600 3700 6250 3700
+Wire Wire Line
+	5350 4900 5350 5350
+$Comp
+L C C1
+U 1 1 59455B56
+P 6900 3150
+F 0 "C1" H 6925 3250 50  0000 L CNN
+F 1 "100nF" H 6925 3050 50  0000 L CNN
+F 2 "Capacitors_THT:C_Rect_L7.0mm_W2.5mm_P5.00mm" H 6938 3000 50  0001 C CNN
+F 3 "" H 6900 3150 50  0001 C CNN
+	1    6900 3150
+	1    0    0    -1  
+$EndComp
+Connection ~ 6900 3300
+Wire Wire Line
+	5250 3000 6900 3000
+Wire Wire Line
+	6900 3000 7400 3000
+Connection ~ 5250 3000
+Connection ~ 6900 3000
+Text Notes 7350 7500 0    60   ~ 0
+MCRobbie v. 1.0.1
+Text Notes 7000 6850 0    60   ~ 0
+Design by OokTech LLC, June 2017\n\nCopyright CC-BY-SA
+Text Notes 7300 7250 0    49   ~ 0
+1
+Text Notes 7400 7250 0    49   ~ 0
+1
+Text Notes 8150 7650 0    60   ~ 0
+18 June 2017
+Text Notes 7800 3100 0    60   ~ 0
+Power Header
+Text Notes 10600 7650 0    60   ~ 0
+1.0.1
+Wire Wire Line
+	5300 4000 4400 4000
+Wire Wire Line
+	4400 4000 4400 4150
+Wire Wire Line
+	4400 4150 4300 4150
+Wire Wire Line
+	5300 4100 4500 4100
+Wire Wire Line
+	4500 4100 4500 4250
+Wire Wire Line
+	4500 4250 4300 4250
+Wire Wire Line
+	5300 4200 4600 4200
+Wire Wire Line
+	4600 4200 4600 4350
+Wire Wire Line
+	4600 4350 4300 4350
+Wire Wire Line
+	4300 3400 4950 3400
+Wire Wire Line
+	4950 3400 4950 4500
+Wire Wire Line
+	4950 4500 6300 4500
+Wire Wire Line
+	5150 3500 5150 3300
+Wire Wire Line
+	5150 3300 4300 3300
+Wire Wire Line
+	5050 3400 5050 3200
+Wire Wire Line
+	5050 3200 4300 3200
+$EndSCHEMATC
