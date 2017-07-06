@@ -89,6 +89,10 @@
 #define MOTOR1_MINIMUM_DUTY_ADDRESS 38
 #define MOTOR2_MINIMUM_DUTY_ADDRESS 39
 #define MOTOR3_MINIMUM_DUTY_ADDRESS 40
+#define MOTOR0_TARGET_ADDRESS 41
+#define MOTOR1_TARGET_ADDRESS 42
+#define MOTOR2_TARGET_ADDRESS 43
+#define MOTOR3_TARGET_ADDRESS 44
 
 //Different acceleration types
 #define ACCEL_INSTANT 0
@@ -109,7 +113,7 @@ unsigned char PWMEnable = 1;
 unsigned char PWMPause = 0;
 
 //This is used to set the different types of acceleration.
-unsigned char AccelType = ACCEL_INSTANT;
+unsigned char AccelType = ACCEL_EXPONENT;
 //This value controls the rate of acceleration.
 unsigned int AccelRate = 150;
 //This is used as a counter for the acceleration.

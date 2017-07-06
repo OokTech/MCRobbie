@@ -73,12 +73,16 @@ void SetPin(char pin, char value) {
  */
 void InitPWM(void) {
     //Use a 1:16 prescaler value
-    T0CONbits.T0PS = 0b011;
+    //T0CONbits.T0PS = 0b011;
+    //USE a 1:256 prescaler value
+    T0CONbits.T0PS = 0b111;
     //Use prescaler
     T0CONbits.PSA = 0;
     //Use internal instruction clock
     T0CONbits.T0CS = 0;
     //Make Timer0 a 16 bit counter
+    //T0CONbits.T08BIT = 0;
+    //Make Timer0 a 8 bit counter
     T0CONbits.T08BIT = 1;
     //Turn on Timer0
     T0CONbits.TMR0ON = 1;
@@ -96,7 +100,7 @@ void InitPWM(void) {
         Motors[n].target = (unsigned char)0;
         Motors[n].servoCount = (unsigned char)0;
         Motors[n].accelType = (unsigned char)0;
-        Motors[n].accelRate = (unsigned char)0;
+        Motors[n].accelRate = (unsigned char)1;
         Motors[n].minimumDuty = (unsigned char)0;
         Motors[n].accelCount = (unsigned char)0;
     }
@@ -298,49 +302,50 @@ void AcceleratePWM(unsigned int index) {
  * against that lets us know the value without having to read the pin. 
  */
 void CheckPWMOutput(void) {
-    unsigned int i;
-    for (i = 0; i < 4; i++) {
-        if (PWMEnable && Motors[i].enabled) {
-            if (Motors[i].motorType == MOTOR_TYPE_SERVO) {
-                if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount < 19) {
-                    Motors[i].servoCount++;
-                    Motors[i].state = 1;
-                } else if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount == 20) {
-                    Motors[i].state = 1;
-                    SetPin(Motors[i].PWMPin,1);
-                } else if (TMR0 >= Motors[i].duty && Motors[i].state == 1 && Motors[i].servoCount < 19) {
-                    Motors[i].state = 0;
-                } else if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount == 20) {
-                    Motors[i].state = 0;
-                    Motors[i].servoCount = 0;
-                    SetPin(Motors[i].PWMPin,0);
+    if (PWMEnable) {
+        unsigned int i;
+        for (i = 0; i < 4; i++) {
+            if (Motors[i].enabled) {
+                if (Motors[i].motorType == MOTOR_TYPE_SERVO) {
+                    if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount < 19) {
+                        Motors[i].servoCount++;
+                        Motors[i].state = 1;
+                    } else if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount == 20) {
+                        Motors[i].state = 1;
+                        SetPin(Motors[i].PWMPin,1);
+                    } else if (TMR0 >= Motors[i].duty && Motors[i].state == 1 && Motors[i].servoCount < 19) {
+                        Motors[i].state = 0;
+                    } else if (TMR0 < Motors[i].duty && Motors[i].state == 0 && Motors[i].servoCount == 20) {
+                        Motors[i].state = 0;
+                        Motors[i].servoCount = 0;
+                        SetPin(Motors[i].PWMPin,0);
+                    }
+                } else if (Motors[i].motorType == MOTOR_TYPE_DC) {
+                    //Check if the right state should be changed
+                    if (TMR0 < Motors[i].duty && Motors[i].state == 0) {
+                        //Set the state as high
+                        Motors[i].state = 1;
+                        //Set the pin as high
+                        SetPin(Motors[i].PWMPin,1);
+                    } else if (TMR0 >= Motors[i].duty && Motors[i].state == 1) {
+                        //Set the state as low
+                        Motors[i].state = 0;
+                        //Set the pin as low
+                        SetPin(Motors[i].PWMPin,0);
+                    }
                 }
-            } else if (Motors[i].motorType == MOTOR_TYPE_DC) {
-                //Check if the right state should be changed
-                if (TMR0 < Motors[i].duty && Motors[i].state == 0) {
-                    //Set the state as high
-                    Motors[i].state = 1;
-                    //Set the pin as high
-                    SetPin(Motors[i].PWMPin,1);
-                } else if (TMR0 >= Motors[i].duty && Motors[i].state == 1) {
-                    //Set the state as low
-                    Motors[i].state = 0;
-                    //Set the pin as low
-                    SetPin(Motors[i].PWMPin,0);
-                }
+            } else if (Motors[i].state) {
+                //If it isn't enabled check the state, turn off the PWM if it is on.
+                Motors[i].state = 0;
+                SetPin(Motors[i].PWMPin,0);
             }
-        } else if (Motors[i].state) {
-            //If it isn't enabled check the left and right state, turn off the PWM
-            //on both if either is on.
-            Motors[i].state = 0;
-            SetPin(Motors[i].PWMPin,0);
-        }
-        //Keep a count to see when we should update the pwm acceleration.
-        if (Motors[i].accelCount >= Motors[i].accelRate) {
-            AcceleratePWM(i);
-            Motors[i].accelCount = 0;
-        } else {
-            Motors[i].accelCount++;
+            //Keep a count to see when we should update the pwm acceleration.
+            if (Motors[i].accelCount >= Motors[i].accelRate) {
+                AcceleratePWM(i);
+                Motors[i].accelCount = 0;
+            } else {
+                Motors[i].accelCount++;
+            }
         }
     }
 }

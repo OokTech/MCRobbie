@@ -35,6 +35,8 @@ void InitI2C(void) {
     SSPCON1bits.SSPM = 0b0110;
     //Enable clock stretching
     SSPCON2bits.SEN = 1;
+    //Disable clock stretching
+    //SSPCON2bits.SEN = 0;
     
     //Set the bitmask for the address so that the controller responds to 
     //multiple addresses.
@@ -91,7 +93,156 @@ void InitI2C(void) {
 unsigned char currentByte = 0;
 unsigned char state = 0;
 
+unsigned char readOrWrite = 0;
+
 unsigned int i;
+
+void ReadI2CByte(void) {
+    if (state) {
+        switch (state) {
+            case SPEED_ADDRESS:
+                SSPBUF = Motors[0].duty;
+                break;
+            case MOTOR_0_SPEED_ADDRESS:
+                SSPBUF = Motors[0].duty;
+                break;
+            case MOTOR_1_SPEED_ADDRESS:
+                SSPBUF = Motors[1].duty;
+                break;
+            case MOTOR_2_SPEED_ADDRESS:
+                SSPBUF = Motors[2].duty;
+                break;
+            case MOTOR_3_SPEED_ADDRESS:
+                SSPBUF = Motors[3].duty;
+                break;
+            case MOTOR_TYPE_ADDRESS:
+                //Each motor has two bits to determine the motor type
+                SSPBUF = (unsigned)((Motors[0].motorType & 0b00000011) | (Motors[1].motorType & 0b00000011)<<2 | (Motors[2].motorType & 0b00000011)<<4 | (Motors[3].motorType & 0b00000011)<<6);
+                break;
+            case MOTOR0_TYPE_ADDRESS:
+                SSPBUF = Motors[0].motorType;
+                break;
+            case MOTOR1_TYPE_ADDRESS:
+                SSPBUF = Motors[1].motorType;
+                break;
+            case MOTOR2_TYPE_ADDRESS:
+                SSPBUF = Motors[2].motorType;
+                break;
+            case MOTOR3_TYPE_ADDRESS:
+                SSPBUF = Motors[3].motorType;
+                break;
+            case DIRECTION_ADDRESS:
+                SSPBUF = (unsigned)((Motors[0].direction & 0b00000011) | (Motors[1].direction & 0b00000011)<<2 | (Motors[2].direction & 0b00000011)<<4 | (Motors[3].direction & 0b00000011)<<6);
+                break;
+            case MOTOR0_DIRECTION_ADDRESS:
+                SSPBUF = Motors[0].direction;
+                break;
+            case MOTOR1_DIRECTION_ADDRESS:
+                SSPBUF = Motors[1].direction;
+                break;
+            case MOTOR2_DIRECTION_ADDRESS:
+                SSPBUF = Motors[2].direction;
+                break;
+            case MOTOR3_DIRECTION_ADDRESS:
+                SSPBUF = Motors[3].direction;
+                break;
+            case ENABLE_ADDRESS:
+                SSPBUF = PWMEnable;
+                break;
+            case MOTOR0_ENABLE_ADDRESS:
+                SSPBUF = Motors[0].enabled;
+                break;
+            case MOTOR1_ENABLE_ADDRESS:
+                SSPBUF = Motors[1].enabled;
+                break;
+            case MOTOR2_ENABLE_ADDRESS:
+                SSPBUF = Motors[2].enabled;
+                break;
+            case MOTOR3_ENABLE_ADDRESS:
+                SSPBUF = Motors[3].enabled;
+                break;
+            case PAUSE_ADDRESS:
+                SSPBUF = PWMPause;
+                break;
+            case MOTOR0_PAUSE_ADDRESS:
+                SSPBUF = Motors[0].paused;
+                break;
+            case MOTOR1_PAUSE_ADDRESS:
+                SSPBUF = Motors[1].paused;
+                break;
+            case MOTOR2_PAUSE_ADDRESS:
+                SSPBUF = Motors[2].paused;
+                break;
+            case MOTOR3_PAUSE_ADDRESS:
+                SSPBUF = Motors[3].paused;
+                break;
+            case ACCEL_ADDRESS:
+                SSPBUF = Motors[0].accelType;
+                break;
+            case MOTOR0_ACCEL_TYPE_ADDRESS:
+                SSPBUF = Motors[0].accelType;
+                break;
+            case MOTOR1_ACCEL_TYPE_ADDRESS:
+                SSPBUF = Motors[1].accelType;
+                break;
+            case MOTOR2_ACCEL_TYPE_ADDRESS:
+                SSPBUF = Motors[2].accelType;
+                break;
+            case MOTOR3_ACCEL_TYPE_ADDRESS:
+                SSPBUF = Motors[3].accelType;
+                break;
+            case ACCEL_RATE_ADDRESS:
+                SSPBUF = Motors[0].accelRate;
+                break;
+            case MOTOR0_ACCEL_RATE_ADDRESS:
+                SSPBUF = Motors[0].accelRate;
+                break;
+            case MOTOR1_ACCEL_RATE_ADDRESS:
+                SSPBUF = Motors[1].accelRate;
+                break;
+            case MOTOR2_ACCEL_RATE_ADDRESS:
+                SSPBUF = Motors[2].accelRate;
+                break;
+            case MOTOR3_ACCEL_RATE_ADDRESS:
+                SSPBUF = Motors[3].accelRate;
+                break;
+            case MINIMUM_DUTY_ADDRESS:
+                SSPBUF = Motors[0].minimumDuty;
+                break;
+            case MOTOR0_MINIMUM_DUTY_ADDRESS:
+                SSPBUF = Motors[0].minimumDuty;
+                break;
+            case MOTOR1_MINIMUM_DUTY_ADDRESS:
+                SSPBUF = Motors[1].minimumDuty;
+                break;
+            case MOTOR2_MINIMUM_DUTY_ADDRESS:
+                SSPBUF = Motors[2].minimumDuty;
+                break;
+            case MOTOR3_MINIMUM_DUTY_ADDRESS:
+                SSPBUF = Motors[3].minimumDuty;
+                break;
+            case MOTOR0_TARGET_ADDRESS:
+                SSPBUF = Motors[0].target;
+                break;
+            case MOTOR1_TARGET_ADDRESS:
+                SSPBUF = Motors[1].target;
+                break;
+            case MOTOR2_TARGET_ADDRESS:
+                SSPBUF = Motors[2].target;
+                break;
+            case MOTOR3_TARGET_ADDRESS:
+                SSPBUF = Motors[3].target;
+                break;
+            default:
+                //Send 255 whenever an invalid read is requested
+                SSPBUF = 0xFF;
+                break;
+        }
+    } else {
+        //Send 255 whenever an invalid read is requested
+        SSPBUF = 0xFF;
+    }
+}
 
 /*
  * This is the ISR (Interrupt Service Routine) that is called whenever an 
@@ -107,24 +258,20 @@ unsigned int i;
 void interrupt I2C_Slave_Read(void)
 {
     if(PIR1bits.SSPIF == 1) {
-        //We always want to read the buffer to clear it and use the data
-        currentByte = SSPBUF;
         //hold the clock
         SSPCON1bits.CKP = 0;
+        //We always want to read the buffer to clear it and use the data
+        currentByte = SSPBUF;
         //Handle errors by throwing everything away
         if ((SSPCON1bits.SSPOV) || (SSPCON1bits.WCOL)) {
             // Clear the overflow flag
             SSPCON1bits.SSPOV = 0;
             // Clear the collision bit
             SSPCON1bits.WCOL = 0;
-            //release the clock
-            SSPCON1bits.CKP = 1;
         } else if(!SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
             //When we have received an address byte that is set to 'write'
             //Set the state to 0 so we know to get the next byte as the state
             state = 0;
-            //release the clock
-            SSPCON1bits.CKP = 1;
         } else if (SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
             //When we receive a data byte that is set to 'write'
             if (state == 0) {
@@ -294,143 +441,20 @@ void interrupt I2C_Slave_Read(void)
                         Motors[3].minimumDuty = currentByte;
                         break;
                 }
-                //We are finished so reset the state.
-                state = 0;
+                //increment the state to allow for writing multiple bytes
+                state += 1;
             }
-            //Release the clock
-            SSPCON1bits.CKP = 1;
         } else if(!SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
-            //We are going to read from the controller, we don't need to do anything here.
-            //State was set above during the previous transmission.
-            //Release the clock
-            SSPCON1bits.CKP = 1;
+            //readOrWrite = 1;
+            //We are going to read from the controller, so send the byte
+            //determined by state, which was set by the previous write
+            ReadI2CByte();
         } else if (SSPSTATbits.D_nA && SSPSTATbits.R_nW) {
-            //If we have a non-zero state than we send value requested
-            switch (state) {
-                case SPEED_ADDRESS:
-                    SSPBUF = Motors[0].duty;
-                    break;
-                case MOTOR_0_SPEED_ADDRESS:
-                    SSPBUF = Motors[0].duty;
-                    break;
-                case MOTOR_1_SPEED_ADDRESS:
-                    SSPBUF = Motors[1].duty;
-                    break;
-                case MOTOR_2_SPEED_ADDRESS:
-                    SSPBUF = Motors[2].duty;
-                    break;
-                case MOTOR_3_SPEED_ADDRESS:
-                    SSPBUF = Motors[3].duty;
-                    break;
-                case MOTOR_TYPE_ADDRESS:
-                    //Each motor has two bits to determine the motor type
-                    SSPBUF = (unsigned)((Motors[0].motorType & 0b00000011) | (Motors[1].motorType & 0b00000011)<<2 | (Motors[2].motorType & 0b00000011)<<4 | (Motors[3].motorType & 0b00000011)<<6);
-                    break;
-                case MOTOR0_TYPE_ADDRESS:
-                    SSPBUF = Motors[0].motorType;
-                    break;
-                case MOTOR1_TYPE_ADDRESS:
-                    SSPBUF = Motors[1].motorType;
-                    break;
-                case MOTOR2_TYPE_ADDRESS:
-                    SSPBUF = Motors[2].motorType;
-                    break;
-                case MOTOR3_TYPE_ADDRESS:
-                    SSPBUF = Motors[3].motorType;
-                    break;
-                case DIRECTION_ADDRESS:
-                    SSPBUF = (unsigned)((Motors[0].direction & 0b00000011) | (Motors[1].direction & 0b00000011)<<2 | (Motors[2].direction & 0b00000011)<<4 | (Motors[3].direction & 0b00000011)<<6);
-                    break;
-                case MOTOR0_DIRECTION_ADDRESS:
-                    SSPBUF = Motors[0].direction;
-                    break;
-                case MOTOR1_DIRECTION_ADDRESS:
-                    SSPBUF = Motors[1].direction;
-                    break;
-                case MOTOR2_DIRECTION_ADDRESS:
-                    SSPBUF = Motors[2].direction;
-                    break;
-                case MOTOR3_DIRECTION_ADDRESS:
-                    SSPBUF = Motors[3].direction;
-                    break;
-                case ENABLE_ADDRESS:
-                    SSPBUF = PWMEnable;
-                    break;
-                case MOTOR0_ENABLE_ADDRESS:
-                    SSPBUF = Motors[0].enabled;
-                    break;
-                case MOTOR1_ENABLE_ADDRESS:
-                    SSPBUF = Motors[1].enabled;
-                    break;
-                case MOTOR2_ENABLE_ADDRESS:
-                    SSPBUF = Motors[2].enabled;
-                    break;
-                case MOTOR3_ENABLE_ADDRESS:
-                    SSPBUF = Motors[3].enabled;
-                    break;
-                case PAUSE_ADDRESS:
-                    SSPBUF = PWMPause;
-                    break;
-                case MOTOR0_PAUSE_ADDRESS:
-                    SSPBUF = Motors[0].paused;
-                    break;
-                case MOTOR1_PAUSE_ADDRESS:
-                    SSPBUF = Motors[1].paused;
-                    break;
-                case MOTOR2_PAUSE_ADDRESS:
-                    SSPBUF = Motors[2].paused;
-                    break;
-                case MOTOR3_PAUSE_ADDRESS:
-                    SSPBUF = Motors[3].paused;
-                    break;
-                case ACCEL_ADDRESS:
-                    SSPBUF = Motors[0].accelType;
-                    break;
-                case MOTOR0_ACCEL_TYPE_ADDRESS:
-                    SSPBUF = Motors[0].accelType;
-                    break;
-                case MOTOR1_ACCEL_TYPE_ADDRESS:
-                    SSPBUF = Motors[1].accelType;
-                    break;
-                case MOTOR2_ACCEL_TYPE_ADDRESS:
-                    SSPBUF = Motors[2].accelType;
-                    break;
-                case MOTOR3_ACCEL_TYPE_ADDRESS:
-                    SSPBUF = Motors[3].accelType;
-                    break;
-                case ACCEL_RATE_ADDRESS:
-                    SSPBUF = Motors[0].accelRate;
-                    break;
-                case MOTOR0_ACCEL_RATE_ADDRESS:
-                    SSPBUF = Motors[0].accelRate;
-                    break;
-                case MOTOR1_ACCEL_RATE_ADDRESS:
-                    SSPBUF = Motors[1].accelRate;
-                    break;
-                case MOTOR2_ACCEL_RATE_ADDRESS:
-                    SSPBUF = Motors[2].accelRate;
-                    break;
-                case MOTOR3_ACCEL_RATE_ADDRESS:
-                    SSPBUF = Motors[3].accelRate;
-                    break;
-                case MINIMUM_DUTY_ADDRESS:
-                    SSPBUF = Motors[0].minimumDuty;
-                    break;
-                case MOTOR0_MINIMUM_DUTY_ADDRESS:
-                    SSPBUF = Motors[0].minimumDuty;
-                    break;
-                case MOTOR1_MINIMUM_DUTY_ADDRESS:
-                    SSPBUF = Motors[1].minimumDuty;
-                    break;
-                case MOTOR2_MINIMUM_DUTY_ADDRESS:
-                    SSPBUF = Motors[2].minimumDuty;
-                    break;
-                case MOTOR3_MINIMUM_DUTY_ADDRESS:
-                    SSPBUF = Motors[3].minimumDuty;
-                    break;
-            }
-            //We are finished so reset the state.
-            state = 0;
+            //this is for reading multiple bytes in sequence
+            //increment the state
+            state += 1;
+            //send the next byte
+            ReadI2CByte();
         }
         //release the clock
         SSPCON1bits.CKP = 1;
