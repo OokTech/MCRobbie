@@ -1,7 +1,7 @@
 /*
  * file: i2c.c
  * author: inmysocks (inmysocks@fastmail.com)
- * 
+ *
  * Copyright 2017 OokTech
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- * 
+ *
  * This file has the parts that make the i2c interface work
  */
 
@@ -27,43 +27,43 @@ void InitI2C(void) {
     //Turn on pull-ups for RB4 and RB6
     WPUBbits.WPUB4 = 1;
     WPUBbits.WPUB6 = 1;
-   
+
     //Slew rate control disabled, I don't know if this is needed. Test it.
     SSPSTATbits.SMP = 1;
-    
+
     //Set the mode to i2c slave without interrupts enabled for start and stop bits
     SSPCON1bits.SSPM = 0b0110;
     //Enable clock stretching
     SSPCON2bits.SEN = 1;
     //Disable clock stretching
     //SSPCON2bits.SEN = 0;
-    
-    //Set the bitmask for the address so that the controller responds to 
+
+    //Set the bitmask for the address so that the controller responds to
     //multiple addresses.
     //SSPMSKbits.MSK = 0b01000110;
-    
+
     //This is the i2c address of the controller. It should be between 0x00 and 0x7F
-    //The 7 bit address is 0x23, but it needs to be shifted to the left by one 
+    //The 7 bit address is 0x23, but it needs to be shifted to the left by one
     //because SSPADD is an 8 bit register and the address is stored in bits<7:1>
     SSPADD = I2C_ADDRESS<<1;
-    
+
     //Clear the interrupt flag to ensure that it is cleared to start.
     PIR1bits.SSPIF = 0;
     //Enable i2c interrupts
     PIE1bits.SSPIE = 1;
-    
+
     //Globally enable interrupts
     INTCONbits.GIE = 1;
     //Enable prepherial interrupts
     INTCONbits.PEIE = 1;
-    
+
     //Enable the module
-    SSPCON1bits.SSPEN = 1;   
+    SSPCON1bits.SSPEN = 1;
 }
 
 /**
- * 
- * 
+ *
+ *
  * Relevant registers for the I2C module:
  * SSPCON1
  * SSPCON2
@@ -71,22 +71,22 @@ void InitI2C(void) {
  * SSPBUF
  * SSPADD
  * SSPMSK
- * 
+ *
  * Tasks to initialise the I2C module:
- * 
+ *
  * Set up the i2c pins as inputs pin 11 (RB6) is SCL and pin 13 (RB4) is SDA
- * 
+ *
  * Set SSPEN in register SSPCON1
- * 
+ *
  * Set up the bitmask to allow multiple addresses on the same chip in register
- * SSPMSK. 
- * Ignore this for now, when we start using multiple things through the same 
+ * SSPMSK.
+ * Ignore this for now, when we start using multiple things through the same
  * chip than we will use it. Only the upper 7 bits have any effect
- * 
+ *
  * Set the address of this controller using SSPADD
  * The I2C address is 0x23. The highest 7 bits of SSPADD are the ones used.
- * 
- * 
+ *
+ *
  */
 
 //This holds the most recent information in the i2c buffer
@@ -233,6 +233,18 @@ void ReadI2CByte(void) {
             case MOTOR3_TARGET_ADDRESS:
                 SSPBUF = Motors[3].target;
                 break;
+            case MOTOR0_TARGET_DIRECTION_ADDRESS:
+                SSPBUF = Motors[0].targetDirection;
+                break;
+            case MOTOR1_TARGET_DIRECTION_ADDRESS:
+                SSPBUF = Motors[1].targetDirection;
+                break;
+            case MOTOR2_TARGET_DIRECTION_ADDRESS:
+                SSPBUF = Motors[2].targetDirection;
+                break;
+            case MOTOR3_TARGET_DIRECTION_ADDRESS:
+                SSPBUF = Motors[3].targetDirection;
+                break;
             default:
                 //Send 255 whenever an invalid read is requested
                 SSPBUF = 0xFF;
@@ -245,14 +257,14 @@ void ReadI2CByte(void) {
 }
 
 /*
- * This is the ISR (Interrupt Service Routine) that is called whenever an 
- * interrupt is triggered. With the pic18 we are using there are multiple 
+ * This is the ISR (Interrupt Service Routine) that is called whenever an
+ * interrupt is triggered. With the pic18 we are using there are multiple
  * interrupt sources, but at most a high and low priority interrupt service
  * routine. So when it is called you need to check the source of the interrupt
- * to see what to do. Priority of the interrupts is handled by if else 
+ * to see what to do. Priority of the interrupts is handled by if else
  * statements.
- * 
- * For now we only have one interrupt enabled, but checking is still good 
+ *
+ * For now we only have one interrupt enabled, but checking is still good
  * practice unless you have some great need to shave off ever cycle.
  */
 void interrupt I2C_Slave_Read(void)
@@ -275,12 +287,12 @@ void interrupt I2C_Slave_Read(void)
         } else if (SSPSTATbits.D_nA && !SSPSTATbits.R_nW) {
             //When we receive a data byte that is set to 'write'
             if (state == 0) {
-                //If we don't know what we have yet than the byte is the address 
+                //If we don't know what we have yet than the byte is the address
                 //to write to. We are calling this the state.
-                state = currentByte;                
+                state = currentByte;
             } else {
                 //If we have a non-zero state than we set the correct values
-                //Check what address the state matches and set the values 
+                //Check what address the state matches and set the values
                 //accordingly.
                 switch (state) {
                     case SPEED_ADDRESS:
@@ -439,6 +451,18 @@ void interrupt I2C_Slave_Read(void)
                         break;
                     case MOTOR3_MINIMUM_DUTY_ADDRESS:
                         Motors[3].minimumDuty = currentByte;
+                        break;
+                    case MOTOR0_TARGET_DIRECTION_ADDRESS:
+                        Motors[0].targetDirection = currentByte;
+                        break;
+                    case MOTOR1_TARGET_DIRECTION_ADDRESS:
+                        Motors[1].targetDirection = currentByte;
+                        break;
+                    case MOTOR2_TARGET_DIRECTION_ADDRESS:
+                        Motors[2].targetDirection = currentByte;
+                        break;
+                    case MOTOR3_TARGET_DIRECTION_ADDRESS:
+                        Motors[3].targetDirection = currentByte;
                         break;
                 }
                 //increment the state to allow for writing multiple bytes

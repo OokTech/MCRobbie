@@ -1,7 +1,7 @@
-/* 
- * File: parameters.h 
+/*
+ * File: parameters.h
  * author: inmysocks (inmysocks@fastmail.com)
- * 
+ *
  * Copyright 2017 OokTech
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,32 +15,32 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- * 
- * This header file contains definitions and function prototypes needed by the 
+ *
+ * This header file contains definitions and function prototypes needed by the
  * motor controller code.
  */
 
 // This is a guard condition so that contents of this file are not included
-// more than once.  
+// more than once.
 #ifndef MOTOR_CONTROLLER_H
 #define	MOTOR_CONTROLLER_H
 
-#include <xc.h> // include processor files - each processor file is guarded.  
+#include <xc.h> // include processor files - each processor file is guarded.
 
 /*
  * By default the clock is running at, we set it to 16MHz in main.c
- * 
+ *
  * PWM_PERIOD is the period for the PWM in us, it should be about 2000us
- * since we are using a 1MHz clock we can use this as our target value for the 
+ * since we are using a 1MHz clock we can use this as our target value for the
  * timer.
- * 
+ *
  */
 
-//This can be used by the compiler, we aren't using it yet but it may come in 
+//This can be used by the compiler, we aren't using it yet but it may come in
 //handy in the future.
 #define __XTAL_FREQUENCY 16000000 //hz
 
-//This is the i2c address that the controller uses. It can be any value from 
+//This is the i2c address that the controller uses. It can be any value from
 //0x00 to 0xFF
 #define I2C_ADDRESS 0x23
 
@@ -93,6 +93,10 @@
 #define MOTOR1_TARGET_ADDRESS 42
 #define MOTOR2_TARGET_ADDRESS 43
 #define MOTOR3_TARGET_ADDRESS 44
+#define MOTOR0_TARGET_DIRECTION_ADDRESS 45
+#define MOTOR1_TARGET_DIRECTION_ADDRESS 46
+#define MOTOR2_TARGET_DIRECTION_ADDRESS 47
+#define MOTOR3_TARGET_DIRECTION_ADDRESS 48
 
 //Different acceleration types
 #define ACCEL_INSTANT 0
@@ -108,7 +112,7 @@
 //immediately, ignoring acceleration.
 unsigned char PWMEnable = 1;
 
-//This is the pause state, when this is 1 the motors will slow to stopped and 
+//This is the pause state, when this is 1 the motors will slow to stopped and
 //will not speed up regardless of what the speed is set to.
 unsigned char PWMPause = 0;
 
@@ -151,4 +155,3 @@ struct Motor {
 struct Motor Motors[4];
 
 #endif	/* MOTOR_CONTROLLER_H */
-
